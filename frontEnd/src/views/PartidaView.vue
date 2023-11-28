@@ -13,75 +13,80 @@
         <div id="moviment-bases">
             <p>Quantes bases us voleu moure?</p>
             <form id="form" action="" v-on:change="seleccionarBase()">
-                <input type="radio" id="base1" name="base" value="1">
+                <input type="radio" id="base1" name="base" value="1" v-model="picked">
                 <label for="base1"> 1 </label><br>
-                <input type="radio" id="base2" name="base" value="2">
+                <input type="radio" id="base2" name="base" value="2" v-model="picked">
                 <label for="base2"> 2 </label><br>
-                <input type="radio" id="base3" name="base" value="3">
+                <input type="radio" id="base3" name="base" value="3" v-model="picked">
                 <label for="base3"> 3 </label><br><br>
             </form>
-            <h2 id="message"></h2>
+            <h2>El jugador es troba a la base: {{player.base}}</h2>
         </div>
     </div>
 </template>
 
 <script>
+    import io from 'socket.io-client';
     export default {
         data() {
             return {
-                player: {id: 0, base: 0}
+                socket: null,
+                player: {id: 0, base: 0},
+                picked: ""
             }
         },
         methods: {
-        seleccionarBase() {
-            console.log("Base seleccionada");
+            seleccionarBase() {
+                console.log("Base seleccionada");
 
-            const bases = document.getElementsByName('base');
-            const message = document.getElementById('message');
-            const jugador = document.getElementById('jugador-0');
+                const bases = document.getElementsByName('base');
+                const jugador = document.getElementById('jugador-0');
 
-            let input;
-
-            for (let i = 0; i < bases.length; i++) {
-                if (bases[i].checked) {
-                    input = bases[i].value;
-                    bases[i].checked = false;
+                if (this.picked != "") {
+                    //message.textContent = input;
+                    this.socket.emit('seleccionar base', this.picked);
+                    //this.player.base = this.player.base + parseInt(input);
+                    //this.pintarCamp();
+                    //input = "";
+                }                
+            },
+            pintarCamp() {
+                const jugador = document.getElementById('jugador-0');
+                if (this.player.base == 0) {
+                    jugador.classList.add("home-base");
+                } else if (this.player.base == 1) {
+                    jugador.classList.remove("home-base");
+                    jugador.classList.add("primera-base");
+                }
+                else if (this.player.base == 2) {
+                    jugador.classList.remove("home-base");
+                    jugador.classList.remove("primera-base");
+                    jugador.classList.add("segona-base");
+                } else if (this.player.base == 3) {
+                    jugador.classList.remove("home-base");
+                    jugador.classList.remove("primera-base");
+                    jugador.classList.remove("segona-base");
+                    jugador.classList.add("tercera-base");
+                } else if (this.player.base > 3) {
+                    jugador.classList.remove("primera-base");
+                    jugador.classList.remove("segona-base");
+                    jugador.classList.remove("tercera-base");
+                    jugador.classList.add("home-base");
                 }
             }
-
-            if (input != "") {
-                message.textContent = input;
-                this.player.base = this.player.base + parseInt(input);
-                this.pintarCamp();
-                input = "";
-            }
         },
-        pintarCamp() {
-            const jugador = document.getElementById('jugador-0');
-            if (this.player.base == 0) {
-                jugador.classList.add("home-base");
-            } else if (this.player.base == 1) {
-                jugador.classList.remove("home-base");
-                jugador.classList.add("primera-base");
-            }
-             else if (this.player.base == 2) {
-                jugador.classList.remove("home-base");
-                jugador.classList.remove("primera-base");
-                jugador.classList.add("segona-base");
-            } else if (this.player.base == 3) {
-                jugador.classList.remove("home-base");
-                jugador.classList.remove("primera-base");
-                jugador.classList.remove("segona-base");
-                jugador.classList.add("tercera-base");
-            } else if (this.player.base > 3) {
-                jugador.classList.remove("primera-base");
-                jugador.classList.remove("segona-base");
-                jugador.classList.remove("tercera-base");
-                jugador.classList.add("home-base");
-            }
+        mounted() {
+            this.socket = io('http://localhost:3000');
+
+            this.socket.on('seleccionar base', (msg) => {
+                console.log(msg);
+                this.player.base = this.player.base + parseInt(this.picked);
+                this.pintarCamp();
+                this.picked = "";
+            });
         }
     }
-    }
+    
 </script>
 
 <style lang="scss" scoped>
