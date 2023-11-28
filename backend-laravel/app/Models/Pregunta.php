@@ -16,6 +16,6 @@ class Pregunta extends Model
     }
 
     public function respostes() {
-        return $this->hasMany(Resposta::class, 'pregunta_id');
+        return $this->hasMany(Resposta::class, 'pregunta_id')->inRandomOrder();
     }
 }
