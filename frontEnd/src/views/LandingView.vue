@@ -4,7 +4,9 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
     <div>
         <RouterLink to="/sales">
-            
+            <div class="card flex justify-content-center">
+                <Button type="button" label="ANAR A SALES"/>
+            </div>
         </RouterLink>
     </div>
 </template>
