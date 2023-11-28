@@ -5,14 +5,9 @@
 </template>
 
 <script>
-import Footer from '../components/Footer.vue'
-    export default {
-        components: {
-            Footer
-        }
-    }
+export default {
+
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
