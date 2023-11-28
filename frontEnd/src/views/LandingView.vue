@@ -1,11 +1,6 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
 <template>
     <div>
-        <RouterLink to="/sales">
-            
-        </RouterLink>
+        <Footer />
     </div>
 </template>
 
