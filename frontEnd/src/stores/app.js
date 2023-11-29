@@ -83,6 +83,5 @@ export const useAppStore = defineStore('app', {
     enviarResposta(resposta_id) {
       this.socket.emit('enviarResposta', resposta_id)
     },
-
   },
 })

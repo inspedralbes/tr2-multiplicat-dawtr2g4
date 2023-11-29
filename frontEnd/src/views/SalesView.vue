@@ -19,8 +19,6 @@
 <script>
 import { useAppStore } from '../stores/app';
 
-const pinia = useAppStore();
-
 export default {
     data() {
         return {
@@ -28,13 +26,13 @@ export default {
         }
     },
     methods: {
-        
+
         async getSales() {
             this.loading = true;
             await fetch("http://localhost:3000/sales")
                 .then(response => response.json())
                 .then(data => {
-                    pinia.setSales(data);
+                    this.pinia.setSales(data);
                     this.loading = false;
                 })
                 .catch(error => {
@@ -55,6 +53,12 @@ export default {
     created() {
         this.getSales();
     },
+    setup() {
+        const pinia = useAppStore();
+        return {
+            pinia
+        };
+    }
 }
 </script>
 
