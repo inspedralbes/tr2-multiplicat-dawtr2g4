@@ -80,21 +80,22 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   //Iniciar procés de votació
   socket.on('començar-votacio', (isVotacioEnCurs) => {
-    data = {isVotacioEnCurs: isVotacioEnCurs, cronometre: cronometre}
-    io.emit('començar-votacio', data)
-      // Decrementar el cronómetro cada segundo y enviar actualizaciones a todos los clientes
+    data = { isVotacioEnCurs: isVotacioEnCurs, cronometre: cronometre };
+    io.emit('començar-votacio', data);
+
+    // Decrementem el cronòmetre cada segon i actualitzem a tots els clients
     const intervalId = setInterval(() => {
-    cronometre -= 1;
-    io.emit('actualitzar-comptador', cronometre);
+      cronometre -= 1;
+      io.emit('actualitzar-comptador', cronometre);
 
-    // Si el cronómetro llega a cero, detener el intervalo
-    if (cronometre === 0) {
-      clearInterval(intervalId);
-    }
-  }, 1000);
+      // Quan el cronòmetre arriba a zero, el detenim i el resetegem
+      if (cronometre === 0) {
+        clearInterval(intervalId);
+        io.emit('finalitzar-votacio', false);
+        cronometre = 10;
+      }
+    }, 1000);
   })
-
-
 
   // Rebre votacions de les bases d'usuaris
   socket.on('votacio-base', async (indexSala, vot) => {

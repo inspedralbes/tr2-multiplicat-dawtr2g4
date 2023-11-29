@@ -76,9 +76,8 @@ export default {
                 jugador.classList.add("home-base");
             }
         },
-        initVotacio(){
-            console.log("aaa")   
-            this.socket.emit('començar-votacio', {isVotacioEnCurs: true});
+        initVotacio(){  
+            this.socket.emit('començar-votacio', true);
         },
         startTimer() {
             this.isVotacioEnCurs = true;
@@ -113,8 +112,16 @@ export default {
 
         this.socket.on('començar-votacio', (data) => {
             console.log(data);
-            this.isVotacioEnCurs = data.isVotacioEnCurs.isVotacioEnCurs;
+            this.isVotacioEnCurs = data.isVotacioEnCurs;
             this.count = data.cronometre;
+        });
+
+        this.socket.on('actualitzar-comptador', (cronometre) => {
+            this.count = cronometre;
+        });
+
+        this.socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
+            this.isVotacioEnCurs = isVotacioEnCurs;
         });
 
         this.socket.on('seleccionar base', (msg) => {
