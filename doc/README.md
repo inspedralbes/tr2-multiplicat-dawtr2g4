@@ -36,3 +36,16 @@ const response = await fetch('http://localhost:8000/api/getPregunta', {
     }),
 });
 ```
+
+#### Sockets Node
+Tindrem sockets per a actualitzar la següent informació:
+1. Jugadors s'uneixen als equips
+2. Admin comença la partida
+3. Jugadors atacants voten quantes bases avançar
+4. Mostrar la pregunta a tots els jugadors
+5. Jugadors voten la resposta correcta
+6. Mostrar resposta més votada de cada equip al admin
+7. Mostrar resposta correcta (o no) a cada alumne
+8. Actualitzar el terreny de joc
+9. ...
+10. Mostrar resultats finals de la partida
