@@ -5,7 +5,9 @@
             <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca.gif" alt="loading_gif">
         </div>
         <div v-else>
-            list
+            <div v-for="sala in sales">
+                <h2>Sala numero {{sala.id}}</h2>
+            </div>
         </div>
     </div>
 </template>
@@ -15,18 +17,19 @@ export default {
     data() {
         return {
             loading: true,
-            sales:[]
+            sales: []
         }
     },
     methods: {
         async getSales() {
             this.loading = true;
-            
-            // SIMULATE API CALL
-            setTimeout(() => {}, 2000);
 
-            this.sales = [{id:1, name:"sale1"},{id:2, name:"sale2"},{id:3, name:"sale3"}]
-            this.loading = false;
+            // SIMULATE API/NODE CALL
+            setTimeout(() => {
+                this.sales = [{ id: 1, name: "sale1" }, { id: 2, name: "sale2" }, { id: 3, name: "sale3" }]
+                this.loading = false;
+            }, 2000);
+            
         }
     },
     created() {
