@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>PARTIDA</h1>
+        <p>{{ pregunta }}</p>
     </div>
     <div id="flex-container">
         <div id="container">
@@ -37,7 +38,8 @@ export default {
             baseEscollida: "",
             isVotacioEnCurs: false,
             count: "",
-            intervalId: null
+            indexSala: 0,
+            pregunta: "Pregunta"
         }
     },
     methods: {
@@ -48,6 +50,8 @@ export default {
             
             if (this.baseEscollida != "") {
                 this.socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
+                this.socket.emit('votacio-base', this.indexSala, this.baseEscollida);
+                console.log(this.indexSala);
             }
 
             this.isVotacioEnCurs = false;
@@ -78,34 +82,7 @@ export default {
         },
         initVotacio(){  
             this.socket.emit('començar-votacio', true);
-        },
-        startTimer() {
-            this.isVotacioEnCurs = true;
-            // Inicia el temporizador solo si no está en curso
-            if (!this.intervalId) {
-                this.intervalId = setInterval(this.decrementCount, 1000);
-            }
-        },
-        decrementCount() {
-            // Decrementa el contador y detén el temporizador cuando alcanza 0
-            if (this.count > 0) {
-                this.count--;
-            } else {
-                this.stopTimer();
-            }
-        },
-        stopTimer() {
-            // Detiene el temporizador y restablece el estado
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-            this.isVotacioEnCurs = false;
-            this.count = 3;
-            console.log("Enviar resultats");
         }
-    },
-    beforeDestroy() {
-        // Limpia el temporizador antes de destruir el componente
-        this.stopTimer();
     },
     mounted() {
         this.socket = io('http://localhost:3000');
@@ -122,6 +99,10 @@ export default {
 
         this.socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
             this.isVotacioEnCurs = isVotacioEnCurs;
+        });
+
+        this.socket.on('nova-pregunta', (pregunta) => {
+            this.pregunta = pregunta;
         });
 
         this.socket.on('seleccionar base', (msg) => {

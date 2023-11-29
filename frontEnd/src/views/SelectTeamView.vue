@@ -1,20 +1,46 @@
 <template>
     <div>
         <h1 class="tit">Select Team</h1>
+        <button @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
-                <button class="button e1">Equip 1</button>
+                <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
             </div>
             <div>
-                <button class="button e2">Equip 2</button>
+                <button class="button e2" @click="escollirEquip(2)">Equip 2</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {
+import io from 'socket.io-client';
+import {useAppStore} from '../stores/app'
 
+export default {
+    data() {
+        return {
+            indexSala: 0
+        }
+    },
+    methods: {
+        escollirEquip(idEquip) {
+            console.log("Has ecollit equip " + idEquip);
+            if (idEquip == 1 || idEquip == 2) {
+                this.socket.emit('equip-seleccionat', this.indexSala, idEquip);
+            }
+        },
+        començarPartida() {
+            this.$router.push('/partida'); 
+        }
+    },
+    mounted() {
+        this.socket = io('http://localhost:3000');
+
+        this.socket.on('equips-actualitzats', (jugadorsSala) => {
+            console.log(jugadorsSala);
+        });
+    }
 }
 </script>
 
@@ -62,4 +88,5 @@ h1 {
 .button:hover {
     border-color: #ffffff;
     /* Blanco */
-}</style>
+}
+</style>

@@ -2,6 +2,7 @@ const express = require('express');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
 //import { getPregunta } from './communicationManager';
+const { getPregunta } = require('./communicationManager'); // Ruta correcta al archivo communicationManager.js
 const cors = require('cors');
 
 const app = express();
@@ -25,7 +26,8 @@ const sales = [{
   categoria: 1
 }]
 
-let cronometre = 10;
+const TEMPS_ESCOLLIR_BASE = 10;
+let cronometre;
 
 app.get('/api/salas', (req, res) => {
   res.json({ sales: sales })
@@ -45,12 +47,15 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip) => {
     // Comprovar si el jugador està en la sala
+    let isDinsSala = false
     sales[indexSala].jugadors.forEach(jugador => {
       if (jugador.id === socket.id) {
-        return;
+        //return;
+        isDinsSala = true;
       }
     });
 
+    if (isDinsSala == false) {
     // Comprovar equip es 1 o 2
     if (equip !== 1 && equip != 2) {
       return;
@@ -67,8 +72,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       baseActual: 0,
       votacioBase: null
     })
-
-    socket.emit('equips-actualitzats', sales[indexSala].jugadors)
+  }
+    io.emit('equips-actualitzats', sales[indexSala])
   })
 
   // Admin comença la partida
@@ -80,6 +85,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   //Iniciar procés de votació
   socket.on('començar-votacio', (isVotacioEnCurs) => {
+    cronometre = TEMPS_ESCOLLIR_BASE;
     data = { isVotacioEnCurs: isVotacioEnCurs, cronometre: cronometre };
     io.emit('començar-votacio', data);
 
@@ -88,18 +94,18 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       cronometre -= 1;
       io.emit('actualitzar-comptador', cronometre);
 
-      // Quan el cronòmetre arriba a zero, el detenim i el resetegem
+      // Quan el cronòmetre arriba a zero, el detenim i el resetegem i finalitzem el procés de votació
       if (cronometre === 0) {
         clearInterval(intervalId);
         io.emit('finalitzar-votacio', false);
-        cronometre = 10;
+        cronometre = TEMPS_ESCOLLIR_BASE;
       }
     }, 1000);
   })
 
   // Rebre votacions de les bases d'usuaris
   socket.on('votacio-base', async (indexSala, vot) => {
-    if (!esVotValid(vot)) return;
+    /*if (!esVotValid(vot)) return;
 
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
@@ -114,17 +120,15 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       socket.emit('votacions-bases-final', baseMesVotada);
       resetejarVotacions(sala);
 
-      try {
-        let pregunta = await getPregunta(baseMesVotada, sala.categoria, []);
-        socket.emit('nova-pregunta', pregunta);
+      */try {
+        //let pregunta = await getPregunta(baseMesVotada, sala.categoria, []);
+        let pregunta = await getPregunta(1, 1, []);
+        io.emit('nova-pregunta', pregunta.text_pregunta);
       } catch (error) {
         console.error('Error en obtenir la pregunta:', error);
       }
-    }
+    //}
   })
-
-
-
 });
 
 function calcularBaseMesVotada(sala) {
@@ -162,4 +166,3 @@ function resetejarVotacions(sala) {
 server.listen(port, () => { // We make the http server listen on port 3000.
   console.log('server running at http://localhost:3000');
 });
-
