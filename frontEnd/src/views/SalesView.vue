@@ -5,9 +5,13 @@
             <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca.gif" alt="loading_gif">
         </div>
         <div v-else>
-            <div v-for="sala in sales">
-                <h2>Sala numero {{sala.id}}</h2>
+            <div v-for="actual, index in sales">
+                <h2>Sala numero {{actual.id}}</h2>
+                <RouterLink to="/sala">
+                    <button @click="setSala(actual.id)">Go to sale {{ actual.id }}</button>
+                </RouterLink>
             </div>
+
         </div>
     </div>
 </template>
@@ -17,7 +21,7 @@ export default {
     data() {
         return {
             loading: true,
-            sales: []
+            sales:[]
         }
     },
     methods: {
@@ -30,6 +34,9 @@ export default {
                 this.loading = false;
             }, 2000);
             
+        },
+        setSala(id) {
+            console.log(id);
         }
     },
     created() {

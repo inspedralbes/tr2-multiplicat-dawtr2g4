@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+        <h1>SALA VIEW</h1>
     </div>
 </template>
 
