@@ -5,7 +5,13 @@
             <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca.gif" alt="loading_gif">
         </div>
         <div v-else>
-            list
+            <div v-for="actual, index in sales">
+                <h2>Sala numero {{actual.id}}</h2>
+                <RouterLink to="/sala">
+                    <button @click="setSala(actual.id)">Go to sale {{ actual.id }}</button>
+                </RouterLink>
+            </div>
+
         </div>
     </div>
 </template>
@@ -21,12 +27,16 @@ export default {
     methods: {
         async getSales() {
             this.loading = true;
-            
-            // SIMULATE API CALL
-            setTimeout(() => {}, 2000);
 
-            this.sales = [{id:1, name:"sale1"},{id:2, name:"sale2"},{id:3, name:"sale3"}]
-            this.loading = false;
+            // SIMULATE API/NODE CALL
+            setTimeout(() => {
+                this.sales = [{ id: 1, name: "sale1" }, { id: 2, name: "sale2" }, { id: 3, name: "sale3" }]
+                this.loading = false;
+            }, 2000);
+            
+        },
+        setSala(id) {
+            console.log(id);
         }
     },
     created() {
