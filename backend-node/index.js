@@ -5,7 +5,13 @@ const { Server } = require('socket.io'); // npm install socket.io --> That will 
 
 const app = express();
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
-const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
+//const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173", // Reemplaza con la URL de tu aplicación Vue.js
+    methods: ["GET", "POST"]
+  }
+});
 const port = 3000 //node és el seu propi servidor. a la nostra aplicació que escolti per aquest port
 
 app.get('/', (req, res) => { // We define a route handler / that gets called when we hit our website home.
