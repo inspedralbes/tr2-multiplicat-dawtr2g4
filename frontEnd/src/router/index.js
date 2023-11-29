@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import LoginView from '../views/LoginView.vue'
 import SalesView from '../views/SalesView.vue'
-import SalaView from '../views/SalaView.vue'
-import PartidaView from '../views/PartidaView.vue'
+import SelectTeam from '../views/SelectTeamView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,14 +23,9 @@ const router = createRouter({
       component: SalesView
     },
     {
-      path: '/sala/:id',
+      path: '/sala',
       name: 'sala',
-      component: SalaView
-    },
-    {
-      path: '/partida',
-      name: 'partida',
-      component: PartidaView
+      component: SelectTeam
     }
   ]
 })
