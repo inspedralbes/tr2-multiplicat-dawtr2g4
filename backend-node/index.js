@@ -1,7 +1,7 @@
 const express = require('express');
 const { createServer } = require('node:http');
-const { join } = require('node:path');
 const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
+import { getPregunta } from './communicationManager';
 
 const app = express();
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
@@ -20,10 +20,11 @@ const sales = [{
   jugadorsEquip1: 0,
   jugadorsEquip2: 0,
   equipVotant: 0,
+  categoria: 1
 }]
 
 app.get('/api/salas', (req, res) => {
-  res.json({sales: sales})
+  res.json({ sales: sales })
 })
 
 io.on('connection', (socket) => { // We listen on the connection event for incoming sockets and log it to the console.
@@ -74,37 +75,28 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   })
 
   // Rebre votacions de les bases d'usuaris
-  socket.on('votacio-base', (indexSala, vot) => {
-    // Comprovar votació de la base és 1, 2 o 3
-    if (vot !== 1 && vot !== 2 && vot !== 3) return
+  socket.on('votacio-base', async (indexSala, vot) => {
+    if (!esVotValid(vot)) return;
 
-    sales[indexSala].jugadors.forEach(jugador => {
-      if (jugador.id === socket.id && jugador.votacioBase) {
-        // Si el jugador ja ha votat, no fagis res
-        return
-      } else if (jugador.id === socket.id) {
-        // Si el jugador no ha votat, guarda el vot
-        jugador.votacioBase = vot
-        sales[indexSala].votacions++
+    let sala = sales[indexSala];
+    let jugador = sala.jugadors.find(j => j.id === socket.id);
+
+    if (jugador && !jugador.votacioBase) {
+      jugador.votacioBase = vot;
+      sala.votacions++;
+    }
+
+    if (totsHanVotat(sala)) {
+      let baseMesVotada = calcularBaseMesVotada(sala);
+      socket.emit('votacions-bases-final', baseMesVotada);
+      resetejarVotacions(sala);
+
+      try {
+        let pregunta = await getPregunta(baseMesVotada, sala.categoria, []);
+        socket.emit('nova-pregunta', pregunta);
+      } catch (error) {
+        console.error('Error en obtenir la pregunta:', error);
       }
-    })
-
-    // Recompte si tots els jugadors han votat
-    if (sales[indexSala].votacions === (sales[indexSala].equipVotant === 1 ? sales[indexSala].jugadorsEquip1 : sales[indexSala].jugadorsEquip2)) {
-      // Calcular les bases més votades i comunicar als clients
-      let vots = []
-      sales[indexSala].jugadors.forEach(jugador => {
-        if (jugador.equip === equipVotant && jugador.votacioBase) {
-          vots.push(jugador.votacioBase)
-        }
-      })
-      let baseMesVotada = recompteVots(vots)
-      socket.emit('votacions-bases-final', baseMesVotada)
-
-      // Resetejar els valors de les votacions a null
-      sales[indexSala].jugadors.forEach(jugador => {
-        jugador.votacioBase = null
-      })
     }
   })
 
@@ -112,7 +104,13 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
 });
 
-function recompteVots(vots) {
+function calcularBaseMesVotada(sala) {
+  let vots = []
+  sala.jugadors.forEach(jugador => {
+    if (jugador.equip === sala.equipVotant && jugador.votacioBase) {
+      vots.push(jugador.votacioBase)
+    }
+  })
   let voteCount = { 1: 0, 2: 0, 3: 0 };
 
   vots.forEach(vot => {
@@ -123,6 +121,18 @@ function recompteVots(vots) {
   let opcioMesVotada = Object.keys(voteCount).filter(vot => voteCount[vot] === maxVotes);
   // Si hi ha empat en les votacions, es retorna la base més baixa
   return opcioMesVotada[0]
+}
+
+function esVotValid(vot) {
+  return vot === 1 || vot === 2 || vot === 3;
+}
+
+function totsHanVotat(sala) {
+  return sala.votacions === (sala.equipVotant === 1 ? sala.jugadorsEquip1 : sala.jugadorsEquip2);
+}
+
+function resetejarVotacions(sala) {
+  sala.jugadors.forEach(jugador => jugador.votacioBase = null);
 }
 
 server.listen(port, () => { // We make the http server listen on port 3000.
