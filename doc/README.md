@@ -38,6 +38,21 @@ const response = await fetch('http://localhost:8000/api/getPregunta', {
 ```
 
 #### Sockets Node
+El servidor de node guardarà el següent objecte i l'anirà actualitzant:
+```javascript
+const sala = [
+    {
+      id: socket.id, // El id del socket del jugador
+      equip: 1, // o 2
+      baseActual: 0 // Quan els jugadors avancin de base, s'actualitzarà
+    },
+    {
+      // Cada jugador és un objecte d'aquests
+    }
+]
+```
+
+
 Tindrem sockets per a actualitzar la següent informació:
 1. Jugadors s'uneixen als equips
 2. Admin comença la partida
