@@ -55,6 +55,7 @@ const sales = [
     jugadorsEquip1: 0, // Total jugadors equip 1
     jugadorsEquip2: 0, // Total jugadors equip 2
     equipVotant: 0, // Equip votant actualment (1 o 2)
+    categoria: 1 // Pot ser 1, 2, 3, 4, 5, o 6
   },
   {...} // Més sales
 ]
