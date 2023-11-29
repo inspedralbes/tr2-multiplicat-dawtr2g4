@@ -29,6 +29,7 @@ export const useAppStore = defineStore('app', {
       pregunta: '',
       respostes: [],
     },
+    temporitzador: '',
   }),
   actions: {
 
@@ -50,6 +51,9 @@ export const useAppStore = defineStore('app', {
     },
     getPreguntaAct() {
       return this.preguntaAct
+    },
+    getTemporitzador() {
+      return this.temporitzador
     },
 
     //setters
