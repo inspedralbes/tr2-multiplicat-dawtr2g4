@@ -1,9 +1,11 @@
 const express = require('express');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
-import { getPregunta } from './communicationManager';
+//import { getPregunta } from './communicationManager';
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
 //const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
 const io = new Server(server, {
@@ -22,6 +24,8 @@ const sales = [{
   equipVotant: 0,
   categoria: 1
 }]
+
+let cronometre = 10;
 
 app.get('/api/salas', (req, res) => {
   res.json({ sales: sales })
@@ -73,6 +77,24 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     sales[indexSala].equipVotant = equipVotant
     socket.emit('partida-iniciada', equipVotant)
   })
+
+  //Iniciar procés de votació
+  socket.on('començar-votacio', (isVotacioEnCurs) => {
+    data = {isVotacioEnCurs: isVotacioEnCurs, cronometre: cronometre}
+    io.emit('començar-votacio', data)
+      // Decrementar el cronómetro cada segundo y enviar actualizaciones a todos los clientes
+    const intervalId = setInterval(() => {
+    cronometre -= 1;
+    io.emit('actualitzar-comptador', cronometre);
+
+    // Si el cronómetro llega a cero, detener el intervalo
+    if (cronometre === 0) {
+      clearInterval(intervalId);
+    }
+  }, 1000);
+  })
+
+
 
   // Rebre votacions de les bases d'usuaris
   socket.on('votacio-base', async (indexSala, vot) => {
@@ -133,6 +155,7 @@ function totsHanVotat(sala) {
 
 function resetejarVotacions(sala) {
   sala.jugadors.forEach(jugador => jugador.votacioBase = null);
+  sala.votacions = 0;
 }
 
 server.listen(port, () => { // We make the http server listen on port 3000.

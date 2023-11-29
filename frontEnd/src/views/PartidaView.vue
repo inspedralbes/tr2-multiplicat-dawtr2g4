@@ -8,7 +8,8 @@
             <img class="camp" src="/img/camp.jpg" alt="">
         </div>
         <div id="moviment-bases">
-            <button @click="startTimer" v-if="count === 3">COMENÇAR VOTACIÓ</button>
+            <!--<button @click="initVotacio" v-if="count === 3">COMENÇAR VOTACIÓ</button>--> 
+            <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ count }}</p>
             <div v-if="isVotacioEnCurs == true">
                 <p>Quantes bases us voleu moure?</p>
@@ -35,7 +36,7 @@ export default {
             player: { id: 0, base: 0 },
             baseEscollida: "",
             isVotacioEnCurs: false,
-            count: 3,
+            count: "",
             intervalId: null
         }
     },
@@ -75,6 +76,10 @@ export default {
                 jugador.classList.add("home-base");
             }
         },
+        initVotacio(){
+            console.log("aaa")   
+            this.socket.emit('començar-votacio', {isVotacioEnCurs: true});
+        },
         startTimer() {
             this.isVotacioEnCurs = true;
             // Inicia el temporizador solo si no está en curso
@@ -106,8 +111,15 @@ export default {
     mounted() {
         this.socket = io('http://localhost:3000');
 
+        this.socket.on('començar-votacio', (data) => {
+            console.log(data);
+            this.isVotacioEnCurs = data.isVotacioEnCurs.isVotacioEnCurs;
+            this.count = data.cronometre;
+        });
+
         this.socket.on('seleccionar base', (msg) => {
             this.player.base = parseInt(msg.player.base) + parseInt(msg.baseEscollida);
+            console.log("actualitzar");
             this.pintarCamp();
             this.baseEscollida = "";
         });
