@@ -2,10 +2,10 @@
     <div>
         <h1>Resultats</h1>
         <BarChart :chart-data="{
-            labels: ['Donald Trump', 'Joe Biden', 'Robert Kennedy Jr.', 'Michelle Obama'],
+            labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
             datasets: [{
                 data: votos,
-                label: 'Votos',
+                label: 'Respostes',
                 backgroundColor: '#f87979',
             }]
         }" />
