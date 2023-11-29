@@ -66,6 +66,9 @@ export const useAppStore = defineStore('app', {
     setPreguntaAct(preguntaAct) {
       this.preguntaAct = preguntaAct
     },
+    setSales(sales) {
+      this.sales = sales
+    },
   },
   actions: {
     entrarSala(sala_id) {
