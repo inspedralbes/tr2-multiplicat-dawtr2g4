@@ -80,7 +80,7 @@
 
             this.socket.on('seleccionar base', (msg) => {
                 console.log(msg);
-                this.player.base = this.player.base + parseInt(this.picked);
+                this.player.base = this.player.base + parseInt(msg);
                 this.pintarCamp();
                 this.picked = "";
             });
