@@ -68,6 +68,9 @@ export const useAppStore = defineStore('app', {
     },
   },
   actions: {
+    entrarSala(sala_id) {
+      this.socket.emit('entrarSala', sala_id)
+    },
     enviarResposta(resposta_id) {
       this.socket.emit('enviarResposta', resposta_id)
     }
