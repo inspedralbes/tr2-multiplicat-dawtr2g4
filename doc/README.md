@@ -40,15 +40,23 @@ const response = await fetch('http://localhost:8000/api/getPregunta', {
 #### Sockets Node
 El servidor de node guardarà el següent objecte i l'anirà actualitzant:
 ```javascript
-const sala = [
-    {
-      id: socket.id, // El id del socket del jugador
-      equip: 1, // o 2
-      baseActual: 0 // Quan els jugadors avancin de base, s'actualitzarà
-    },
-    {
-      // Cada jugador és un objecte d'aquests
-    }
+const sales = [
+  {
+    jugadors: [
+                {
+                  id: socket.id, // El id del socket del jugador
+                  equip: 1, // o 2
+                  baseActual: 0, // Quan els jugadors avancin de base, s'actualitzarà
+                  votacioBase: null // La votacio sobre la dificultat (1, 2 o 3)
+                },
+                {...} // Més jugadors
+              ],
+    votacions: 0, // Per comptar votacions de dificultat i respostes
+    jugadorsEquip1: 0, // Total jugadors equip 1
+    jugadorsEquip2: 0, // Total jugadors equip 2
+    equipVotant: 0, // Equip votant actualment (1 o 2)
+  },
+  {...} // Més sales
 ]
 ```
 
