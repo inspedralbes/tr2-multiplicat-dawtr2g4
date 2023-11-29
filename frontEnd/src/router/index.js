@@ -3,7 +3,7 @@ import LandingView from '../views/LandingView.vue'
 import LoginView from '../views/LoginView.vue'
 import SalesView from '../views/SalesView.vue'
 import SelectTeam from '../views/SelectTeamView.vue'
-import Partida from '../views/PartidaView.vue'
+import PartidaView from '../views/PartidaView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,7 +31,7 @@ const router = createRouter({
     {
       path: '/partida',
       name: 'partida',
-      component: Partida
+      component: PartidaView
     }
   ]
 })
