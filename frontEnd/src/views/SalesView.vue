@@ -5,11 +5,11 @@
             <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca.gif" alt="loading_gif">
         </div>
         <div v-else>
-            <div v-for="actual, index in sales">
-                <h2>Sala numero {{ actual.id }}</h2>
-                <RouterLink to="/sala">
-                    <button @click="setSala(actual.id)">Ves a la sala {{ actual.id }}</button>
-                </RouterLink>
+            <div v-for="(actual, index) in pinia.getSales()">
+                <h2>Sala numero {{ index + 1 }}</h2>
+                <!-- <RouterLink to="/sala">
+                    <button @click="">Ves a la sala {{ actual.id }}</button>
+                </RouterLink> -->
             </div>
 
         </div>
@@ -23,15 +23,14 @@ import { useAppStore } from '../stores/app';
 export default {
     setup() {
         const pinia = useAppStore();
+        const sales = pinia.getSales();
         const loading = ref(true);
-        const sales = ref([]);
 
         onMounted(async () => {
             loading.value = true;
             try {
                 const data = await fetch("http://localhost:3000/api/salas").then(response => response.json());
                 pinia.setSales(data);
-                sales.value = pinia.getSales();
                 loading.value = false;
             } catch (error) {
                 console.log(error);

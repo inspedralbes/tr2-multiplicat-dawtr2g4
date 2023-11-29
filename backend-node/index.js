@@ -2,8 +2,13 @@ const express = require('express');
 const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
+
+
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
 //const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
 const io = new Server(server, {
