@@ -51,11 +51,6 @@ socket.on("connect", (socket) => {
     console.log('Received votacions-bases-final:', indexSala, vot);
   });
 
-  socket.on('seleccionar base', (msg) => {
-    // Handle the 'seleccionar base' event here
-    console.log('Received seleccionar base:', msg);
-  });
-
   socket.on('nova-pregunta', (pregunta) => {
     // Handle the 'nova-pregunta' event here
     pinia.setPreguntaAct(pregunta);
