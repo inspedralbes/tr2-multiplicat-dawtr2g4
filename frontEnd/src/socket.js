@@ -5,9 +5,9 @@ import { pushScopeId } from "vue";
 const URL = "http://localhost:3000";
 
 export const socket = io(URL);
-const pinia = useAppStore();
 
-socket.on("connect", (socket) => {
+socket.on("connect", () => {
+  const pinia = useAppStore();
   console.log("connected");
 
   socket.on("salaSeleccionada", (msg) => {
