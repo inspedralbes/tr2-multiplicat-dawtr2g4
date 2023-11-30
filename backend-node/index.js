@@ -54,7 +54,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   });
 
   socket.on('sala-seleccionada', (msg) => {
-    io.emit('salaSeleccionada', msg);
+    io.emit('salaSeleccionada', msg,sales[msg]);
   });
 
   socket.on('seleccionar base', (msg) => {

@@ -15,6 +15,7 @@ export const useAppStore = defineStore('app', {
     },
     //socket: io('http://localhost:3000'),
     sales: [],
+    salaActual: '',
     salaInfo: {
       id: '',
       name: '',
@@ -26,16 +27,18 @@ export const useAppStore = defineStore('app', {
       team2: [],
     },
     preguntaAct: {
-      pregunta: '',
-      respostes: [],
-    },
+      text_pregunta: 'Pregunta 1',
+      respostes: [{ id: 1, text_resposta: 'resposta 1'}, 
+                  { id: 2, text_resposta: 'resposta 2'}, 
+                  { id: 3, text_resposta: 'resposta 3'}, 
+                  { id: 4, text_resposta: 'resposta 4'}],
+  },
 
     //100%
     temporitzador: '',
     torn: '',
     votacioEnCurs: false,
     base: '',
-    preguntaAct: '',
   }),
   actions: {
 
@@ -45,6 +48,9 @@ export const useAppStore = defineStore('app', {
     },
     getUserInfo() {
       return this.userInfo
+    },
+    getSalaActual() {
+      return this.salaActual
     },
     getSalaInfo() {
       return this.salaInfo
@@ -68,6 +74,9 @@ export const useAppStore = defineStore('app', {
     //setters
     setUserInfo(userInfo) {
       this.userInfo = userInfo
+    },
+    setSalaActual(salaActual) {
+      this.salaActual = salaActual
     },
     setSalaInfo(salaInfo) {
       this.salaInfo = salaInfo
