@@ -64,28 +64,26 @@ const sales = [
 
 **Tindrem sockets al servidor NODE per a actualitzar la següent informació:**
 - Jugadors s'uneixen als equips:
-  - ON: `equip-seleccionat`
-  - EMIT: `equips-actualitzats`
+  - ON: `equip-seleccionat(indexSala, equip)`
+  - EMIT: `equips-actualitzats(sala)`
 - La professora comença la partida:
-  - ON: `partida-iniciada`
-  - EMIT: `partida-iniciada`
+  - ON: `partida-iniciada(indexSala)`
+  - EMIT: `partida-iniciada(equipAtacant)`
 - Començar votacions per a la dificultat de la pregunta
-  - ON: `començar-votacio-dificultat`
-  - EMIT: `començar-votacio-dificultat`
+  - ON: `començar-votacio-dificultat(indexSala)`
+  - EMIT: `començar-votacio-dificultat(cronometre)`
 - Jugadors atacants voten la dificultat de la pregunta:
-  - ON: `votacio-dificultat`
+  - ON: `votacio-dificultat(indexSala, vot)`
 - Temporitzador per a votar la dificultat decrementa 1 segon:
-  - EMIT: `actualitzar-comptador`
+  - EMIT: `actualitzar-comptador(cronometre)`
 - Tots els jugadors atacants han votat dificultat o el temps s'ha acabat
-  - EMIT: `finalitzar-votacio-dificultat`
+  - EMIT: `finalitzar-votacio-dificultat(dificultat)`
 - Mostrar una nova pregunta a tots els jugadors:
-  - EMIT: `nova-pregunta`
+  - EMIT: `nova-pregunta(pregunta)`
 - Jugadors voten la resposta a la pregunta
-  - ON: `votacio-resposta`
-- Mostrar resultats generals de la pregunta a la professora
-
-- Mostrar resposta correcta (o no) a cada alumne
-
+  - ON: `votacio-resposta(indexSala, vot)`
+- Tots els jugadors han votat respostes o el temps s'ha acabat:
+  - EMIT: `finalitzar-votacions-respostes({votsEquip1, votsEquip2, equipAcertat})`
 - Actualitzar el terreny de joc
 
 
