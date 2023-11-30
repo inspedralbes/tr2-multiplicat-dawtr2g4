@@ -1,18 +1,19 @@
 import { io } from "socket.io-client";
 import { useAppStore } from "./stores/app";
 import { pushScopeId } from "vue";
+import router from "./router";
 
 const URL = "http://localhost:3000";
 
 export const socket = io(URL);
-const pinia = useAppStore();
 
-socket.on("connect", (socket) => {
+socket.on("connect", () => {
+  const pinia = useAppStore();
   console.log("connected");
 
   socket.on("salaSeleccionada", (msg) => {
     console.log("From socket.js: sala seleccionada " + msg);
-    //router.push("/sala");
+    router.push("/sala");
   });
 
   socket.on('equips-actualitzats', (sales) => {

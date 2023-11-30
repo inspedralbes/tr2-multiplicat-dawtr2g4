@@ -12,12 +12,10 @@
             </div>
             <div @click="setSala(index)" v-for="(actual, index) in pinia.getSales()" class="flex">
 
-                <h2>{{ index + 1 }}</h2>
-                <h2>{{ actual.nomSala }}</h2>
-                <h2> {{ actual.jugadors.length }}</h2>
-                <!-- <RouterLink to="/sala">
-                    <button @click="">Ves a la sala {{ actual.id }}</button>
-                </RouterLink> -->
+                    <h2>{{ index + 1 }}</h2>
+                    <h2>{{ actual.nomSala }}</h2>
+                    <h2> {{ actual.jugadors.length }}</h2>
+                
             </div>
 
         </div>
@@ -25,6 +23,7 @@
 </template>
 
 <script>
+import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
@@ -57,6 +56,10 @@ export default {
         setSala(id) {
             socket.emit('sala-seleccionada', id)
         }
+    },
+    components: {
+        RouterLink,
+        RouterView
     }
 }
 </script>
