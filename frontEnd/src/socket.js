@@ -40,10 +40,10 @@ socket.on("connect", () => {
     console.log('Received actualitzar-comptador:', cronometre);
   });
 
-  socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
+  socket.on('finalitzar-votacio-dificultat', (dificultat) => {
     // Handle the 'finalitzar-votacio' event here
-    pinia.setVotacioEnCurs(isVotacioEnCurs);
-    console.log('Received finalitzar-votacio:', isVotacioEnCurs);
+    pinia.setVotacioEnCurs(false);
+    console.log('Received finalitzar-votacio:', dificultat);
   });
 
   socket.on('votacions-bases-final', async (indexSala, vot) => {

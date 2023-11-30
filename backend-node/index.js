@@ -123,8 +123,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   // Rebre votacions de les bases d'usuaris
   socket.on('votacio-dificultat', async (indexSala, vot) => {
-    if (!esVotValid(vot, false)) return;
-
+    //if (!esVotValid(vot, false)) return;
+    console.log("aaa")
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
 

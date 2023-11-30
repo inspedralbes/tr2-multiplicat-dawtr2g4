@@ -52,9 +52,9 @@ export default {
             const jugador = document.getElementById('jugador-0');
             
             if (this.baseEscollida != "") {
-                socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
-                socket.emit('votacio-base', this.indexSala, this.baseEscollida);
-                console.log(this.indexSala);
+                //socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
+                socket.emit('votacio-dificultat', this.indexSala, this.baseEscollida);
+                console.log("Has pulsado " + this.baseEscollida);
             }
 
             this.isVotacioEnCurs = false;
@@ -98,32 +98,12 @@ export default {
         }
     },
     mounted() {
-        /*this.socket = io('http://localhost:3000');
-
-        this.socket.on('començar-votacio-dificultat', (cronometre) => {
-            console.log(cronometre);
-            this.isVotacioEnCurs = true;
-            this.count = cronometre;
+        const store = useAppStore();
+        store.$subscribe((mutation, state) => {
+            if(store.votacioEnCurs == false) {
+                this.$router.push('/pregunta'); 
+            }
         });
-
-        this.socket.on('actualitzar-comptador', (cronometre) => {
-            this.count = cronometre;
-        });
-
-        this.socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
-            this.isVotacioEnCurs = isVotacioEnCurs;
-        });
-
-        this.socket.on('nova-pregunta', (pregunta) => {
-            this.pregunta = pregunta;
-        });
-
-        this.socket.on('seleccionar base', (msg) => {
-            this.player.base = parseInt(msg.player.base) + parseInt(msg.baseEscollida);
-            console.log("actualitzar");
-            this.pintarCamp();
-            this.baseEscollida = "";
-        });*/
     }
 }
 
