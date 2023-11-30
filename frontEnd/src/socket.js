@@ -47,9 +47,6 @@ socket.on('nova-pregunta', (data) => {
   console.log('Received nova-pregunta:', data);
 });
 
-
-
-
 socket.on("disconnect", () => {
   console.log("disconnected");
 });
