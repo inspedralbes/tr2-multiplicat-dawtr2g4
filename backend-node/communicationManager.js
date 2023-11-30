@@ -1,4 +1,3 @@
-//export default async function getPregunta(dificultat, categoria, preguntesAnteriors) {
 async function getPregunta(dificultat, categoria, preguntesAnteriors) {
     const response = await fetch('http://localhost:8000/api/getPregunta', {
         method: "POST",

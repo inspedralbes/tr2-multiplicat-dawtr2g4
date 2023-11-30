@@ -1,7 +1,6 @@
 const express = require('express');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
-//import { getPregunta } from './communicationManager';
 const { getPregunta } = require('./communicationManager'); // Ruta correcta al archivo communicationManager.js
 const cors = require('cors');
 
@@ -105,7 +104,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   // Rebre votacions de les bases d'usuaris
   socket.on('votacio-base', async (indexSala, vot) => {
-    /*if (!esVotValid(vot)) return;
+    if (!esVotValid(vot)) return;
 
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
@@ -120,14 +119,13 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       socket.emit('votacions-bases-final', baseMesVotada);
       resetejarVotacions(sala);
 
-      */try {
-        //let pregunta = await getPregunta(baseMesVotada, sala.categoria, []);
-        let pregunta = await getPregunta(1, 1, []);
+      try {
+        let pregunta = await getPregunta(baseMesVotada, sala.categoria, []);
         io.emit('nova-pregunta', pregunta.text_pregunta);
       } catch (error) {
         console.error('Error en obtenir la pregunta:', error);
       }
-    //}
+    }
   })
 });
 
