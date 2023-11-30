@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>PARTIDA</h1>
+        <p>{{ pregunta }}</p>
     </div>
     <div id="flex-container">
         <div id="container">
@@ -8,7 +9,8 @@
             <img class="camp" src="/img/camp.jpg" alt="">
         </div>
         <div id="moviment-bases">
-            <button @click="startTimer" v-if="count === 3">COMENÇAR VOTACIÓ</button>
+            <!--<button @click="initVotacio" v-if="count === 3">COMENÇAR VOTACIÓ</button>--> 
+            <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ count }}</p>
             <div v-if="isVotacioEnCurs == true">
                 <p>Quantes bases us voleu moure?</p>
@@ -35,8 +37,9 @@ export default {
             player: { id: 0, base: 0 },
             baseEscollida: "",
             isVotacioEnCurs: false,
-            count: 3,
-            intervalId: null
+            count: "",
+            indexSala: 0,
+            pregunta: "Pregunta"
         }
     },
     methods: {
@@ -47,6 +50,8 @@ export default {
             
             if (this.baseEscollida != "") {
                 this.socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
+                this.socket.emit('votacio-base', this.indexSala, this.baseEscollida);
+                console.log(this.indexSala);
             }
 
             this.isVotacioEnCurs = false;
@@ -75,39 +80,34 @@ export default {
                 jugador.classList.add("home-base");
             }
         },
-        startTimer() {
-            this.isVotacioEnCurs = true;
-            // Inicia el temporizador solo si no está en curso
-            if (!this.intervalId) {
-                this.intervalId = setInterval(this.decrementCount, 1000);
-            }
-        },
-        decrementCount() {
-            // Decrementa el contador y detén el temporizador cuando alcanza 0
-            if (this.count > 0) {
-                this.count--;
-            } else {
-                this.stopTimer();
-            }
-        },
-        stopTimer() {
-            // Detiene el temporizador y restablece el estado
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-            this.isVotacioEnCurs = false;
-            this.count = 3;
-            console.log("Enviar resultats");
+        initVotacio(){  
+            this.socket.emit('començar-votacio', true);
         }
-    },
-    beforeDestroy() {
-        // Limpia el temporizador antes de destruir el componente
-        this.stopTimer();
     },
     mounted() {
         this.socket = io('http://localhost:3000');
 
+        this.socket.on('començar-votacio', (data) => {
+            console.log(data);
+            this.isVotacioEnCurs = data.isVotacioEnCurs;
+            this.count = data.cronometre;
+        });
+
+        this.socket.on('actualitzar-comptador', (cronometre) => {
+            this.count = cronometre;
+        });
+
+        this.socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
+            this.isVotacioEnCurs = isVotacioEnCurs;
+        });
+
+        this.socket.on('nova-pregunta', (pregunta) => {
+            this.pregunta = pregunta;
+        });
+
         this.socket.on('seleccionar base', (msg) => {
             this.player.base = parseInt(msg.player.base) + parseInt(msg.baseEscollida);
+            console.log("actualitzar");
             this.pintarCamp();
             this.baseEscollida = "";
         });

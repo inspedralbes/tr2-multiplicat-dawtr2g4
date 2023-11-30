@@ -1,12 +1,10 @@
 const express = require('express');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
+const { getPregunta } = require('./communicationManager'); // Ruta correcta al archivo communicationManager.js
 const cors = require('cors');
-import { getPregunta } from './communicationManager';
-const cors = require('cors')
 
 const app = express();
-app.use(cors());
 
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
 //const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
@@ -28,6 +26,9 @@ const sales = [{
   preguntaActual: null
 }]
 
+const TEMPS_ESCOLLIR_BASE = 10;
+let cronometre;
+
 app.get('/api/salas', (req, res) => {
   res.json({ sales: sales })
 })
@@ -46,12 +47,15 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip) => {
     // Comprovar si el jugador està en la sala
+    let isDinsSala = false
     sales[indexSala].jugadors.forEach(jugador => {
       if (jugador.id === socket.id) {
-        return;
+        //return;
+        isDinsSala = true;
       }
     });
 
+    if (isDinsSala == false) {
     // Comprovar equip es 1 o 2
     if (equip !== 1 && equip != 2) {
       return;
@@ -69,8 +73,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       votacioBase: null,
       votacioResposta: null
     })
-
-    socket.emit('equips-actualitzats', sales[indexSala].jugadors)
+  }
+    io.emit('equips-actualitzats', sales[indexSala])
   })
 
   // Admin comença la partida
@@ -78,6 +82,26 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     const equipVotant = Math.floor(Math.random() * 2) + 1; // 1 o 2
     sales[indexSala].equipVotant = equipVotant
     socket.emit('partida-iniciada', equipVotant)
+  })
+
+  //Iniciar procés de votació
+  socket.on('començar-votacio', (isVotacioEnCurs) => {
+    cronometre = TEMPS_ESCOLLIR_BASE;
+    data = { isVotacioEnCurs: isVotacioEnCurs, cronometre: cronometre };
+    io.emit('començar-votacio', data);
+
+    // Decrementem el cronòmetre cada segon i actualitzem a tots els clients
+    const intervalId = setInterval(() => {
+      cronometre -= 1;
+      io.emit('actualitzar-comptador', cronometre);
+
+      // Quan el cronòmetre arriba a zero, el detenim i el resetegem i finalitzem el procés de votació
+      if (cronometre === 0) {
+        clearInterval(intervalId);
+        io.emit('finalitzar-votacio', false);
+        cronometre = TEMPS_ESCOLLIR_BASE;
+      }
+    }, 1000);
   })
 
   // Rebre votacions de les bases d'usuaris
@@ -96,7 +120,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     if (totsHanVotat(sala, false)) {
       let baseMesVotada = calcularVots(sala);
       socket.emit('votacions-bases-final', baseMesVotada);
-      resetejarVotacions(sala);
+
       let pregunta = await novaPregunta(sala, baseMesVotada, sala.categoria, [])
     }
   })
@@ -128,7 +152,6 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       let equipAcertat = calcularEquipAcertat(sala)
     }
   })
-
 });
 
 function calcularEquipAcertat(sala) {
@@ -191,4 +214,3 @@ function resetejarVotacions(sala) {
 server.listen(port, () => { // We make the http server listen on port 3000.
   console.log('server running at http://localhost:3000');
 });
-

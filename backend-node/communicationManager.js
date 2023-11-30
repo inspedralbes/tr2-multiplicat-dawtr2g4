@@ -1,4 +1,4 @@
-export default async function getPregunta(dificultat, categoria, preguntesAnteriors) {
+async function getPregunta(dificultat, categoria, preguntesAnteriors) {
     const response = await fetch('http://localhost:8000/api/getPregunta', {
         method: "POST",
         headers: {
@@ -13,3 +13,5 @@ export default async function getPregunta(dificultat, categoria, preguntesAnteri
     const jsonResponse = await response.json()
     return jsonResponse
 }
+
+module.exports = { getPregunta }
