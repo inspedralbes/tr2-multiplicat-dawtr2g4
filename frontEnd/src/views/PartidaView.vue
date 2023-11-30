@@ -87,10 +87,10 @@ export default {
     mounted() {
         this.socket = io('http://localhost:3000');
 
-        this.socket.on('començar-votacio', (data) => {
-            console.log(data);
-            this.isVotacioEnCurs = data.isVotacioEnCurs;
-            this.count = data.cronometre;
+        this.socket.on('començar-votacio-dificultat', (cronometre) => {
+            console.log(cronometre);
+            this.isVotacioEnCurs = true;
+            this.count = cronometre;
         });
 
         this.socket.on('actualitzar-comptador', (cronometre) => {
