@@ -174,6 +174,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     if (jugador && !jugador.votacioResposta) {
       jugador.votacioResposta = vot;
       sala.totalVotacions++;
+      socket.emit('total-votacions', sala.totalVotacions, sala.jugadors.length);
     }
 
     if (totsHanVotat(sala, true)) {
@@ -188,9 +189,9 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     socket.emit('finalitzar-votacions-respostes', resultats)
 
     // Avançar bases i calcular punts
-    if(resultats.equipAcertat === 1) {
+    if (resultats.equipAcertat === 1) {
       sala.jugadors[0].baseActual += sala.preguntaActual.dificultat
-      if(sala.jugadors[0].baseActual >= 4) {
+      if (sala.jugadors[0].baseActual >= 4) {
         sala.jugadors[0].baseActual = 4
         io.emit('sumar-punt', sala.equipAtacant)
         sala.equipAtacant = sala.equipAtacant === 1 ? 2 : 1
