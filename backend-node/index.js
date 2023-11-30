@@ -11,7 +11,7 @@ const server = createServer(app); // Express initializes app to be a function ha
 //const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Reemplaza con la URL de tu aplicación Vue.js
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"], // Reemplaza con la URL de tu aplicación Vue.js
     methods: ["GET", "POST"]
   }
 });
@@ -60,6 +60,10 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
+  });
+
+  socket.on('sala-seleccionada', (msg) => {
+    io.emit('salaSeleccionada', msg);
   });
 
   socket.on('seleccionar base', (msg) => {
