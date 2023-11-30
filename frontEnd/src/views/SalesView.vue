@@ -10,7 +10,7 @@
                 <h2>Nom</h2>
                 <h2>Num Jugadors</h2>
             </div>
-            <div @click="setSala(index)" v-for="(actual, index) in pinia.getSales()" class="flex">
+            <div @click="setSala(index)" v-for="(actual, index) in pinia.getSales()" class="flex sales">
 
                     <h2>{{ index + 1 }}</h2>
                     <h2>{{ actual.nomSala }}</h2>
@@ -83,7 +83,7 @@ export default {
     /* max-width: 10%; */
 }
 
-.flex:hover {
+.sales:hover {
     background-color: #e6e6e6;
     cursor: pointer;
 }
