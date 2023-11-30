@@ -74,12 +74,14 @@ const sales = [
   - EMIT: `començar-votacio-dificultat`
 - Jugadors atacants voten la dificultat de la pregunta:
   - ON: `votacio-dificultat`
+- Temporitzador per a votar la dificultat decrementa 1 segon:
+  - EMIT: `actualitzar-comptador`
 - Tots els jugadors atacants han votat dificultat o el temps s'ha acabat
   - EMIT: `finalitzar-votacio-dificultat`
 - Mostrar una nova pregunta a tots els jugadors:
   - EMIT: `nova-pregunta`
 - Jugadors voten la resposta a la pregunta
-
+  - ON: `votacio-resposta`
 - Mostrar resultats generals de la pregunta a la professora
 
 - Mostrar resposta correcta (o no) a cada alumne
