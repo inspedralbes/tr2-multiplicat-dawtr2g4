@@ -14,7 +14,7 @@ export const useAppStore = defineStore('app', {
       resposta: '',
     },
     //socket: io('http://localhost:3000'),
-    sales: '',
+    sales: [],
     salaInfo: {
       id: '',
       name: '',

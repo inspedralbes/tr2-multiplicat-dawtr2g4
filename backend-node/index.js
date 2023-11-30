@@ -5,6 +5,7 @@ const { getPregunta } = require('./communicationManager'); // Ruta correcta al a
 const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
 //const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
@@ -23,7 +24,28 @@ const sales = [{
   jugadorsEquip2: 0,
   equipVotant: 0,
   categoria: 1,
-  preguntaActual: null
+  preguntaActual: null,
+  nomSala: 'Sala 1'
+},
+{
+  jugadors: [],
+  votacions: 0,
+  jugadorsEquip1: 0,
+  jugadorsEquip2: 0,
+  equipVotant: 0,
+  categoria: 2,
+  preguntaActual: null,
+  nomSala: 'Sala 2'
+},
+{
+  jugadors: [],
+  votacions: 0,
+  jugadorsEquip1: 0,
+  jugadorsEquip2: 0,
+  equipVotant: 0,
+  categoria: 3,
+  preguntaActual: null,
+  nomSala: 'Sala 3'
 }]
 
 const TEMPS_ESCOLLIR_BASE = 10;
@@ -56,24 +78,24 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     });
 
     if (isDinsSala == false) {
-    // Comprovar equip es 1 o 2
-    if (equip !== 1 && equip != 2) {
-      return;
-    } else if (equip === 1) {
-      sales[indexSala].jugadorsEquip1++
-    } else {
-      sales[indexSala].jugadorsEquip2++
-    }
+      // Comprovar equip es 1 o 2
+      if (equip !== 1 && equip != 2) {
+        return;
+      } else if (equip === 1) {
+        sales[indexSala].jugadorsEquip1++
+      } else {
+        sales[indexSala].jugadorsEquip2++
+      }
 
-    // Afegir jugador a la sala
-    sales[indexSala].jugadors.push({
-      id: socket.id,
-      equip: equip,
-      baseActual: 0,
-      votacioBase: null,
-      votacioResposta: null
-    })
-  }
+      // Afegir jugador a la sala
+      sales[indexSala].jugadors.push({
+        id: socket.id,
+        equip: equip,
+        baseActual: 0,
+        votacioBase: null,
+        votacioResposta: null
+      })
+    }
     io.emit('equips-actualitzats', sales[indexSala])
   })
 
