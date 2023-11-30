@@ -14,8 +14,9 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
 import {useAppStore} from '../stores/app'
+import { socket } from '@/socket';
 
 export default {
     data() {
@@ -27,7 +28,7 @@ export default {
         escollirEquip(idEquip) {
             console.log("Has ecollit equip " + idEquip);
             if (idEquip == 1 || idEquip == 2) {
-                this.socket.emit('equip-seleccionat', this.indexSala, idEquip);
+                socket.emit('equip-seleccionat', this.indexSala, idEquip);
             }
         },
         començarPartida() {
@@ -35,11 +36,13 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('http://localhost:3000');
+        //computed d'una propietat de pinia 
+        //subscribe al magatgem de pinia
+        //this.socket = io('http://localhost:3000');
 
-        this.socket.on('equips-actualitzats', (jugadorsSala) => {
+        /*this.socket.on('equips-actualitzats', (jugadorsSala) => {
             console.log(jugadorsSala);
-        });
+        });*/
     }
 }
 </script>

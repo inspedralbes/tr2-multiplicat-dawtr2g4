@@ -64,6 +64,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip) => {
     // Comprovar si el jugador està en la sala
+   
     let isDinsSala = false
     let sala = sales[indexSala]
     sala.jugadors.forEach(jugador => {
@@ -72,13 +73,13 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       }
     });
 
-    if (!isDinsSala && equip != 1 && equip != 2) {
+    if (!isDinsSala && (equip == 1 || equip == 2)) {
       if (equip === 1) {
         sala.equips[0].nJugadors++
       } else {
         sala.equips[1].nJugadors++
       }
-
+      
       // Afegir jugador a la sala
       sala.jugadors.push({
 

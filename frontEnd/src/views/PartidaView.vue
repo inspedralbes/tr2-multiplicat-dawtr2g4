@@ -29,7 +29,10 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
+
+import {useAppStore} from '../stores/app'
+import { socket } from '@/socket';
 export default {
     data() {
         return {
@@ -49,8 +52,8 @@ export default {
             const jugador = document.getElementById('jugador-0');
             
             if (this.baseEscollida != "") {
-                this.socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
-                this.socket.emit('votacio-base', this.indexSala, this.baseEscollida);
+                socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
+                socket.emit('votacio-base', this.indexSala, this.baseEscollida);
                 console.log(this.indexSala);
             }
 
@@ -81,11 +84,21 @@ export default {
             }
         },
         initVotacio(){  
-            this.socket.emit('començar-votacio', true);
+            socket.emit('començar-votacio-dificultat', this.indexSala);
+        }
+    },
+    computed: {
+        count() {
+            const store = useAppStore();
+            return store.getTemporitzador();
+        },
+        isVotacioEnCurs() {
+            const store = useAppStore();
+            return store.getVotacioEnCurs();
         }
     },
     mounted() {
-        this.socket = io('http://localhost:3000');
+        /*this.socket = io('http://localhost:3000');
 
         this.socket.on('començar-votacio-dificultat', (cronometre) => {
             console.log(cronometre);
@@ -110,7 +123,7 @@ export default {
             console.log("actualitzar");
             this.pintarCamp();
             this.baseEscollida = "";
-        });
+        });*/
     }
 }
 

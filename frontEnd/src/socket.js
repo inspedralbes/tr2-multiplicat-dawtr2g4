@@ -28,11 +28,11 @@ socket.on("connect", () => {
     console.log('Received partida-iniciada:', equipVotant);
   });
 
-  socket.on('començar-votacio', (data) => {
+  socket.on('començar-votacio-dificultat', (data) => {
     // Handle the 'començar-votacio' event here
-    pinia.setVotacioEnCurs(data.isVotacioEnCurs);
+    pinia.setVotacioEnCurs(true);
     pinia.setTemporitzador(data.cronometre);
-    console.log('Received començar-votacio:', data);
+    console.log('Received començar-votacio-dificultat:', data);
   });
 
   socket.on('actualitzar-comptador', (cronometre) => {

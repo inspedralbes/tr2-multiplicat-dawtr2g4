@@ -64,6 +64,9 @@ export const useAppStore = defineStore('app', {
     getTorn() {
       return this.torn
     },
+    getVotacioEnCurs() {
+      return this.votacioEnCurs
+    },
 
     //setters
     setUserInfo(userInfo) {
