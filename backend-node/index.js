@@ -98,7 +98,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   socket.on('partida-iniciada', (indexSala) => {
     const equipAtacant = Math.floor(Math.random() * 2) + 1; // 1 o 2
     sales[indexSala].equipAtacant = equipAtacant
-    socket.emit('partida-iniciada', equipAtacant)
+    io.emit('partida-iniciada', equipAtacant)
   })
 
   //Iniciar procés de votació
@@ -142,13 +142,13 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   })
 
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
-    socket.emit('finalitzar-votacio-dificultat', dificultat);
+    io.emit('finalitzar-votacio-dificultat', dificultat);
     resetejarVotacions(sala)
 
     try {
       let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
       sala.preguntaActual = pregunta
-      socket.emit('nova-pregunta', pregunta);
+      io.emit('nova-pregunta', pregunta);
     } catch (error) {
       console.error('Error en obtenir la pregunta:', error);
     }

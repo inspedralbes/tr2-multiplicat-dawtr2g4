@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>PARTIDA</h1>
-        <p>{{ pregunta }}</p>
+        <h1>Ara mateix batejant EQUIP {{ equipAtacant }}</h1>
     </div>
     <div id="flex-container">
         <div id="container">
@@ -12,7 +11,7 @@
             <!--<button @click="initVotacio" v-if="count === 3">COMENÇAR VOTACIÓ</button>--> 
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ count }}</p>
-            <div v-if="isVotacioEnCurs == true">
+            <div v-if="isVotacioEnCurs == true && player.equip == equipAtacant">
                 <p>Quantes bases us voleu moure?</p>
                 <form id="form" action="" v-on:change="seleccionarBase()">
                     <input type="radio" id="base1" name="base" value="1" v-model="baseEscollida">
@@ -36,13 +35,20 @@ import { socket } from '@/socket';
 export default {
     data() {
         return {
-            socket: null,
-            player: { id: 0, base: 0 },
+            //socket: null,
+            store: null,
+            equipAtacant: "",
+            player: { id: 0, equip: null, base: 0 },
             baseEscollida: "",
             isVotacioEnCurs: false,
             count: "",
             indexSala: 0,
-            pregunta: "Pregunta"
+            pregunta: "Pregunta",
+            puntuacio: {
+                equip1: [],
+                equip2: []
+            },
+            outs: 0
         }
     },
     methods: {
@@ -95,13 +101,27 @@ export default {
         isVotacioEnCurs() {
             const store = useAppStore();
             return store.getVotacioEnCurs();
+        },
+        outs() {
+            const store = useAppStore();
+            return store.getOuts();
+        },
+        equipAtacant() {
+            const store = useAppStore();
+            return store.getEquipAtacant();
         }
     },
     mounted() {
-        const store = useAppStore();
-        store.$subscribe((mutation, state) => {
-            if(store.votacioEnCurs == false) {
+        this.store = useAppStore();
+        this.player.equip = this.store.getTeam();
+        //const store = useAppStore();
+        this.store.$subscribe((mutation, state) => {
+            if(this.store.votacioEnCurs == false) {
                 this.$router.push('/pregunta'); 
+            }
+
+            if(this.store.outs === 1) {
+                //Cambiem d'equip atacant
             }
         });
     }

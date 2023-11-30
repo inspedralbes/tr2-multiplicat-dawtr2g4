@@ -22,10 +22,11 @@ socket.on("connect", () => {
     console.log('Received equips-actualitzats:', sales);
   });
 
-  socket.on('partida-iniciada', (equipVotant) => {
+  socket.on('partida-iniciada', (equipAtacant) => {
     // Handle the 'partida-iniciada' event here
-    pinia.setTorn(equipVotant);
-    console.log('Received partida-iniciada:', equipVotant);
+    pinia.setTorn(0);
+    pinia.setEquipAtacant(equipAtacant);
+    console.log('Received partida-iniciada:', equipAtacant);
   });
 
   socket.on('començar-votacio-dificultat', (data) => {
