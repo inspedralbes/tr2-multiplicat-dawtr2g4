@@ -80,7 +80,6 @@ export default {
     margin: 0;
     display: inline-block;
     width: 10%;
-    /* max-width: 10%; */
 }
 
 .sales:hover {
