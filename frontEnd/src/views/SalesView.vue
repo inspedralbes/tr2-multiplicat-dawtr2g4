@@ -27,8 +27,6 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
-//import { io } from 'socket.io-client';
-//const socket = io("http://localhost:3000");
 
 export default {
     setup() {
