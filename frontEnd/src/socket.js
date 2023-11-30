@@ -37,14 +37,14 @@ socket.on('votacions-bases-final', async (indexSala, vot) => {
   console.log('Received votacions-bases-final:', indexSala, vot);
 });
 
-socket.on('seleccionar base', (data) => {
+socket.on('seleccionar base', (msg) => {
   // Handle the 'seleccionar base' event here
-  console.log('Received seleccionar base:', data);
+  console.log('Received seleccionar base:', msg);
 });
 
-socket.on('nova-pregunta', (data) => {
+socket.on('nova-pregunta', (pregunta) => {
   // Handle the 'nova-pregunta' event here
-  console.log('Received nova-pregunta:', data);
+  console.log('Received nova-pregunta:', pregunta);
 });
 
 socket.on("disconnect", () => {

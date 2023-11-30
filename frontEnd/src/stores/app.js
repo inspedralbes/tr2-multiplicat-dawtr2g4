@@ -75,6 +75,9 @@ export const useAppStore = defineStore('app', {
     setSales(sales) {
       this.sales = sales
     },
+    setTemporitzador(temporitzador) {
+      this.temporitzador = temporitzador
+    },
 
 
     //socket
