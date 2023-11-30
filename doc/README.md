@@ -69,15 +69,25 @@ const sales = [
 - La professora comença la partida:
   - ON: `partida-iniciada`
   - EMIT: `partida-iniciada`
+- Començar votacions per a la dificultat de la pregunta
+  - ON: `començar-votacio-dificultat`
+  - EMIT: `començar-votacio-dificultat`
 - Jugadors atacants voten la dificultat de la pregunta:
-  - ON: `votacio-base`
-  - EMIT: `votacions-bases-final` (Per quan tothom ha votat o el temps s'ha acabat)
-  - EMIT: ``
+  - ON: `votacio-dificultat`
+- Temporitzador per a votar la dificultat decrementa 1 segon:
+  - EMIT: `actualitzar-comptador`
+- Tots els jugadors atacants han votat dificultat o el temps s'ha acabat
+  - EMIT: `finalitzar-votacio-dificultat`
+- Mostrar una nova pregunta a tots els jugadors:
+  - EMIT: `nova-pregunta`
+- Jugadors voten la resposta a la pregunta
+  - ON: `votacio-resposta`
+- Mostrar resultats generals de la pregunta a la professora
 
-4. Mostrar la pregunta a tots els jugadors
-5. Jugadors voten la resposta correcta
-6. Mostrar resposta més votada de cada equip al admin
-7. Mostrar resposta correcta (o no) a cada alumne
-8. Actualitzar el terreny de joc
+- Mostrar resposta correcta (o no) a cada alumne
+
+- Actualitzar el terreny de joc
+
+
 9. ...
 10. Mostrar resultats finals de la partida
