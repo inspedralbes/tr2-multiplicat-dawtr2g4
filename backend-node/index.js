@@ -19,13 +19,7 @@ const io = new Server(server, {
 const port = 3000 //node és el seu propi servidor. a la nostra aplicació que escolti per aquest port
 
 const sales = [{
-  jugadors: [{
-    id: socket.id,
-    equip: equip,
-    baseActual: 0,
-    votacioBase: null,
-    votacioResposta: null
-  }],
+  jugadors: [],
   equips: [
     {
       nJugadors: 0,
