@@ -2,8 +2,10 @@ const express = require('express');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
 import { getPregunta } from './communicationManager';
+const cors = require('cors')
 
 const app = express();
+app.use(cors());
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
 //const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
 const io = new Server(server, {
@@ -20,7 +22,8 @@ const sales = [{
   jugadorsEquip1: 0,
   jugadorsEquip2: 0,
   equipVotant: 0,
-  categoria: 1
+  categoria: 1,
+  preguntaActual: null
 }]
 
 app.get('/api/salas', (req, res) => {
@@ -61,7 +64,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       id: socket.id,
       equip: equip,
       baseActual: 0,
-      votacioBase: null
+      votacioBase: null,
+      votacioResposta: null
     })
 
     socket.emit('equips-actualitzats', sales[indexSala].jugadors)
@@ -76,35 +80,71 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   // Rebre votacions de les bases d'usuaris
   socket.on('votacio-base', async (indexSala, vot) => {
-    if (!esVotValid(vot)) return;
+    if (!esVotValid(vot, false)) return;
 
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
 
-    if (jugador && !jugador.votacioBase) {
+    // El jugador votarà si està en la sala, si no ha votat i si és de l'equip que està votant
+    if (jugador && !jugador.votacioBase && jugador.equip === sala.equipVotant) {
       jugador.votacioBase = vot;
       sala.votacions++;
     }
 
-    if (totsHanVotat(sala)) {
-      let baseMesVotada = calcularBaseMesVotada(sala);
+    if (totsHanVotat(sala, false)) {
+      let baseMesVotada = calcularVots(sala);
       socket.emit('votacions-bases-final', baseMesVotada);
       resetejarVotacions(sala);
-
-      try {
-        let pregunta = await getPregunta(baseMesVotada, sala.categoria, []);
-        socket.emit('nova-pregunta', pregunta);
-      } catch (error) {
-        console.error('Error en obtenir la pregunta:', error);
-      }
+      let pregunta = await novaPregunta(sala, baseMesVotada, sala.categoria, [])
     }
   })
 
+  async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
+    try {
+      let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
+      sala.preguntaActual = pregunta
+      socket.emit('nova-pregunta', pregunta);
+    } catch (error) {
+      console.error('Error en obtenir la pregunta:', error);
+    }
+  }
 
+  socket.on('votacio-resposta', (indexSala, vot) => {
+    // Vot ha de ser del 0 al 3
+    if (!esVotValid(vot, true)) return;
+
+    let sala = sales[indexSala];
+    let jugador = sala.jugadors.find(j => j.id === socket.id);
+
+    if (jugador && !jugador.votacioResposta) {
+      jugador.votacioResposta = vot;
+      sala.votacions++;
+    }
+
+    if (totsHanVotat(sala, true)) {
+      // Retornar percentatges al front i equip guanyador
+      let equipAcertat = calcularEquipAcertat(sala)
+    }
+  })
 
 });
 
-function calcularBaseMesVotada(sala) {
+function calcularEquipAcertat(sala) {
+  const votsEquip1 = []
+  const votsEquip2 = []
+
+  let indexRespostaCorrecta;
+
+  sala.jugadors.forEach(jugador => {
+    if (jugador.votacioResposta && jugador.equip === 1) {
+      votsEquip1.push(jugador.votacioResposta)
+    } else if (jugador.votacioResposta && jugador.equip === 2) {
+      votsEquip2.push(jugador.votacioResposta)
+    }
+  })
+}
+
+function calcularVots(sala) {
   let vots = []
   sala.jugadors.forEach(jugador => {
     if (jugador.equip === sala.equipVotant && jugador.votacioBase) {
@@ -123,16 +163,27 @@ function calcularBaseMesVotada(sala) {
   return opcioMesVotada[0]
 }
 
-function esVotValid(vot) {
+
+function esVotValid(vot, sonVotsRespostes) {
+  // Si els vots són de respostes, van del 0 al 3. Sino, van del 1 al 3
+  if (sonVotsRespostes) {
+    return vot === 0 || vot === 1 || vot === 2 || vot == 3;
+  }
   return vot === 1 || vot === 2 || vot === 3;
 }
 
-function totsHanVotat(sala) {
+function totsHanVotat(sala, sonVotsRespostes) {
+  // Si els vots són de les respostes, tots han de votar. Sino, només un equip ha de votar
+  if (sonVotsRespostes) {
+    return sala.votacions === (sala.jugadorsEquip1 + sala.jugadorsEquip2)
+  }
   return sala.votacions === (sala.equipVotant === 1 ? sala.jugadorsEquip1 : sala.jugadorsEquip2);
 }
 
 function resetejarVotacions(sala) {
   sala.jugadors.forEach(jugador => jugador.votacioBase = null);
+  sala.jugadors.forEach(jugador => jugador.votacioResposta = null);
+  sala.votacions = 0;
 }
 
 server.listen(port, () => { // We make the http server listen on port 3000.
