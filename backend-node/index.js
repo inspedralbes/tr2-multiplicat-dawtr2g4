@@ -7,11 +7,12 @@ const cors = require('cors');
 const app = express();
 app.use(cors())
 
+
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
 //const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Reemplaza con la URL de tu aplicación Vue.js
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"], // Reemplaza con la URL de tu aplicación Vue.js
     methods: ["GET", "POST"]
   }
 });
@@ -58,6 +59,10 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     console.log('user disconnected');
   });
 
+  socket.on('sala-seleccionada', (msg) => {
+    io.emit('salaSeleccionada', msg);
+  });
+
   socket.on('seleccionar base', (msg) => {
     io.emit('seleccionar base', msg);
   });
@@ -82,15 +87,16 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
       // Afegir jugador a la sala
       sala.jugadors.push({
+
         id: socket.id,
         equip: equip,
         baseActual: 0,
         votacioBase: null,
         votacioResposta: null
       })
-
       io.emit('equips-actualitzats', sala)
     }
+
   })
 
   // Admin comença la partida
