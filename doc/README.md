@@ -62,10 +62,18 @@ const sales = [
 ```
 
 
-Tindrem sockets per a actualitzar la següent informació:
-1. Jugadors s'uneixen als equips
-2. Admin comença la partida
-3. Jugadors atacants voten quantes bases avançar
+**Tindrem sockets al servidor NODE per a actualitzar la següent informació:**
+- Jugadors s'uneixen als equips:
+  - ON: `equip-seleccionat`
+  - EMIT: `equips-actualitzats`
+- La professora comença la partida:
+  - ON: `partida-iniciada`
+  - EMIT: `partida-iniciada`
+- Jugadors atacants voten la dificultat de la pregunta:
+  - ON: `votacio-base`
+  - EMIT: `votacions-bases-final` (Per quan tothom ha votat o el temps s'ha acabat)
+  - EMIT: ``
+
 4. Mostrar la pregunta a tots els jugadors
 5. Jugadors voten la resposta correcta
 6. Mostrar resposta més votada de cada equip al admin
