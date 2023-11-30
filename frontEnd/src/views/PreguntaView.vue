@@ -17,7 +17,7 @@ export default {
         const pinia = useAppStore();
         var preguntaAct = pinia.getPreguntaAct();
         preguntaAct = {
-            pregunta: 'Preunta 1',
+            pregunta: 'Pregunta 1',
             respostes: [{ id: 1, text: 'resposta 1', correcta: false }, 
                         { id: 2, text: 'resposta 2', correcta: false }, 
                         { id: 3, text: 'resposta 3', correcta: false }, 
