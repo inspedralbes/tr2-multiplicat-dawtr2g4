@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 import { useAppStore } from "./stores/app";
 import { pushScopeId } from "vue";
+import router from "./router";
 
 const URL = "http://localhost:3000";
 
@@ -12,7 +13,7 @@ socket.on("connect", () => {
 
   socket.on("salaSeleccionada", (msg) => {
     console.log("From socket.js: sala seleccionada " + msg);
-    //router.push("/sala");
+    router.push("/sala");
   });
 
   socket.on('equips-actualitzats', (sales) => {
