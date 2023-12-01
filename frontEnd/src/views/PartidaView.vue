@@ -130,6 +130,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+:root{
+    --timeMov: 0.75s;
+}
 #flex-container {
     display: flex;
     justify-content: center;
@@ -161,6 +164,10 @@ export default {
     border: 1px solid black;
     padding: 5px;
     height: 10%;
+}
+
+.moviment {
+  transition: all var(--timeMov) ease; /* Puedes ajustar la duración y la función de temporización según tus necesidades */
 }
 
 .home-base {
