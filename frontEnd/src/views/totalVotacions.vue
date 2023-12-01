@@ -2,14 +2,16 @@
     <div>
         <div>
             <h2>Equip 1</h2>
-            <PieChart :chart-data="{
-                labels: ['Han votat', 'Falten per votar'],
-                datasets: [{
-                    data: [jugadorsFalten, totalV],
-                    label: 'Respostes',
-                    backgroundColor: ['#f87979', '#36a2eb'],
-                }]
-            }" />
+            <div class="grafic">
+                <PieChart :key=key :chart-data="{
+                    labels: ['Han votat', 'Falten per votar'],
+                    datasets: [{
+                        data: totalVotacions,
+                        label: 'Respostes',
+                        backgroundColor: ['#f87979', '#36a2eb'],
+                    }]
+                }" />
+            </div>
         </div>
 
     </div>
@@ -23,19 +25,25 @@ import PieChart from '../components/PieChart.vue';
 export default {
 
     components: { PieChart },
+    
+    computed: {
+        totalVotacions() {
+            const store = useAppStore();
+            let totalV = store.getTotalVotacions();
+            let totalJ = store.getTotalJugadors();
 
-    setup() {
-        const pinia = useAppStore();
-
-        const totalV = pinia.getTotalVotacions();
-        const totalJ = pinia.getTotalJugadors();
-
-        let jugadorsFalten = totalJ - totalV;
-
-        return { jugadorsFalten, totalV };
-    }
+            return [totalV, totalJ - totalV];
+        }
+    },
 
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.grafic {
+    width: 600px;
+    height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>

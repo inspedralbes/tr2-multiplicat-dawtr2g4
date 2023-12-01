@@ -38,8 +38,8 @@ export const useAppStore = defineStore('app', {
     preguntaAct: '',
     respostes1: [],
     respostes2: [],
-    totalVotacions: 0,
-    totalJugadors: 0,
+    totalVotacions: 13,
+    totalJugadors: 20,
   }),
   actions: {
 
