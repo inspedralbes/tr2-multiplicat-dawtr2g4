@@ -167,7 +167,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     //if (!esVotValid(vot, true)) return;
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
-  
+
     if (jugador && !jugador.votacioResposta) {
       jugador.votacioResposta = vot;
       sala.totalVots++;
@@ -234,7 +234,7 @@ function calcularResultatsRespostes(sala) {
 
   // Guarda els vots en els arrays votsEquip1 i votsEquip2
   sala.jugadors.forEach(jugador => {
-    if (jugador.votacioResposta) {
+    if (jugador.votacioResposta || jugador.votacioResposta === 0) { // Comentar a Santi 0 es un falsy
       if (jugador.equip === 1) {
         votsEquip1[jugador.votacioResposta]++;
       } else if (jugador.equip === 2) {
