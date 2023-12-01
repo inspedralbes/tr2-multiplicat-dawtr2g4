@@ -11,7 +11,7 @@
             <!--<button @click="initVotacio" v-if="count === 3">COMENÇAR VOTACIÓ</button>--> 
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ count }}</p>
-            <div v-if="isVotacioEnCurs == true && player.equip == equipAtacant">
+            <div v-if="votacioBaseEnCurs == true && player.equip == equipAtacant">
                 <p>Quantes bases us voleu moure?</p>
                 <form id="form" action="" v-on:change="seleccionarBase()">
                     <input type="radio" id="base1" name="base" value="1" v-model="baseEscollida">
@@ -40,9 +40,9 @@ export default {
             equipAtacant: "",
             player: { id: 0, equip: null, base: 0 },
             baseEscollida: "",
-            isVotacioEnCurs: false,
+            //isVotacioEnCurs: false,
             count: "",
-            indexSala: 0,
+            indexSala: 0, // indexSala hardcodeado
             pregunta: "Pregunta",
             puntuacio: {
                 equip1: [],
@@ -98,9 +98,9 @@ export default {
             const store = useAppStore();
             return store.getTemporitzador();
         },
-        isVotacioEnCurs() {
+        votacioBaseEnCurs() {
             const store = useAppStore();
-            return store.getVotacioEnCurs();
+            return store.getVotacioBaseEnCurs();
         },
         outs() {
             const store = useAppStore();
@@ -116,7 +116,7 @@ export default {
         this.player.equip = this.store.getTeam();
         //const store = useAppStore();
         this.store.$subscribe((mutation, state) => {
-            if(this.store.votacioEnCurs == false) {
+            if(this.store.votacioBaseEnCurs == false) {
                 this.$router.push('/pregunta'); 
             }
 

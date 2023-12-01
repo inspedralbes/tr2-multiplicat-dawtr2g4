@@ -31,7 +31,7 @@ const sales = [{
   nomSala: "Sala 1"
 }]
 
-const TEMPS_ESCOLLIR_BASE = 10;
+const TEMPS_ESCOLLIR_BASE = 3;
 const TEMPS_VOTAR_RESPOSTA = 30;
 let cronometre;
 let intervalId;
@@ -114,7 +114,6 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     }, 1000);
   })
 
-  // Rebre votacions de les bases d'usuaris
   socket.on('vot-dificultat', async (indexSala, vot) => {
     if (!esVotValid(vot, false)) return;
 
@@ -165,17 +164,17 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   socket.on('vot-resposta', (indexSala, vot) => {
     // Vot ha de ser del 0 al 3
-    if (!esVotValid(vot, true)) return;
-
+    //if (!esVotValid(vot, true)) return;
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
-
+  
     if (jugador && !jugador.votacioResposta) {
       jugador.votacioResposta = vot;
       sala.totalVots++;
       io.emit('vot-resposta', sala.totalVots)
     }
 
+ 
     if (totsHanVotat(sala, true)) {
       finalitzarVotacionsRespostes(sala)
     }
@@ -186,7 +185,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     const resultats = calcularResultatsRespostes(sala)
     sala.resultatsActuals = resultats
     resetejarVotacions(sala)
-    socket.emit('finalitzar-votacions-respostes', resultats)
+    io.emit('finalitzar-votacions-respostes', resultats)
   }
 
   socket.on('calcular-efectes-pregunta', (indexSala) => {
@@ -229,17 +228,17 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
 
 function calcularResultatsRespostes(sala) {
-  const votsEquip1 = [];
-  const votsEquip2 = [];
+  const votsEquip1 = [0, 0, 0, 0];
+  const votsEquip2 = [0, 0, 0, 0];
   const indexRespostaCorrecta = sala.preguntaActual.indexRespostaCorrecta;
 
   // Guarda els vots en els arrays votsEquip1 i votsEquip2
   sala.jugadors.forEach(jugador => {
     if (jugador.votacioResposta) {
       if (jugador.equip === 1) {
-        votsEquip1.push(jugador.votacioResposta);
+        votsEquip1[jugador.votacioResposta]++;
       } else if (jugador.equip === 2) {
-        votsEquip2.push(jugador.votacioResposta);
+        votsEquip2[jugador.votacioResposta]++;
       }
     }
   });
