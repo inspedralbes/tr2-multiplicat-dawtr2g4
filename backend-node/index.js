@@ -21,14 +21,8 @@ const port = 3000 //node és el seu propi servidor. a la nostra aplicació que e
 const sales = [{
   jugadors: [],
   equips: [
-    {
-      nJugadors: 0,
-      punts: 0
-    },
-    {
-      nJugadors: 0,
-      punts: 0
-    }
+    { nJugadors: 0, punts: 0 },
+    { nJugadors: 0, punts: 0 }
   ],
   totalVotacions: 0,
   equipAtacant: 0,
@@ -81,12 +75,12 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
       // Afegir jugador a la sala
       sala.jugadors.push({
-
         id: socket.id,
         equip: equip,
         baseActual: 0,
         votacioBase: null,
-        votacioResposta: null
+        votacioResposta: null,
+        eliminat: false
       })
       io.emit('equips-actualitzats', sala)
     }
@@ -186,16 +180,39 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     const resultats = calcularResultatsRespostes(sala)
     resetejarVotacions(sala)
     socket.emit('finalitzar-votacions-respostes', resultats)
+  }
 
-    // Avançar bases i calcular punts
-    if(resultats.equipAcertat === 1) {
-      sala.jugadors[0].baseActual += sala.preguntaActual.dificultat
-      if(sala.jugadors[0].baseActual >= 4) {
-        sala.jugadors[0].baseActual = 4
-        io.emit('sumar-punt', sala.equipAtacant)
-        sala.equipAtacant = sala.equipAtacant === 1 ? 2 : 1
+  socket.on('calcular-efectes-pregunta', (indexSala) => {
+    let sala = sales[indexSala]
+
+    if (sala.equipAtacant === resultats.equipAcertat) {
+      // Si l'equip atacant ha acertat, el jugador avança bases
+      let jugador = moureJugador(sala, sala.preguntaActual.dificultat);
+      if (jugador.baseActual >= 4) {
+        jugador.baseActual = 0;
+        io.emit('sumar-punt', sala.equipAtacant);
+        canviarEquips(sala);
       }
+    } else {
+      // Si l'equip atacant ha fallat, elimina el jugador
+      let jugador = sala.jugadors.find(j => j.equip === sala.equipAtacant)
+      jugador.baseActual = 0;
+      jugador.eliminat = true;
+      io.emit('jugador-eliminat', jugador);
+      canviarEquips(sala);
     }
+  })
+
+  function moureJugador(sala, moviments) {
+    let jugador = sala.jugadors.find(j => j.equip === sala.equipAtacant)
+    jugador.baseActual += moviments
+    io.emit('moure-jugador', jugador)
+    return jugador
+  }
+
+  function canviarEquips(sala) {
+    sala.equipAtacant = sala.equipAtacant === 1 ? 2 : 1
+    io.emit('canvi-equip', sala.equipAtacant)
   }
 
   // Al acertar una pregunta, el jugador avançarà el nombre de bases segons la dificultat
@@ -204,6 +221,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   // El primer equip que arrivi a 5 punts, guanya la partida.
 
 });
+
+
 
 function calcularResultatsRespostes(sala) {
   const votsEquip1 = [];
