@@ -27,16 +27,8 @@ export default {
     },
     setup() {
         const pinia = useAppStore();
-        /*var preguntaAct = pinia.getPreguntaAct();
-        preguntaAct = {
-            pregunta: 'Pregunta 1',
-            respostes: [{ id: 1, text: 'resposta 1', correcta: false }, 
-                        { id: 2, text: 'resposta 2', correcta: false }, 
-                        { id: 3, text: 'resposta 3', correcta: false }, 
-                        { id: 4, text: 'resposta 4', correcta: false }],
-        }*/
         return { pinia };
-        //return { pinia, preguntaAct };
+
     },
     computed: {
         temporitzador() {
