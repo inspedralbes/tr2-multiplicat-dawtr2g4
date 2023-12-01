@@ -74,6 +74,11 @@ socket.on("connect", () => {
     console.log('Received total-votacions:', votacions, totalJugadors);
   });
 
+  socket.on('vot-dificultat', (totalVots) => {
+    pinia.setTotalVotacions(totalVots);
+    console.log('Received vot-dificultat:', totalVots);
+  });
+
   socket.on('vot-resposta', (totalVots) => {
     pinia.setTotalVotacions(totalVots);
     console.log('Received vot-resposta:', totalVots);
