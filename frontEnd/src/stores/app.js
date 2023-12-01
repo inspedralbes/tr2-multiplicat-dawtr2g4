@@ -33,7 +33,8 @@ export const useAppStore = defineStore('app', {
     //100%
     temporitzador: '',
     torn: '',
-    votacioEnCurs: false,
+    votacioBaseEnCurs: false,
+    votacioPreguntaEnCurs: false,
     base: '',
     preguntaAct: '',
 
@@ -42,7 +43,8 @@ export const useAppStore = defineStore('app', {
       equip2: []
     },
     outs: '',
-    equipAtacant: ''
+    equipAtacant: '',
+    resultatsPreguntaAct: ''
   }),
   actions: {
 
@@ -74,8 +76,11 @@ export const useAppStore = defineStore('app', {
     getTorn() {
       return this.torn
     },
-    getVotacioEnCurs() {
-      return this.votacioEnCurs
+    getVotacioBaseEnCurs() {
+      return this.votacioBaseEnCurs
+    },
+    getVotacioPreguntaEnCurs() {
+      return this.votacioPreguntaEnCurs
     },
     getPuntuacio() {
       return this.puntuacio
@@ -85,6 +90,9 @@ export const useAppStore = defineStore('app', {
     },
     getEquipAtacant() {
       return this.equipAtacant
+    },
+    getResultatsPreguntaAct() {
+      return this.resultatsPreguntaAct
     },
 
     //setters
@@ -115,8 +123,11 @@ export const useAppStore = defineStore('app', {
     setTorn(torn) {
       this.torn = torn
     },
-    setVotacioEnCurs(votacioEnCurs) {
-      this.votacioEnCurs = votacioEnCurs
+    setVotacioBaseEnCurs(votacioBaseEnCurs) {
+      this.votacioBaseEnCurs = votacioBaseEnCurs
+    },
+    setVotacioPreguntaEnCurs(votacioPreguntaEnCurs) {
+      this.votacioPreguntaEnCurs = votacioPreguntaEnCurs
     },
     setBase(base) {
       this.base = base
@@ -132,6 +143,9 @@ export const useAppStore = defineStore('app', {
     },
     setEquipAtacant(equipAtacant) {
       this.equipAtacant = equipAtacant
+    },
+    setResultatsPreguntaAct(resultatsPreguntaAct) {
+      this.resultatsPreguntaAct = resultatsPreguntaAct
     },
 
     //socket

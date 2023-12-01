@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
 
 async function getPregunta(dificultat, categoria, preguntesAnteriors) {
-    const response = await fetch('http://localhost:8000/api/getPregunta', {
+    const response = await fetch('http://127.0.0.1:8000/api/getPregunta', {
+    //const response = await fetch('http://localhost:8000/api/getPregunta', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -31,7 +31,7 @@ socket.on("connect", () => {
 
   socket.on('començar-votacio-dificultat', (data) => {
     // Handle the 'començar-votacio' event here
-    pinia.setVotacioEnCurs(true);
+    pinia.setVotacioBaseEnCurs(true);
     pinia.setTemporitzador(data.cronometre);
     console.log('Received començar-votacio-dificultat:', data);
   });
@@ -43,7 +43,8 @@ socket.on("connect", () => {
 
   socket.on('finalitzar-votacio-dificultat', (dificultat) => {
     // Handle the 'finalitzar-votacio' event here
-    pinia.setVotacioEnCurs(false);
+    pinia.setVotacioBaseEnCurs(false);
+    pinia.setVotacioPreguntaEnCurs(true);
     console.log('Received finalitzar-votacio:', dificultat);
   });
 
@@ -57,6 +58,13 @@ socket.on("connect", () => {
     // Handle the 'nova-pregunta' event here
     pinia.setPreguntaAct(pregunta);
     console.log('Received nova-pregunta:', pregunta);
+  });
+
+  socket.on('finalitzar-votacions-respostes', async (resultats) => {
+    // Handle the 'votacions-bases-final' event here
+    pinia.setVotacioPreguntaEnCurs(false);
+    pinia.setResultatsPreguntaAct(resultats);
+    console.log('Received finalitzar-votacions-respostes:', resultats);
   });
 
 });
