@@ -45,8 +45,8 @@ export const useAppStore = defineStore('app', {
     equipAtacant: '',
     respostes1: [],
     respostes2: [],
-    totalVotacions: 13,
-    totalJugadors: 20,
+    totalVotacions: 0,
+    totalJugadors: 0,
   }),
   actions: {
 
