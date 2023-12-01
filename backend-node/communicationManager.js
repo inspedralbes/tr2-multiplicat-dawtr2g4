@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 async function getPregunta(dificultat, categoria, preguntesAnteriors) {
     const response = await fetch('http://localhost:8000/api/getPregunta', {
         method: "POST",
@@ -11,6 +13,7 @@ async function getPregunta(dificultat, categoria, preguntesAnteriors) {
         }),
     });
     const jsonResponse = await response.json()
+    console.log(jsonResponse)
     
     // Afegir index de la resposta correcta a l'objecte
     let indexRespostaCorrecta = jsonResponse.respostes.findIndex(resposta => resposta.correcta === 1)
