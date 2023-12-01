@@ -3,7 +3,7 @@
         <div>
             <h2>Equip 1</h2>
             <div class="grafic">
-                <PieChart :key=key :chart-data="{
+                <PieChart :chart-data="{
                     labels: ['Han votat', 'Falten per votar'],
                     datasets: [{
                         data: totalVotacions,
@@ -25,7 +25,7 @@ import PieChart from '../components/PieChart.vue';
 export default {
 
     components: { PieChart },
-    
+
     computed: {
         totalVotacions() {
             const store = useAppStore();
@@ -40,6 +40,11 @@ export default {
 </script>
 
 <style scoped>
+
+h2{
+    margin-left: auto;
+    margin-right: auto;
+}
 .grafic {
     width: 600px;
     height: 600px;
