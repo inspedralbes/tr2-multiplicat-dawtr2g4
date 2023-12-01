@@ -59,7 +59,7 @@ export default {
             
             if (this.baseEscollida != "") {
                 //socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
-                socket.emit('votacio-dificultat', this.indexSala, this.baseEscollida);
+                socket.emit('vot-dificultat', this.indexSala, this.baseEscollida);
                 console.log("Has pulsado " + this.baseEscollida);
             }
 

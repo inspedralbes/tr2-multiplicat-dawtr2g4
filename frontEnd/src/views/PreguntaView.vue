@@ -22,7 +22,7 @@ export default {
     methods: {
         respostaSeleccionada(idResposta) {
             console.log("Has seleccionat la resposta" + idResposta);
-            socket.emit('votacio-resposta', this.indexSala, idResposta);
+            socket.emit('vot-resposta', this.indexSala, idResposta);
         }
     },
     setup() {
