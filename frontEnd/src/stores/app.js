@@ -36,6 +36,13 @@ export const useAppStore = defineStore('app', {
     votacioEnCurs: false,
     base: '',
     preguntaAct: '',
+
+    puntuacio: {
+      equip1: [],
+      equip2: []
+    },
+    outs: '',
+    equipAtacant: ''
   }),
   actions: {
 
@@ -45,6 +52,9 @@ export const useAppStore = defineStore('app', {
     },
     getUserInfo() {
       return this.userInfo
+    },
+    getTeam() {
+      return this.team
     },
     getSalaInfo() {
       return this.salaInfo
@@ -64,10 +74,25 @@ export const useAppStore = defineStore('app', {
     getTorn() {
       return this.torn
     },
+    getVotacioEnCurs() {
+      return this.votacioEnCurs
+    },
+    getPuntuacio() {
+      return this.puntuacio
+    },
+    getOuts() {
+      return this.outs
+    },
+    getEquipAtacant() {
+      return this.equipAtacant
+    },
 
     //setters
     setUserInfo(userInfo) {
       this.userInfo = userInfo
+    },
+    setTeam(team) {
+      this.team = team
     },
     setSalaInfo(salaInfo) {
       this.salaInfo = salaInfo
@@ -98,6 +123,15 @@ export const useAppStore = defineStore('app', {
     },
     setPreguntaAct(preguntaAct) {
       this.preguntaAct = preguntaAct
+    },
+    setPuntuacio(puntuacio) {
+      this.puntuacio = puntuacio
+    },
+    setOuts(outs) {
+      this.outs = outs
+    },
+    setEquipAtacant(equipAtacant) {
+      this.equipAtacant = equipAtacant
     },
 
     //socket

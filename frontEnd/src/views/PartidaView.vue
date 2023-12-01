@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>PARTIDA</h1>
-        <p>{{ pregunta }}</p>
+        <h1>Ara mateix batejant EQUIP {{ equipAtacant }}</h1>
     </div>
     <div id="flex-container">
         <div id="container">
@@ -12,7 +11,7 @@
             <!--<button @click="initVotacio" v-if="count === 3">COMENÇAR VOTACIÓ</button>--> 
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ count }}</p>
-            <div v-if="isVotacioEnCurs == true">
+            <div v-if="isVotacioEnCurs == true && player.equip == equipAtacant">
                 <p>Quantes bases us voleu moure?</p>
                 <form id="form" action="" v-on:change="seleccionarBase()">
                     <input type="radio" id="base1" name="base" value="1" v-model="baseEscollida">
@@ -29,17 +28,27 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
+
+import {useAppStore} from '../stores/app'
+import { socket } from '@/socket';
 export default {
     data() {
         return {
-            socket: null,
-            player: { id: 0, base: 0 },
+            //socket: null,
+            store: null,
+            equipAtacant: "",
+            player: { id: 0, equip: null, base: 0 },
             baseEscollida: "",
             isVotacioEnCurs: false,
             count: "",
             indexSala: 0,
-            pregunta: "Pregunta"
+            pregunta: "Pregunta",
+            puntuacio: {
+                equip1: [],
+                equip2: []
+            },
+            outs: 0
         }
     },
     methods: {
@@ -49,9 +58,9 @@ export default {
             const jugador = document.getElementById('jugador-0');
             
             if (this.baseEscollida != "") {
-                this.socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
-                this.socket.emit('votacio-base', this.indexSala, this.baseEscollida);
-                console.log(this.indexSala);
+                //socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
+                socket.emit('votacio-dificultat', this.indexSala, this.baseEscollida);
+                console.log("Has pulsado " + this.baseEscollida);
             }
 
             this.isVotacioEnCurs = false;
@@ -81,35 +90,39 @@ export default {
             }
         },
         initVotacio(){  
-            this.socket.emit('començar-votacio', true);
+            socket.emit('començar-votacio-dificultat', this.indexSala);
+        }
+    },
+    computed: {
+        count() {
+            const store = useAppStore();
+            return store.getTemporitzador();
+        },
+        isVotacioEnCurs() {
+            const store = useAppStore();
+            return store.getVotacioEnCurs();
+        },
+        outs() {
+            const store = useAppStore();
+            return store.getOuts();
+        },
+        equipAtacant() {
+            const store = useAppStore();
+            return store.getEquipAtacant();
         }
     },
     mounted() {
-        this.socket = io('http://localhost:3000');
+        this.store = useAppStore();
+        this.player.equip = this.store.getTeam();
+        //const store = useAppStore();
+        this.store.$subscribe((mutation, state) => {
+            if(this.store.votacioEnCurs == false) {
+                this.$router.push('/pregunta'); 
+            }
 
-        this.socket.on('començar-votacio-dificultat', (cronometre) => {
-            console.log(cronometre);
-            this.isVotacioEnCurs = true;
-            this.count = cronometre;
-        });
-
-        this.socket.on('actualitzar-comptador', (cronometre) => {
-            this.count = cronometre;
-        });
-
-        this.socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
-            this.isVotacioEnCurs = isVotacioEnCurs;
-        });
-
-        this.socket.on('nova-pregunta', (pregunta) => {
-            this.pregunta = pregunta;
-        });
-
-        this.socket.on('seleccionar base', (msg) => {
-            this.player.base = parseInt(msg.player.base) + parseInt(msg.baseEscollida);
-            console.log("actualitzar");
-            this.pintarCamp();
-            this.baseEscollida = "";
+            if(this.store.outs === 1) {
+                //Cambiem d'equip atacant
+            }
         });
     }
 }

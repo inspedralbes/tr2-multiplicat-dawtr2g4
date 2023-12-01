@@ -22,17 +22,18 @@ socket.on("connect", () => {
     console.log('Received equips-actualitzats:', sales);
   });
 
-  socket.on('partida-iniciada', (equipVotant) => {
+  socket.on('partida-iniciada', (equipAtacant) => {
     // Handle the 'partida-iniciada' event here
-    pinia.setTorn(equipVotant);
-    console.log('Received partida-iniciada:', equipVotant);
+    pinia.setTorn(0);
+    pinia.setEquipAtacant(equipAtacant);
+    console.log('Received partida-iniciada:', equipAtacant);
   });
 
-  socket.on('començar-votacio', (data) => {
+  socket.on('començar-votacio-dificultat', (data) => {
     // Handle the 'començar-votacio' event here
-    pinia.setVotacioEnCurs(data.isVotacioEnCurs);
+    pinia.setVotacioEnCurs(true);
     pinia.setTemporitzador(data.cronometre);
-    console.log('Received començar-votacio:', data);
+    console.log('Received començar-votacio-dificultat:', data);
   });
 
   socket.on('actualitzar-comptador', (cronometre) => {
@@ -40,10 +41,10 @@ socket.on("connect", () => {
     console.log('Received actualitzar-comptador:', cronometre);
   });
 
-  socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
+  socket.on('finalitzar-votacio-dificultat', (dificultat) => {
     // Handle the 'finalitzar-votacio' event here
-    pinia.setVotacioEnCurs(isVotacioEnCurs);
-    console.log('Received finalitzar-votacio:', isVotacioEnCurs);
+    pinia.setVotacioEnCurs(false);
+    console.log('Received finalitzar-votacio:', dificultat);
   });
 
   socket.on('votacions-bases-final', async (indexSala, vot) => {

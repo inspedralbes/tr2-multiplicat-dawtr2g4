@@ -64,6 +64,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip) => {
     // Comprovar si el jugador està en la sala
+   
     let isDinsSala = false
     let sala = sales[indexSala]
     sala.jugadors.forEach(jugador => {
@@ -72,13 +73,13 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       }
     });
 
-    if (!isDinsSala && equip != 1 && equip != 2) {
+    if (!isDinsSala && (equip == 1 || equip == 2)) {
       if (equip === 1) {
         sala.equips[0].nJugadors++
       } else {
         sala.equips[1].nJugadors++
       }
-
+      
       // Afegir jugador a la sala
       sala.jugadors.push({
 
@@ -97,7 +98,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   socket.on('partida-iniciada', (indexSala) => {
     const equipAtacant = Math.floor(Math.random() * 2) + 1; // 1 o 2
     sales[indexSala].equipAtacant = equipAtacant
-    socket.emit('partida-iniciada', equipAtacant)
+    io.emit('partida-iniciada', equipAtacant)
   })
 
   //Iniciar procés de votació
@@ -122,8 +123,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   // Rebre votacions de les bases d'usuaris
   socket.on('votacio-dificultat', async (indexSala, vot) => {
-    if (!esVotValid(vot, false)) return;
-
+    //if (!esVotValid(vot, false)) return;
+    console.log("aaa")
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
 
@@ -141,13 +142,13 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   })
 
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
-    socket.emit('finalitzar-votacio-dificultat', dificultat);
+    io.emit('finalitzar-votacio-dificultat', dificultat);
     resetejarVotacions(sala)
 
     try {
       let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
       sala.preguntaActual = pregunta
-      socket.emit('nova-pregunta', pregunta);
+      io.emit('nova-pregunta', pregunta);
     } catch (error) {
       console.error('Error en obtenir la pregunta:', error);
     }
