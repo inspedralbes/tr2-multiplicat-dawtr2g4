@@ -79,7 +79,8 @@ const sales = [
   - ON: `començar-votacio-dificultat(indexSala)`
   - EMIT: `començar-votacio-dificultat(cronometre)`
 - Jugadors atacants voten la dificultat de la pregunta:
-  - ON: `votacio-dificultat(indexSala, vot)`
+  - ON: `vot-dificultat(indexSala, vot)`
+  - EMIT: `vot-dificultat(totalVots)`
 - Temporitzador per a votar la dificultat (o la resposta) decrementa 1 segon:
   - EMIT: `actualitzar-comptador(cronometre)`
 - Tots els jugadors atacants han votat dificultat o el temps s'ha acabat
@@ -87,7 +88,8 @@ const sales = [
 - Mostrar una nova pregunta a tots els jugadors:
   - EMIT: `nova-pregunta(pregunta)`
 - Jugadors voten la resposta a la pregunta
-  - ON: `votacio-resposta(indexSala, vot)`
+  - ON: `vot-resposta(indexSala, vot)`
+  - EMIT: `vot-resposta(totalVots)`
 - Tots els jugadors han votat respostes o el temps s'ha acabat:
   - EMIT: `finalitzar-votacions-respostes({votsEquip1, votsEquip2, equipAcertat})`
 - Calcular els efectes de la pregunta (bases avançades, jugadors eliminats, punts aconseguits, canvi d'equip atacant...)
