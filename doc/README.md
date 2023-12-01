@@ -47,15 +47,21 @@ const sales = [
                   id: socket.id, // El id del socket del jugador
                   equip: 1, // o 2
                   baseActual: 0, // Quan els jugadors avancin de base, s'actualitzarà
-                  votacioBase: null // La votacio sobre la dificultat (1, 2 o 3)
+                  votacioBase: null, // La votacio sobre la dificultat (1, 2 o 3)
+                  votacioResposta: null, // La votació sobre la resposta correcta (0, 1, 2 o 3)
+                  eliminat: false
                 },
                 {...} // Més jugadors
               ],
-    votacions: 0, // Per comptar votacions de dificultat i respostes
-    jugadorsEquip1: 0, // Total jugadors equip 1
-    jugadorsEquip2: 0, // Total jugadors equip 2
-    equipVotant: 0, // Equip votant actualment (1 o 2)
-    categoria: 1 // Pot ser 1, 2, 3, 4, 5, o 6
+    equips: [
+              { nJugadors: 0, punts: 0 },
+              { nJugadors: 0, punts: 0 }
+            ],
+  totalVotacions: 0,
+  equipAtacant: 0, // 1 o 2
+  categoria: 1, // 1-6
+  preguntaActual: null,
+  nomSala: "Sala 1"
   },
   {...} // Més sales
 ]
@@ -74,7 +80,7 @@ const sales = [
   - EMIT: `començar-votacio-dificultat(cronometre)`
 - Jugadors atacants voten la dificultat de la pregunta:
   - ON: `votacio-dificultat(indexSala, vot)`
-- Temporitzador per a votar la dificultat decrementa 1 segon:
+- Temporitzador per a votar la dificultat (o la resposta) decrementa 1 segon:
   - EMIT: `actualitzar-comptador(cronometre)`
 - Tots els jugadors atacants han votat dificultat o el temps s'ha acabat
   - EMIT: `finalitzar-votacio-dificultat(dificultat)`
@@ -84,6 +90,14 @@ const sales = [
   - ON: `votacio-resposta(indexSala, vot)`
 - Tots els jugadors han votat respostes o el temps s'ha acabat:
   - EMIT: `finalitzar-votacions-respostes({votsEquip1, votsEquip2, equipAcertat})`
+- Calcular els efectes de la pregunta (bases avançades, jugadors eliminats, punts aconseguits, canvi d'equip atacant...)
+  - ON: `calcular-efectes-pregunta(indexSala)`
+  - EMIT: `sumar-punt(equipAtacant)`
+  - EMIT: `jugador-eliminat(jugador)`
+  - EMIT: `moureJugador(jugador)`
+  - EMIT: `canvi-equip(equipAtacant)`
+ 
+  
 - Actualitzar el terreny de joc
 
 
