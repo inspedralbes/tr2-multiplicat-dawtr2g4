@@ -42,7 +42,11 @@ export const useAppStore = defineStore('app', {
       equip2: []
     },
     outs: '',
-    equipAtacant: ''
+    equipAtacant: '',
+    respostes1: [],
+    respostes2: [],
+    totalVotacions: 13,
+    totalJugadors: 20,
   }),
   actions: {
 
@@ -85,6 +89,20 @@ export const useAppStore = defineStore('app', {
     },
     getEquipAtacant() {
       return this.equipAtacant
+    },
+    getRespostes1() {
+      return this.respostes1
+    },
+    getRespostes2() {
+      return this.respostes2
+    },
+
+    //grafics
+    getTotalVotacions() {
+      return this.totalVotacions
+    },
+    getTotalJugadors() {
+      return this.totalJugadors
     },
 
     //setters
@@ -132,6 +150,20 @@ export const useAppStore = defineStore('app', {
     },
     setEquipAtacant(equipAtacant) {
       this.equipAtacant = equipAtacant
+    },
+    setRespostes1(respostes1) {
+      this.respostes1 = respostes1
+    },
+    setRespostes2(respostes2) {
+      this.respostes2 = respostes2
+    },
+
+    //grafics
+    setTotalVotacions(totalVotacions) {
+      this.totalVotacions = totalVotacions
+    },
+    setTotalJugadors(totalJugadors) {
+      this.totalJugadors = totalJugadors
     },
 
     //socket

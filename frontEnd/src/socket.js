@@ -59,6 +59,13 @@ socket.on("connect", () => {
     console.log('Received nova-pregunta:', pregunta);
   });
 
+  socket.on('total-votacions', (votacions, totalJugadors) => {
+    // Handle the 'total-votacions' event here
+    pinia.setTotalVotacions(votacions);
+    pinia.setTotalJugadors(totalJugadors);
+    console.log('Received total-votacions:', votacions, totalJugadors);
+  });
+
 });
 
 socket.on("disconnect", () => {

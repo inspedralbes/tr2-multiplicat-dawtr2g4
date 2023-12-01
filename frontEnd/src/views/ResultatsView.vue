@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <!-- <div>
         <h1>Resultats</h1>
         <div>
             <h2>Equip 1</h2>
@@ -23,18 +23,14 @@
                 }]
             }" />
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
 
 import { useAppStore } from '../stores/app';
 
-import BarChart from './BarChart.vue';
-
 export default {
-
-    components: { BarChart },
 
 }
 </script>

@@ -169,6 +169,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     if (jugador && !jugador.votacioResposta) {
       jugador.votacioResposta = vot;
       sala.totalVotacions++;
+      socket.emit('total-votacions', sala.totalVotacions, sala.jugadors.length);
     }
 
     if (totsHanVotat(sala, true)) {
