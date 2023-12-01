@@ -8,20 +8,14 @@
             <img class="camp" src="/img/camp.jpg" alt="">
         </div>
         <div id="moviment-bases">
-            <!--<button @click="initVotacio" v-if="count === 3">COMENÇAR VOTACIÓ</button>--> 
+            <!--<button @click="initVotacio" v-if="temporitzador === 3">COMENÇAR VOTACIÓ</button>--> 
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
-            <p>{{ count }}</p>
+            <p>{{ temporitzador }}</p>
             <div v-if="votacioBaseEnCurs == true && player.equip == equipAtacant">
                 <p>Quantes bases us voleu moure?</p>
-                <form id="form" action="" v-on:change="seleccionarBase()">
-                    <input type="radio" id="base1" name="base" value="1" v-model="baseEscollida">
-                    <label for="base1"> 1 </label><br>
-                    <input type="radio" id="base2" name="base" value="2" v-model="baseEscollida">
-                    <label for="base2"> 2 </label><br>
-                    <input type="radio" id="base3" name="base" value="3" v-model="baseEscollida">
-                    <label for="base3"> 3 </label><br><br>
-                </form>
-                <h2>El jugador es troba a la base: {{ player.base }}</h2>
+                <div v-for="index in 3" :key="index">
+                    <button v-on:click="baseSeleccionada(index)">{{ index }}</button>
+                </div>
             </div>
         </div>
     </div>
@@ -35,35 +29,16 @@ import { socket } from '@/socket';
 export default {
     data() {
         return {
-            //socket: null,
-            store: null,
-            equipAtacant: "",
             player: { id: 0, equip: null, base: 0 },
-            baseEscollida: "",
-            //isVotacioEnCurs: false,
-            count: "",
             indexSala: 0, // indexSala hardcodeado
-            pregunta: "Pregunta",
-            puntuacio: {
-                equip1: [],
-                equip2: []
-            },
-            outs: 0
         }
     },
     methods: {
-        seleccionarBase() {
-
-            const bases = document.getElementsByName('base');
-            const jugador = document.getElementById('jugador-0');
-            
-            if (this.baseEscollida != "") {
-                //socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
-                socket.emit('vot-dificultat', this.indexSala, this.baseEscollida);
-                console.log("Has pulsado " + this.baseEscollida);
+        baseSeleccionada(idBase) {
+            if (idBase == 1 | idBase == 2 | idBase == 3) {
+                console.log("Has pulsado " + idBase);       
+                socket.emit('vot-dificultat', this.indexSala, idBase);
             }
-
-            this.isVotacioEnCurs = false;
         },
         pintarCamp() {
             const jugador = document.getElementById('jugador-0');
@@ -93,34 +68,32 @@ export default {
             socket.emit('començar-votacio-dificultat', this.indexSala);
         }
     },
+    setup() {
+        const pinia = useAppStore();
+        return { pinia };
+    },
     computed: {
-        count() {
-            const store = useAppStore();
-            return store.getTemporitzador();
+        temporitzador() {
+            return this.pinia.getTemporitzador();
         },
         votacioBaseEnCurs() {
-            const store = useAppStore();
-            return store.getVotacioBaseEnCurs();
+            return this.pinia.getVotacioBaseEnCurs();
         },
         outs() {
-            const store = useAppStore();
-            return store.getOuts();
+            return this.pinia.getOuts();
         },
         equipAtacant() {
-            const store = useAppStore();
-            return store.getEquipAtacant();
+            return this.pinia.getEquipAtacant();
         }
     },
     mounted() {
-        this.store = useAppStore();
-        this.player.equip = this.store.getTeam();
-        //const store = useAppStore();
-        this.store.$subscribe((mutation, state) => {
-            if(this.store.votacioBaseEnCurs == false) {
+        this.player.equip = this.pinia.getTeam();
+        this.pinia.$subscribe((mutation, state) => {
+            if(this.pinia.votacioBaseEnCurs == false) {
                 this.$router.push('/pregunta'); 
             }
 
-            if(this.store.outs === 1) {
+            if(this.pinia.outs === 1) {
                 //Cambiem d'equip atacant
             }
         });

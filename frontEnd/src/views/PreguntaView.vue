@@ -28,7 +28,6 @@ export default {
     setup() {
         const pinia = useAppStore();
         return { pinia };
-
     },
     computed: {
         temporitzador() {
