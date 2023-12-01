@@ -23,9 +23,13 @@ export default {
                         { id: 3, text: 'resposta 3', correcta: false }, 
                         { id: 4, text: 'resposta 4', correcta: false }],
         }
-        var temporitzador = pinia.getTemporitzador();
 
-        return { pinia, preguntaAct, temporitzador };
+        return { pinia, preguntaAct };
+    },
+    computed: {
+        temporitzador() {
+            return this.pinia.getTemporitzador();
+        }
     },
 }
 
