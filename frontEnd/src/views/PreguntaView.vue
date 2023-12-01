@@ -42,7 +42,7 @@ export default {
         this.temporitzador = this.pinia.getTemporitzador();
         this.pinia.$subscribe((mutation, state) => {
             if(this.pinia.votacioPreguntaEnCurs == false) {
-                this.$router.push('/partida'); 
+                this.$router.push('/resultats'); 
             }
         });
     }

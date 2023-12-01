@@ -31,7 +31,7 @@ const sales = [{
   nomSala: "Sala 1"
 }]
 
-const TEMPS_ESCOLLIR_BASE = 3;
+const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 30;
 let cronometre;
 let intervalId;
@@ -135,7 +135,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   async function finalitzarVotacionsDificultat(sala) {
     clearInterval(intervalId)
     let dificultatVotada = calcularResultatsDificultat(sala)
-    io.emit('finalitzar-votacio-dificultat', dificultat);
+    io.emit('finalitzar-votacio-dificultat', dificultatVotada);
     resetejarVotacions(sala)
     await novaPregunta(sala, dificultatVotada, sala.categoria, [])
   }
