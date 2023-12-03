@@ -11,7 +11,7 @@
             <!--<button @click="initVotacio" v-if="temporitzador === 3">COMENÇAR VOTACIÓ</button>--> 
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ temporitzador }}</p>
-            <div v-if="votacioBaseEnCurs == true && player.equip == equipAtacant">
+            <div v-if="votacioBaseEnCurs == true && equip == equipAtacant">
                 <p>Quantes bases us voleu moure?</p>
                 <div v-for="index in 3" :key="index">
                     <button v-on:click="baseSeleccionada(index)">{{ index }}</button>
@@ -26,6 +26,7 @@
 
 import {useAppStore} from '../stores/app'
 import { socket } from '@/socket';
+import { watch } from 'vue'
 export default {
     data() {
         return {
@@ -42,22 +43,22 @@ export default {
         },
         pintarCamp() {
             const jugador = document.getElementById('jugador-0');
-            if (this.player.base == 0) {
+            if (this.jugadorEnCamp.baseActual == 0) {
                 jugador.classList.add("home-base");
-            } else if (this.player.base == 1) {
+            } else if (this.jugadorEnCamp.baseActual == 1) {
                 jugador.classList.remove("home-base");
                 jugador.classList.add("primera-base");
             }
-            else if (this.player.base == 2) {
+            else if (this.jugadorEnCamp.baseActual == 2) {
                 jugador.classList.remove("home-base");
                 jugador.classList.remove("primera-base");
                 jugador.classList.add("segona-base");
-            } else if (this.player.base == 3) {
+            } else if (this.jugadorEnCamp.baseActual == 3) {
                 jugador.classList.remove("home-base");
                 jugador.classList.remove("primera-base");
                 jugador.classList.remove("segona-base");
                 jugador.classList.add("tercera-base");
-            } else if (this.player.base > 3) {
+            } else if (this.jugadorEnCamp.baseActual > 3) {
                 jugador.classList.remove("primera-base");
                 jugador.classList.remove("segona-base");
                 jugador.classList.remove("tercera-base");
@@ -73,6 +74,9 @@ export default {
         return { pinia };
     },
     computed: {
+        equip() {
+            return this.pinia.getTeam();
+        },
         temporitzador() {
             return this.pinia.getTemporitzador();
         },
@@ -84,13 +88,22 @@ export default {
         },
         equipAtacant() {
             return this.pinia.getEquipAtacant();
+        },
+        jugadorEnCamp() {
+            return this.pinia.getJugadorEnCamp();
         }
     },
     mounted() {
-        this.player.equip = this.pinia.getTeam();
+        //this.player.equip = this.pinia.getTeam();
+
         this.pinia.$subscribe((mutation, state) => {
-            if(this.pinia.votacioBaseEnCurs == false) {
+            if(this.pinia.votacioBaseEnCurs == false && this.pinia.jugadorEnCamp.baseActual == 0) {
                 this.$router.push('/pregunta'); 
+            }
+
+            if(this.pinia.jugadorEnCamp.baseActual != 0) {
+                console.log("adeu")
+                this.pintarCamp();
             }
 
             if(this.pinia.outs === 1) {

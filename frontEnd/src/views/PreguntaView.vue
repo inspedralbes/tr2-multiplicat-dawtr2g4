@@ -40,7 +40,7 @@ export default {
     mounted() {
         this.temporitzador = this.pinia.getTemporitzador();
         this.pinia.$subscribe((mutation, state) => {
-            if(this.pinia.votacioPreguntaEnCurs == false) {
+            if(this.pinia.votacioPreguntaEnCurs == false && this.pinia.jugadorEnCamp.baseActual == 0) {
                 this.$router.push('/resultats'); 
             }
         });

@@ -35,6 +35,7 @@ export const useAppStore = defineStore('app', {
     torn: '',
     votacioBaseEnCurs: false,
     votacioPreguntaEnCurs: false,
+    tornarTaulell: false,
     base: '',
     preguntaAct: '',
 
@@ -44,11 +45,21 @@ export const useAppStore = defineStore('app', {
     },
     outs: '',
     equipAtacant: '',
-    resultatsPreguntaAct: '',
-    respostes1: [4,5,7,10],
-    respostes2: [9,7,1,4],
+    resultatsPreguntaAct: {
+      votsEquip1: [],
+      votsEquip2: [],
+      equipAcertat: 0
+    },
+    //respostes1: [4,5,7,10],
+    //respostes2: [9,7,1,4],
     totalVotacions: 0,
     totalJugadors: 0,
+    jugadorEnCamp: {
+      baseActual: 0,
+      eliminat: false,
+      equip: 0,
+      id: ''
+    }
   }),
   actions: {
 
@@ -86,6 +97,9 @@ export const useAppStore = defineStore('app', {
     getVotacioPreguntaEnCurs() {
       return this.votacioPreguntaEnCurs
     },
+    getTornarTaulell() {
+      return this.tornarTaulell
+    },
     getPuntuacio() {
       return this.puntuacio
     },
@@ -98,12 +112,15 @@ export const useAppStore = defineStore('app', {
     getResultatsPreguntaAct() {
       return this.resultatsPreguntaAct
     },
-    getRespostes1() {
+    getJugadorEnCamp() {
+      return this.jugadorEnCamp
+    },
+    /*getRespostes1() {
       return this.respostes1
     },
     getRespostes2() {
       return this.respostes2
-    },
+    },*/
 
     //grafics
     getTotalVotacions() {
@@ -147,6 +164,9 @@ export const useAppStore = defineStore('app', {
     setVotacioPreguntaEnCurs(votacioPreguntaEnCurs) {
       this.votacioPreguntaEnCurs = votacioPreguntaEnCurs
     },
+    setTornarTaulell(tornarTaulell) {
+      this.tornarTaulell = tornarTaulell
+    },
     setBase(base) {
       this.base = base
     },
@@ -165,12 +185,15 @@ export const useAppStore = defineStore('app', {
     setResultatsPreguntaAct(resultatsPreguntaAct) {
       this.resultatsPreguntaAct = resultatsPreguntaAct
     },
-    setRespostes1(respostes1) {
+    setJugadorEnCamp(jugadorEnCamp) {
+      this.jugadorEnCamp = jugadorEnCamp
+    },
+    /*setRespostes1(respostes1) {
       this.respostes1 = respostes1
     },
     setRespostes2(respostes2) {
       this.respostes2 = respostes2
-    },
+    },*/
 
     //grafics
     setTotalVotacions(totalVotacions) {

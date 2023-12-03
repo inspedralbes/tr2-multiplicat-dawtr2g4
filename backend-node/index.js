@@ -164,7 +164,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   socket.on('vot-resposta', (indexSala, vot) => {
     // Vot ha de ser del 0 al 3
-    //if (!esVotValid(vot, true)) return;
+    if (!esVotValid(vot, true)) return;
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
 
@@ -187,6 +187,10 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     resetejarVotacions(sala)
     io.emit('finalitzar-votacions-respostes', resultats)
   }
+
+  socket.on('tornar-taulell', (indexSala) => {
+    io.emit('tornar-taulell');
+  })
 
   socket.on('calcular-efectes-pregunta', (indexSala) => {
     let sala = sales[indexSala]

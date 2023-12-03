@@ -2,6 +2,7 @@
     <div>
         <h1>Resultats</h1>
         <h2>L'equip {{ equipAcertat }} s'emporta aquesta pregunta</h2>
+        <button @click="tornarTaulell()">CONTINUAR</button>
         <div class="flex">
             <div class="grafic">
                 <h2>Equip 1</h2>
@@ -34,10 +35,16 @@
 import PieChart from '../components/PieChart.vue';
 
 import { useAppStore } from '../stores/app';
+import { socket } from '@/socket';
 
 export default {
 
     components: { PieChart },
+    data() {
+        return {
+            indexSala: 0, // indexSala hardcodeado
+        }
+    },
     setup() {
         const store = useAppStore();
         return { store };
@@ -55,7 +62,21 @@ export default {
             return this.store.getResultatsPreguntaAct().equipAcertat;
         }
     },
+    methods: {
+        tornarTaulell() {
+            //this.$router.push('/partida'); 
+            socket.emit('tornar-taulell', this.indexSala);
+            socket.emit('calcular-efectes-pregunta', this.indexSala);
+        }
+    },
+    mounted() {
 
+        this.store.$subscribe((mutation, state) => {
+            if(this.store.tornarTaulell == true) {
+                this.$router.push('/partida'); 
+            }
+        });
+    }
 }
 </script>
 

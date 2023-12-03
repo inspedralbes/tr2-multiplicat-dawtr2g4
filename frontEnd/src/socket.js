@@ -84,6 +84,20 @@ socket.on("connect", () => {
     console.log('Received vot-resposta:', totalVots);
   });
 
+  socket.on('sumar-punt', (sala) => {
+    console.log('Received sumar-punt:', sala);
+  });
+
+  socket.on('tornar-taulell', () => {
+    pinia.setTornarTaulell(true);
+    console.log('Received tornar-taulell:');
+  });
+
+  socket.on('moure-jugador', (sala, jugador) => {
+    pinia.setJugadorEnCamp(jugador);
+    console.log('Received moure-jugador:', sala, jugador);
+  });
+
 });
 
 socket.on("disconnect", () => {
