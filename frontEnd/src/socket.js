@@ -88,6 +88,16 @@ socket.on("connect", () => {
     console.log('Received sumar-punt:', sala);
   });
 
+  socket.on('jugador-eliminat', (sala, jugador) => {
+    pinia.setJugadorEnCamp(jugador);
+    console.log('Received jugador-eliminat:', sala, jugador);
+  });
+
+  socket.on('canvi-equip', (equipAtacant) => {
+    pinia.setEquipAtacant(equipAtacant)
+    console.log('Received canvi-equip:', equipAtacant);
+  });
+
   socket.on('tornar-taulell', () => {
     pinia.setTornarTaulell(true);
     console.log('Received tornar-taulell:');
