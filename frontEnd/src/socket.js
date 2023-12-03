@@ -85,6 +85,10 @@ socket.on("connect", () => {
   });
 
   socket.on('sumar-punt', (sala) => {
+    let puntuacioEquip1 = sala.equips[0].punts;
+    let puntuacioEquip2 = sala.equips[1].punts;
+    let puntuacio = {equip1: puntuacioEquip1, equip2: puntuacioEquip2}
+    pinia.setPuntuacio(puntuacio);
     console.log('Received sumar-punt:', sala);
   });
 

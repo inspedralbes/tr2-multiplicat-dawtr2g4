@@ -30,7 +30,7 @@ import { watch } from 'vue'
 export default {
     data() {
         return {
-            player: { id: 0, equip: null, base: 0 },
+            //player: { id: 0, equip: null, base: 0 },
             indexSala: 0, // indexSala hardcodeado
         }
     },
