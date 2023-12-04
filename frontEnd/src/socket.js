@@ -115,6 +115,11 @@ socket.on("connect", () => {
     console.log('Received moure-jugador:', sala, jugador);
   });
 
+  socket.on('finalitzar-partida', () => {
+    router.push("/");
+    console.log('Received finalitzar-partida:');
+  });
+
 });
 
 socket.on("disconnect", () => {
