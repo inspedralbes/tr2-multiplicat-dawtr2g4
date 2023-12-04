@@ -49,34 +49,20 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     clearInterval(intervalId);
   });
 
-  socket.on('sala-seleccionada', (msg) => {
-    io.emit('salaSeleccionada', msg);
-  });
-
-  socket.on('seleccionar base', (msg) => {
-    io.emit('seleccionar base', msg);
-  });
-
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip) => {
-    // Comprovar si el jugador està en la sala
+    let sala = sales[indexSala];
 
-    let isDinsSala = false
-    let sala = sales[indexSala]
-    sala.jugadors.forEach(jugador => {
-      if (jugador.id === socket.id) {
-        isDinsSala = true;
-      }
-    });
+    // Comprovar si la sala existeix i el jugador està en la sala
+    if (!sala || sala.jugadors.find(jugador => jugador.id === socket.id)) {
+      return;
+    }
 
-    if (!isDinsSala && (equip == 1 || equip == 2)) {
-      if (equip === 1) {
-        sala.equips[0].nJugadors++
-      } else {
-        sala.equips[1].nJugadors++
-      }
+    // Comprova si l'equip és vàlid i incrementa el nombre de jugadors
+    if (equip === 1 || equip === 2) {
+      sala.equips[equip - 1].nJugadors++;
 
-      // Afegir jugador a la sala
+      // Afegeix el jugador a la sala
       sala.jugadors.push({
         id: socket.id,
         equip: equip,
@@ -84,8 +70,10 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
         votacioBase: null,
         votacioResposta: null,
         eliminat: false
-      })
-      io.emit('equips-actualitzats', sala)
+      });
+
+      // Notifica tots els clients sobre l'actualització dels equips
+      io.emit('equips-actualitzats', sala);
     }
   })
 
@@ -153,6 +141,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       io.emit('nova-pregunta', pregunta);
     } catch (error) {
       console.error('Error en obtenir la pregunta:', error);
+      return;
     }
 
     // Creem el temporitzador i actualitzem cada segon per a notificar els clients
@@ -178,7 +167,6 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       sala.totalVots++;
       io.emit('vot-resposta', sala.totalVots)
     }
-
 
     if (totsHanVotat(sala, true)) {
       finalitzarVotacionsRespostes(sala)
@@ -206,6 +194,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
         sala.equips[indexAtacant].punts++
         sala.rondes[sala.rondes.length - 1].punts++
         io.emit('sumar-punt', sala);
+
+        // Comprovar si l'equip ha guanyat
         if (sala.equips[indexAtacant].punts === 3) {
           io.emit('finalitzar-partida');
         } else {
@@ -250,7 +240,7 @@ function calcularResultatsRespostes(sala) {
 
   // Guarda els vots en els arrays votsEquip1 i votsEquip2
   sala.jugadors.forEach(jugador => {
-    if (jugador.votacioResposta || jugador.votacioResposta === 0) {
+    if (jugador.votacioResposta != null) {
       if (jugador.equip === 1) {
         votsEquip1[jugador.votacioResposta]++;
       } else if (jugador.equip === 2) {
@@ -267,9 +257,9 @@ function calcularResultatsRespostes(sala) {
   const percentatgeCorrecteEquip2 = totalVotsEquip2 === 0 ? 0 : votsEquip2[indexRespostaCorrecta] / totalVotsEquip2;
 
   let equipAcertat;
-  if(percentatgeCorrecteEquip1 > percentatgeCorrecteEquip2) {
+  if (percentatgeCorrecteEquip1 > percentatgeCorrecteEquip2) {
     equipAcertat = 1
-  } else if(percentatgeCorrecteEquip2 > percentatgeCorrecteEquip1) {
+  } else if (percentatgeCorrecteEquip2 > percentatgeCorrecteEquip1) {
     equipAcertat = 2
   } else {
     equipAcertat = sala.equipAtacant
@@ -322,8 +312,10 @@ function resetejarTorn(sala) {
 }
 
 function resetejarVotacions(sala) {
-  sala.jugadors.forEach(jugador => jugador.votacioBase = null);
-  sala.jugadors.forEach(jugador => jugador.votacioResposta = null);
+  sala.jugadors.forEach(jugador => {
+    jugador.votacioBase = null
+    jugador.votacioResposta = null
+  });
   sala.totalVots = 0;
 }
 
