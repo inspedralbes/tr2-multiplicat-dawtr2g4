@@ -16,17 +16,18 @@ socket.on("connect", () => {
     router.push("/sala");
   });
 
-  socket.on('equips-actualitzats', (sales) => {
+  socket.on('equips-actualitzats', (sala) => {
     // Handle the 'equips-actualitzats' event here
-    pinia.setSales(sales);
-    console.log('Received equips-actualitzats:', sales);
+    pinia.setSalaInfo(sala)
+    console.log('Received equips-actualitzats:', sala);
   });
 
-  socket.on('partida-iniciada', (equipAtacant) => {
+  socket.on('partida-iniciada', (sala) => {
     // Handle the 'partida-iniciada' event here
     pinia.setTorn(0);
-    pinia.setEquipAtacant(equipAtacant);
-    console.log('Received partida-iniciada:', equipAtacant);
+    pinia.setSalaInfo(sala);
+    router.push("/partida");
+    console.log('Received partida-iniciada:', sala);
   });
 
   socket.on('començar-votacio-dificultat', (data) => {
@@ -57,14 +58,14 @@ socket.on("connect", () => {
 
   socket.on('nova-pregunta', (pregunta) => {
     // Handle the 'nova-pregunta' event here
-    pinia.setPreguntaAct(pregunta);
+    pinia.setPreguntaActual(pregunta);
     console.log('Received nova-pregunta:', pregunta);
   });
 
   socket.on('finalitzar-votacions-respostes', async (resultats) => {
     // Handle the 'votacions-bases-final' event here
     pinia.setVotacioPreguntaEnCurs(false);
-    pinia.setResultatsPreguntaAct(resultats);
+    pinia.setResultatsActuals(resultats);
     router.push("/resultats");
     console.log('Received finalitzar-votacions-respostes:', resultats);
   });
@@ -77,24 +78,26 @@ socket.on("connect", () => {
   });
 
   socket.on('vot-dificultat', (totalVots) => {
-    pinia.setTotalVotacions(totalVots);
+    pinia.setTotalVots(totalVots);
     console.log('Received vot-dificultat:', totalVots);
   });
 
   socket.on('vot-resposta', (totalVots) => {
-    pinia.setTotalVotacions(totalVots);
+    pinia.setTotalVots(totalVots);
     console.log('Received vot-resposta:', totalVots);
   });
 
   socket.on('sumar-punt', (sala) => {
-    let puntuacioEquip1 = sala.equips[0].punts;
+    /*let puntuacioEquip1 = sala.equips[0].punts;
     let puntuacioEquip2 = sala.equips[1].punts;
     let puntuacio = {equip1: puntuacioEquip1, equip2: puntuacioEquip2}
-    pinia.setPuntuacio(puntuacio);
+    pinia.setPuntuacio(puntuacio);*/
+    pinia.setSalaInfo(sala);
     console.log('Received sumar-punt:', sala);
   });
 
   socket.on('jugador-eliminat', (sala, jugador) => {
+    pinia.setSalaInfo(sala);
     pinia.setJugadorEnCamp(jugador);
     console.log('Received jugador-eliminat:', sala, jugador);
   });
@@ -111,12 +114,13 @@ socket.on("connect", () => {
   });
 
   socket.on('moure-jugador', (sala, jugador) => {
+    pinia.setSalaInfo(sala);
     pinia.setJugadorEnCamp(jugador);
     console.log('Received moure-jugador:', sala, jugador);
   });
 
   socket.on('finalitzar-partida', () => {
-    router.push("/");
+    router.push("/resultatsFinals");
     console.log('Received finalitzar-partida:');
   });
 

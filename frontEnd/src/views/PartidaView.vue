@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Ara mateix batejant EQUIP {{ equipAtacant }}</h1>
+        <h1>Ara mateix batejant EQUIP {{ salaInfo.equipAtacant }}</h1>
     </div>
     <div id="flex-container">
         <div id="container">
@@ -8,13 +8,13 @@
             <img class="camp" src="/img/camp.jpg" alt="">
         </div>
         <div id="puntuacio">
-            <p>EQUIP 1: {{ puntuacio.equip1 }}</p>
-            <p>EQUIP 2: {{ puntuacio.equip2 }}</p>
+            <p>EQUIP 1: {{ salaInfo.equips[0].punts }}</p>
+            <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>
         </div>
         <div id="moviment-bases">
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ temporitzador }}</p>
-            <div v-if="votacioBaseEnCurs == true && equip == equipAtacant">
+            <div v-if="votacioBaseEnCurs == true && equip == salaInfo.equipAtacant">
                 <p>Quantes bases us voleu moure?</p>
                 <div v-for="index in 3" :key="index">
                     <button v-on:click="baseSeleccionada(index)">{{ index }}</button>
@@ -86,17 +86,11 @@ export default {
         votacioBaseEnCurs() {
             return this.pinia.getVotacioBaseEnCurs();
         },
-        outs() {
-            return this.pinia.getOuts();
-        },
-        equipAtacant() {
-            return this.pinia.getEquipAtacant();
-        },
         jugadorEnCamp() {
             return this.pinia.getJugadorEnCamp();
         },
-        puntuacio() {
-            return this.pinia.getPuntuacio();
+        salaInfo() {
+            return this.pinia.getSalaInfo();
         }
     },
     mounted() {
@@ -106,10 +100,6 @@ export default {
 
             if(this.pinia.jugadorEnCamp.baseActual != 0) {
                 this.pintarCamp();
-            }
-
-            if(this.pinia.outs === 1) {
-                //Cambiem d'equip atacant
             }
         });
     }

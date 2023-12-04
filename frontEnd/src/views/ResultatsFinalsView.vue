@@ -15,7 +15,7 @@
                     <tr>
                         <td>Equip 1</td>
                         <th v-for=" actual in res">
-                            <p v-if="actual.equip == 1">
+                            <p v-if="actual.equipAtacant == 1">
                                 {{ actual.punts }}
                             </p>
                             <p v-else>
@@ -26,7 +26,7 @@
                     <tr>
                         <td>Equip 2</td>
                         <th v-for=" actual in res">
-                            <p v-if="actual.equip == 2">
+                            <p v-if="actual.equipAtacant == 2">
                                 {{ actual.punts }}
                             </p>
                             <p v-else>
@@ -49,7 +49,7 @@ export default {
     setup() {
         const store = useAppStore();
 
-        const res = store.getResultatsFinals();
+        const res = store.getRondes();
 
         return { res };
     },

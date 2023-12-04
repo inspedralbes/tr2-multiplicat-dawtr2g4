@@ -9,49 +9,32 @@ export const useAppStore = defineStore('app', {
       password: '',
     },
     team: '',
-    jocInfo: {
-      baseAct: '',
-      resposta: '',
-    },
+    
     //socket: io('http://localhost:3000'),
     sales: [],
     salaInfo: {
-      id: '',
-      name: '',
-      categoria: '',
-      data: '',
-    },
-    teams: {
-      team1: [],
-      team2: [],
-    },
-    preguntaAct: {
-      pregunta: '',
-      respostes: [],
+      jugadors: [],
+      equips: [
+        { nJugadors: 0, punts: 0 },
+        { nJugadors: 0, punts: 0 }
+      ],
+      rondes: [],
+      totalVots: 0,
+      equipAtacant: 0,
+      categoria: 1,
+      preguntaActual: null,
+      resultatsActuals: null,
+      nomSala: "Sala 1"
     },
 
     //100%
-    temporitzador: '',
+    temporitzador: '', // utilitzat a Partida View
     torn: '',
-    votacioBaseEnCurs: false,
+    votacioBaseEnCurs: false, // utilitzat a Partida View
     votacioPreguntaEnCurs: false,
     tornarTaulell: false,
     base: '',
-    preguntaAct: '',
 
-    puntuacio: {
-      equip1: 0,
-      equip2: 0
-    },
-    outs: '',
-    equipAtacant: '',
-    resultatsPreguntaAct: {
-      votsEquip1: [],
-      votsEquip2: [],
-      equipAcertat: 0
-    },
-    //respostes1: [4,5,7,10],
-    //respostes2: [9,7,1,4],
     totalVotacions: 0,
     totalJugadors: 0,
     jugadorEnCamp: {
@@ -78,14 +61,8 @@ export const useAppStore = defineStore('app', {
     getSalaInfo() {
       return this.salaInfo
     },
-    getTeams() {
-      return this.teams
-    },
-    getJocInfo() {
-      return this.jocInfo
-    },
-    getPreguntaAct() {
-      return this.preguntaAct
+    getPreguntaActual() {
+      return this.salaInfo.preguntaActual
     },
     getTemporitzador() {
       return this.temporitzador
@@ -102,27 +79,21 @@ export const useAppStore = defineStore('app', {
     getTornarTaulell() {
       return this.tornarTaulell
     },
-    getPuntuacio() {
-      return this.puntuacio
-    },
-    getOuts() {
-      return this.outs
-    },
     getEquipAtacant() {
-      return this.equipAtacant
-    },
-    getResultatsPreguntaAct() {
-      return this.resultatsPreguntaAct
+      return this.salaInfo.equipAtacant
     },
     getJugadorEnCamp() {
       return this.jugadorEnCamp
     },
-    /*getRespostes1() {
-      return this.respostes1
+    getTotalVots() {
+      return this.salaInfo.totalVots
     },
-    getRespostes2() {
-      return this.respostes2
-    },*/
+    getResultatsActuals() {
+      return this.salaInfo.resultatsActuals
+    },
+    getRondes() {
+      return this.salaInfo.rondes
+    },
 
     //grafics
     getTotalVotacions() {
@@ -147,14 +118,8 @@ export const useAppStore = defineStore('app', {
     setSalaInfo(salaInfo) {
       this.salaInfo = salaInfo
     },
-    setTeams(teams) {
-      this.teams = teams
-    },
-    setJocInfo(jocInfo) {
-      this.jocInfo = jocInfo
-    },
-    setPreguntaAct(preguntaAct) {
-      this.preguntaAct = preguntaAct
+    setPreguntaActual(preguntaActual) {
+      this.salaInfo.preguntaActual = preguntaActual
     },
     setSales(sales) {
       this.sales = sales
@@ -177,30 +142,21 @@ export const useAppStore = defineStore('app', {
     setBase(base) {
       this.base = base
     },
-    setPreguntaAct(preguntaAct) {
-      this.preguntaAct = preguntaAct
-    },
-    setPuntuacio(puntuacio) {
-      this.puntuacio = puntuacio
-    },
-    setOuts(outs) {
-      this.outs = outs
-    },
     setEquipAtacant(equipAtacant) {
-      this.equipAtacant = equipAtacant
-    },
-    setResultatsPreguntaAct(resultatsPreguntaAct) {
-      this.resultatsPreguntaAct = resultatsPreguntaAct
+      this.salaInfo.equipAtacant = equipAtacant
     },
     setJugadorEnCamp(jugadorEnCamp) {
       this.jugadorEnCamp = jugadorEnCamp
     },
-    /*setRespostes1(respostes1) {
-      this.respostes1 = respostes1
+    setTotalVots(totalVots) {
+      this.salaInfo.totalVots = totalVots
     },
-    setRespostes2(respostes2) {
-      this.respostes2 = respostes2
-    },*/
+    setResultatsActuals(resultatsActuals) {
+      this.salaInfo.resultatsActuals = resultatsActuals
+    },
+    setRondes(rondes) {
+      this.salaInfo.rondes = rondes
+    },
 
     //grafics
     setTotalVotacions(totalVotacions) {
