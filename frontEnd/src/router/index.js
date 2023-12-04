@@ -7,6 +7,7 @@ import PartidaView from '../views/PartidaView.vue'
 import PreguntaView from '../views/PreguntaView.vue'
 import totalVotacions from '../views/totalVotacions.vue'
 import ResultatsView from '../views/ResultatsView.vue'
+import ResultatsFinalsView from '../views/ResultatsFinalsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/resultats',
       name: 'resultats',
       component: ResultatsView
+    },
+    {
+      path: '/resultatsFinals',
+      name: 'resultatsFinals',
+      component: ResultatsFinalsView
     }
   ]
 })

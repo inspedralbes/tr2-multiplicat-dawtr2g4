@@ -59,7 +59,9 @@ export const useAppStore = defineStore('app', {
       eliminat: false,
       equip: 0,
       id: ''
-    }
+    },
+    //Resultats Finals marcador
+    resultatsFinals: [],
   }),
   actions: {
 
@@ -128,6 +130,11 @@ export const useAppStore = defineStore('app', {
     },
     getTotalJugadors() {
       return this.totalJugadors
+    },
+
+    //Resultats Finals marcador
+    getResultatsFinals() {
+      return this.resultatsFinals
     },
 
     //setters
@@ -201,6 +208,11 @@ export const useAppStore = defineStore('app', {
     },
     setTotalJugadors(totalJugadors) {
       this.totalJugadors = totalJugadors
+    },
+
+    //Resultats Finals marcador
+    setResultatsFinals(resultatsFinals) {
+      this.resultatsFinals = resultatsFinals
     },
 
     //socket
