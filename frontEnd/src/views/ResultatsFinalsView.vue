@@ -22,6 +22,9 @@
                                 0
                             </p>
                         </th>
+                        <th>
+                            <p>{{ comptadorEquip1 }}</p>
+                        </th>
                     </tr>
                     <tr>
                         <td>Equip 2</td>
@@ -32,6 +35,9 @@
                             <p v-else>
                                 0
                             </p>
+                        </th>
+                        <th>
+                            <p>{{ comptadorEquip2 }}</p>
                         </th>
                     </tr>
                 </tbody>
@@ -45,7 +51,12 @@
 import { useAppStore } from '../stores/app';
 
 export default {
-
+    data() {
+        return {
+            comptadorEquip1: 0,
+            comptadorEquip2: 0,
+        }
+    },
     setup() {
         const store = useAppStore();
 
@@ -53,6 +64,22 @@ export default {
 
         return { res };
     },
+    methods: {
+        calcularPuntuacioTotal(idEquip){
+            let comptadorEquip = 0;
+            for (let index = 0; index < res.length; index++) {
+                if (this.res[index].equipAtacant == idEquip) {
+                    comptadorEquip = comptadorEquip + this.res[index].punts;
+                }
+            }
+            return comptadorEquip;
+        }
+    },
+    mounted() {
+        this.comptadorEquip1 = this.calcularPuntuacioTotal(1);
+        this.comptadorEquip2 = this.calcularPuntuacioTotal(2);
+    }
+
 
 }
 
