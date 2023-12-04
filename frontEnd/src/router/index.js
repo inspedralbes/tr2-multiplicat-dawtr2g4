@@ -8,6 +8,7 @@ import PreguntaView from '../views/PreguntaView.vue'
 import totalVotacions from '../views/totalVotacions.vue'
 import ResultatsView from '../views/ResultatsView.vue'
 import ResultatsFinalsView from '../views/ResultatsFinalsView.vue'
+import RegisterView from '../views/RegisterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,7 +57,12 @@ const router = createRouter({
       path: '/resultatsFinals',
       name: 'resultatsFinals',
       component: ResultatsFinalsView
-    }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView
+    },
   ]
 })
 

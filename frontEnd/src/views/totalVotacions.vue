@@ -20,7 +20,7 @@
 <script>
 import { useAppStore } from '../stores/app';
 
-import PieChart from '../components/PieChart.vue';
+import PieChart from '../components/Piechart.vue';
 
 export default {
 
