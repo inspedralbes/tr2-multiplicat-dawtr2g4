@@ -59,7 +59,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip) => {
     // Comprovar si el jugador està en la sala
-   
+
     let isDinsSala = false
     let sala = sales[indexSala]
     sala.jugadors.forEach(jugador => {
@@ -74,7 +74,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       } else {
         sala.equips[1].nJugadors++
       }
-      
+
       // Afegir jugador a la sala
       sala.jugadors.push({
         id: socket.id,
@@ -86,7 +86,6 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       })
       io.emit('equips-actualitzats', sala)
     }
-
   })
 
   // Admin comença la partida
@@ -174,7 +173,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       io.emit('vot-resposta', sala.totalVots)
     }
 
- 
+
     if (totsHanVotat(sala, true)) {
       finalitzarVotacionsRespostes(sala)
     }
@@ -189,20 +188,22 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   }
 
   socket.on('tornar-taulell', (indexSala) => {
-    io.emit('tornar-taulell');
-  })
-
-  socket.on('calcular-efectes-pregunta', (indexSala) => {
     let sala = sales[indexSala]
+    io.emit('tornar-taulell');
 
     if (sala.equipAtacant === sala.resultatsActuals.equipAcertat) {
       // Si l'equip atacant ha acertat, el jugador avança bases
       let jugador = moureJugador(sala, sala.preguntaActual.dificultat);
       if (jugador.baseActual >= 4) {
         jugador.baseActual = 0;
-        sala.equips[sala.equipAtacant === 1 ? 0 : 1].punts++
+        let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
+        sala.equips[indexAtacant].punts++
         io.emit('sumar-punt', sala);
-        canviarEquips(sala);
+        if (sala.equips[indexAtacant].punts === 3) {
+          io.emit('finalitzar-partida');
+        } else {
+          canviarEquips(sala);
+        }
       }
     } else {
       // Si l'equip atacant ha fallat, elimina el jugador
