@@ -7,8 +7,11 @@
             <img class="jugador home-base" id="jugador-0" src="/img/jugador.png" alt="jugador">
             <img class="camp" src="/img/camp.jpg" alt="">
         </div>
+        <div id="puntuacio">
+            <p>EQUIP 1: {{ puntuacio.equip1 }}</p>
+            <p>EQUIP 2: {{ puntuacio.equip2 }}</p>
+        </div>
         <div id="moviment-bases">
-            <!--<button @click="initVotacio" v-if="temporitzador === 3">COMENÇAR VOTACIÓ</button>--> 
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
             <p>{{ temporitzador }}</p>
             <div v-if="votacioBaseEnCurs == true && equip == equipAtacant">
@@ -91,6 +94,9 @@ export default {
         },
         jugadorEnCamp() {
             return this.pinia.getJugadorEnCamp();
+        },
+        puntuacio() {
+            return this.pinia.getPuntuacio();
         }
     },
     mounted() {
@@ -140,6 +146,11 @@ export default {
 .jugador {
     width: 60px;
     height: 60px;
+}
+
+#puntuacio {
+    border: 1px solid black;
+    padding: 5px;
 }
 
 #moviment-bases {

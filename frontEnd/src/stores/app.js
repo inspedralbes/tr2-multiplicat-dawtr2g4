@@ -40,8 +40,8 @@ export const useAppStore = defineStore('app', {
     preguntaAct: '',
 
     puntuacio: {
-      equip1: [],
-      equip2: []
+      equip1: 0,
+      equip2: 0
     },
     outs: '',
     equipAtacant: '',
