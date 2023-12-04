@@ -45,6 +45,7 @@ socket.on("connect", () => {
     // Handle the 'finalitzar-votacio' event here
     pinia.setVotacioBaseEnCurs(false);
     pinia.setVotacioPreguntaEnCurs(true);
+    router.push("/pregunta");
     console.log('Received finalitzar-votacio:', dificultat);
   });
 
@@ -64,6 +65,7 @@ socket.on("connect", () => {
     // Handle the 'votacions-bases-final' event here
     pinia.setVotacioPreguntaEnCurs(false);
     pinia.setResultatsPreguntaAct(resultats);
+    router.push("/resultats");
     console.log('Received finalitzar-votacions-respostes:', resultats);
   });
   
@@ -104,6 +106,7 @@ socket.on("connect", () => {
 
   socket.on('tornar-taulell', () => {
     pinia.setTornarTaulell(true);
+    router.push("/partida");
     console.log('Received tornar-taulell:');
   });
 

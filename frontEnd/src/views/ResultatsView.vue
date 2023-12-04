@@ -71,11 +71,6 @@ export default {
     },
     mounted() {
 
-        this.store.$subscribe((mutation, state) => {
-            if(this.store.tornarTaulell == true) {
-                this.$router.push('/partida'); 
-            }
-        });
     }
 }
 </script>

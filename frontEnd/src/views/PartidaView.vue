@@ -97,12 +97,8 @@ export default {
         //this.player.equip = this.pinia.getTeam();
 
         this.pinia.$subscribe((mutation, state) => {
-            if(this.pinia.votacioBaseEnCurs == false && this.pinia.jugadorEnCamp.baseActual == 0 && this.pinia.jugadorEnCamp.eliminat == false) {
-                this.$router.push('/pregunta'); 
-            }
 
             if(this.pinia.jugadorEnCamp.baseActual != 0) {
-                console.log("adeu")
                 this.pintarCamp();
             }
 
