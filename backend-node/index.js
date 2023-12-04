@@ -1,14 +1,14 @@
 const express = require('express');
 const { createServer } = require('node:http');
-const { Server } = require('socket.io'); // npm install socket.io --> That will install the module and add the dependency to package.json
+const { Server } = require('socket.io');
 const { getPregunta } = require('./communicationManager'); // Ruta correcta al archivo communicationManager.js
 const cors = require('cors');
+const { connect } = require('node:http2');
 
 const app = express();
 app.use(cors())
 
 const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
-//const io = new Server(server); // We initialize a new instance of socket.io by passing the server (the HTTP server) object
 const io = new Server(server, {
   cors: {
     origin: ["http://localhost:5173", "http://127.0.0.1:5173"], // Reemplaza con la URL de tu aplicación Vue.js
@@ -34,6 +34,7 @@ const sales = [{
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 30;
+const socketRooms = {};
 let cronometre;
 let intervalId;
 
@@ -41,13 +42,35 @@ app.get('/api/salas', (req, res) => {
   res.json({ sales: sales })
 })
 
-io.on('connection', (socket) => { // We listen on the connection event for incoming sockets and log it to the console.
-  console.log('a user connected');
+io.on('connection', (socket) => {
+  console.log('Un usuari s\'ha connectat');
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log('Un usuari s\'ha desconnectat');
     clearInterval(intervalId);
+
+    // Quan el jugador es desconnecta, el treiem de la sala
+    let sala = socketRooms[socket.id];
+    if (sala) {
+      socket.leave(sala);
+      delete socketRooms[socket.id];
+    }
   });
+
+  socket.on('sala-seleccionada', (indexSala) => {
+    let sala = sales[indexSala];
+    if (!sala) return;
+
+    // Surt de la sala actual i s'uneix a la nova
+    if (socketRooms[socket.id]) {
+      socket.leave(socketRooms[socket.id]);
+    }
+
+    socket.join(sala.nomSala);
+    socketRooms[socket.id] = sala.nomSala;
+
+    socket.emit('sala-seleccionada', sala);
+  })
 
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip) => {
@@ -72,8 +95,8 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
         eliminat: false
       });
 
-      // Notifica tots els clients sobre l'actualització dels equips
-      io.emit('equips-actualitzats', sala);
+      // Notifica als clients de la sala sobre l'actualització dels equips
+      io.to(sala.nomSala).emit('equips-actualitzats', sala);
     }
   })
 
@@ -86,19 +109,19 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       equipAtacant: equipAtacant,
       punts: 0
     })
-    io.emit('partida-iniciada', sala)
+    io.to(sala.nomSala).emit('partida-iniciada', sala)
   })
 
   //Iniciar procés de votació
   socket.on('començar-votacio-dificultat', (indexSala) => {
     cronometre = TEMPS_ESCOLLIR_BASE;
     let sala = sales[indexSala];
-    io.emit('començar-votacio-dificultat', cronometre);
+    io.to(sala.nomSala).emit('començar-votacio-dificultat', cronometre);
 
     // Decrementem el cronòmetre cada segon i actualitzem a tots els clients
     intervalId = setInterval(async () => {
       cronometre -= 1;
-      io.emit('actualitzar-comptador', cronometre);
+      io.to(sala.nomSala).emit('actualitzar-comptador', cronometre);
 
       // Quan el cronòmetre arriba a zero, el detenim i el resetegem i finalitzem el procés de votació
       if (cronometre === 0) {
@@ -117,7 +140,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     if (jugador && !jugador.votacioBase && jugador.equip === sala.equipAtacant) {
       jugador.votacioBase = vot;
       sala.totalVots++;
-      io.emit("vot-dificultat", sala.totalVots)
+      io.to(sala.nomSala).emit("vot-dificultat", sala.totalVots)
     }
 
     if (totsHanVotat(sala, false)) {
@@ -128,7 +151,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   async function finalitzarVotacionsDificultat(sala) {
     clearInterval(intervalId)
     let dificultatVotada = calcularResultatsDificultat(sala)
-    io.emit('finalitzar-votacio-dificultat', dificultatVotada);
+    io.to(sala.nomSala).emit('finalitzar-votacio-dificultat', dificultatVotada);
     resetejarVotacions(sala)
     await novaPregunta(sala, dificultatVotada, sala.categoria, [])
   }
@@ -138,7 +161,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     try {
       let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
       sala.preguntaActual = pregunta
-      io.emit('nova-pregunta', pregunta);
+      io.to(sala.nomSala).emit('nova-pregunta', pregunta);
     } catch (error) {
       console.error('Error en obtenir la pregunta:', error);
       return;
@@ -148,7 +171,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     cronometre = TEMPS_VOTAR_RESPOSTA;
     intervalId = setInterval(async () => {
       cronometre -= 1;
-      io.emit('actualitzar-comptador', cronometre);
+      io.to(sala.nomSala).emit('actualitzar-comptador', cronometre);
 
       if (cronometre === 0) {
         finalitzarVotacionsRespostes(sala)
@@ -165,7 +188,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     if (jugador && !jugador.votacioResposta) {
       jugador.votacioResposta = vot;
       sala.totalVots++;
-      io.emit('vot-resposta', sala.totalVots)
+      io.to(sala.nomSala).emit('vot-resposta', sala.totalVots)
     }
 
     if (totsHanVotat(sala, true)) {
@@ -178,12 +201,12 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
     const resultats = calcularResultatsRespostes(sala)
     sala.resultatsActuals = resultats
     resetejarVotacions(sala)
-    io.emit('finalitzar-votacions-respostes', resultats)
+    io.to(sala.nomSala).emit('finalitzar-votacions-respostes', resultats)
   }
 
   socket.on('tornar-taulell', (indexSala) => {
     let sala = sales[indexSala]
-    io.emit('tornar-taulell');
+    io.to(sala.nomSala).emit('tornar-taulell');
 
     if (sala.equipAtacant === sala.resultatsActuals.equipAcertat) {
       // Si l'equip atacant ha acertat, el jugador avança bases
@@ -193,11 +216,11 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
         let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
         sala.equips[indexAtacant].punts++
         sala.rondes[sala.rondes.length - 1].punts++
-        io.emit('sumar-punt', sala);
+        io.to(sala.nomSala).emit('sumar-punt', sala);
 
         // Comprovar si l'equip ha guanyat
         if (sala.equips[indexAtacant].punts === 3) {
-          io.emit('finalitzar-partida');
+          io.to(sala.nomSala).emit('finalitzar-partida');
         } else {
           canviarEquips(sala);
         }
@@ -207,7 +230,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       let jugador = sala.jugadors.find(j => j.equip === sala.equipAtacant)
       jugador.baseActual = 0;
       jugador.eliminat = true;
-      io.emit('jugador-eliminat', sala, jugador);
+      io.to(sala.nomSala).emit('jugador-eliminat', sala, jugador);
       canviarEquips(sala);
     }
   })
@@ -215,7 +238,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
   function moureJugador(sala, moviments) {
     let jugador = sala.jugadors.find(j => j.equip === sala.equipAtacant)
     jugador.baseActual += moviments
-    io.emit('moure-jugador', sala, jugador)
+    io.to(sala.nomSala).emit('moure-jugador', sala, jugador)
     return jugador
   }
 
@@ -225,7 +248,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
       equipAtacant: sala.equipAtacant,
       punts: 0
     })
-    io.emit('canvi-equip', sala.equipAtacant)
+    io.to(sala.nomSala).emit('canvi-equip', sala.equipAtacant)
     resetejarTorn(sala)
   }
 
@@ -320,5 +343,5 @@ function resetejarVotacions(sala) {
 }
 
 server.listen(port, () => { // We make the http server listen on port 3000.
-  console.log('server running at http://localhost:3000');
+  console.log(`server running at http://localhost:${port}`);
 });

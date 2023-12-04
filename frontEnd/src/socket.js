@@ -11,7 +11,7 @@ socket.on("connect", () => {
   const pinia = useAppStore();
   console.log("connected");
 
-  socket.on("salaSeleccionada", (msg) => {
+  socket.on("sala-seleccionada", (msg) => {
     console.log("From socket.js: sala seleccionada " + msg);
     router.push("/sala");
   });
