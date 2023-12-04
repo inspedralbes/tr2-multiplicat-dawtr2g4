@@ -23,6 +23,7 @@ const sales = [{
     { nJugadors: 0, punts: 0 },
     { nJugadors: 0, punts: 0 }
   ],
+  rondes: [],
   totalVots: 0,
   equipAtacant: 0,
   categoria: 1,
@@ -90,9 +91,14 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   // Admin comença la partida
   socket.on('partida-iniciada', (indexSala) => {
+    let sala = sales[indexSala]
     const equipAtacant = Math.floor(Math.random() * 2) + 1; // 1 o 2
-    sales[indexSala].equipAtacant = equipAtacant
-    io.emit('partida-iniciada', equipAtacant)
+    sala.equipAtacant = equipAtacant
+    sala.rondes.push({
+      equipAtacant: equipAtacant,
+      punts: 0
+    })
+    io.emit('partida-iniciada', sala)
   })
 
   //Iniciar procés de votació
@@ -198,6 +204,7 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
         jugador.baseActual = 0;
         let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
         sala.equips[indexAtacant].punts++
+        sala.rondes[sala.rondes.length - 1].punts++
         io.emit('sumar-punt', sala);
         if (sala.equips[indexAtacant].punts === 3) {
           io.emit('finalitzar-partida');
@@ -224,6 +231,10 @@ io.on('connection', (socket) => { // We listen on the connection event for incom
 
   function canviarEquips(sala) {
     sala.equipAtacant = sala.equipAtacant === 1 ? 2 : 1
+    sala.rondes.push({
+      equipAtacant: sala.equipAtacant,
+      punts: 0
+    })
     io.emit('canvi-equip', sala.equipAtacant)
     resetejarTorn(sala)
   }
@@ -239,7 +250,7 @@ function calcularResultatsRespostes(sala) {
 
   // Guarda els vots en els arrays votsEquip1 i votsEquip2
   sala.jugadors.forEach(jugador => {
-    if (jugador.votacioResposta || jugador.votacioResposta === 0) { // Comentar a Santi 0 es un falsy
+    if (jugador.votacioResposta || jugador.votacioResposta === 0) {
       if (jugador.equip === 1) {
         votsEquip1[jugador.votacioResposta]++;
       } else if (jugador.equip === 2) {
@@ -255,7 +266,14 @@ function calcularResultatsRespostes(sala) {
   const percentatgeCorrecteEquip1 = totalVotsEquip1 === 0 ? 0 : votsEquip1[indexRespostaCorrecta] / totalVotsEquip1;
   const percentatgeCorrecteEquip2 = totalVotsEquip2 === 0 ? 0 : votsEquip2[indexRespostaCorrecta] / totalVotsEquip2;
 
-  const equipAcertat = percentatgeCorrecteEquip1 >= percentatgeCorrecteEquip2 ? 1 : 2;
+  let equipAcertat;
+  if(percentatgeCorrecteEquip1 > percentatgeCorrecteEquip2) {
+    equipAcertat = 1
+  } else if(percentatgeCorrecteEquip2 > percentatgeCorrecteEquip1) {
+    equipAcertat = 2
+  } else {
+    equipAcertat = sala.equipAtacant
+  }
 
   return { votsEquip1, votsEquip2, equipAcertat }
 }
