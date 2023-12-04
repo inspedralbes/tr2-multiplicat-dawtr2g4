@@ -54,14 +54,20 @@ const sales = [
                 {...} // Més jugadors
               ],
     equips: [
-              { nJugadors: 0, punts: 0 },
-              { nJugadors: 0, punts: 0 }
+              { nJugadors: 3, punts: 0 },
+              { nJugadors: 3, punts: 1 }
             ],
-  totalVotacions: 0,
-  equipAtacant: 0, // 1 o 2
-  categoria: 1, // 1-6
-  preguntaActual: null,
-  nomSala: "Sala 1"
+    rondes: [
+              {equipAtacant: 1, punts: 0},
+              {equipAtacant: 2, punts: 1},
+              {...} // Més rondes
+            ],
+    totalVotacions: 0,
+    equipAtacant: 0, // 1 o 2
+    categoria: 1, // 1-6
+    preguntaActual: null,
+    resultatsActuals: null,
+    nomSala: "Sala 1"
   },
   {...} // Més sales
 ]
