@@ -10,7 +10,7 @@
             </div>
 
             <div>
-                <form onsubmit="login">
+                <form @submit.prevent="login">
                     <label for="email1" class="block text-900 font-medium mb-2">Email</label>
                     <InputText v-model="email" id="email1" type="text" class="w-full mb-3" />
 
@@ -49,7 +49,7 @@ export default {
         // const socket = socket();
 
         login() {
-            fetch('domini/api/login', {
+            fetch('http://localhost:8000/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

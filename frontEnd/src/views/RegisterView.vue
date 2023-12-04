@@ -36,6 +36,7 @@
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
+import router from '../router';
 
 export default {
 
@@ -55,8 +56,7 @@ export default {
     methods: {
 
         register() {
-            if (this.password == this.password1) {
-                fetch('domini/api/register', {
+                fetch('http://localhost:8000/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -64,21 +64,21 @@ export default {
                     body: JSON.stringify({
                         name: this.name,
                         email: this.email,
-                        password: this.password
+                        password: this.password,
+                        password_confirmation: this.password1
                     })
                 })
                     .then(res => res.json())
                     .then(data => {
-                        if (data.error) {
-                            alert(data.error);
+                        if (data.errors) {
+                            alert(data.errors);
                         } else {
                             localStorage.setItem('token', data.token);
                             router.push('/');
                         }
                     })
-            } else {
-                alert("Les contrassenyes no coincideixen");
-            }
+                    .catch(err => console.log(err));
+            
         }
 
     }
