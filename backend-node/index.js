@@ -284,6 +284,8 @@ function calcularResultatsRespostes(sala) {
     equipAcertat = 1
   } else if (percentatgeCorrecteEquip2 > percentatgeCorrecteEquip1) {
     equipAcertat = 2
+  } else if (percentatgeCorrecteEquip1 === 0 && percentatgeCorrecteEquip2 == 0) {
+    equipAcertat = sala.equipAtacant == 1 ? 2 : 1
   } else {
     equipAcertat = sala.equipAtacant
   }
