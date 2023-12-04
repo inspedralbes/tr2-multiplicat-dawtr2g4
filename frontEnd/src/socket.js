@@ -45,6 +45,7 @@ socket.on("connect", () => {
     // Handle the 'finalitzar-votacio' event here
     pinia.setVotacioBaseEnCurs(false);
     pinia.setVotacioPreguntaEnCurs(true);
+    router.push("/pregunta");
     console.log('Received finalitzar-votacio:', dificultat);
   });
 
@@ -64,6 +65,7 @@ socket.on("connect", () => {
     // Handle the 'votacions-bases-final' event here
     pinia.setVotacioPreguntaEnCurs(false);
     pinia.setResultatsPreguntaAct(resultats);
+    router.push("/resultats");
     console.log('Received finalitzar-votacions-respostes:', resultats);
   });
   
@@ -74,9 +76,43 @@ socket.on("connect", () => {
     console.log('Received total-votacions:', votacions, totalJugadors);
   });
 
+  socket.on('vot-dificultat', (totalVots) => {
+    pinia.setTotalVotacions(totalVots);
+    console.log('Received vot-dificultat:', totalVots);
+  });
+
   socket.on('vot-resposta', (totalVots) => {
     pinia.setTotalVotacions(totalVots);
     console.log('Received vot-resposta:', totalVots);
+  });
+
+  socket.on('sumar-punt', (sala) => {
+    let puntuacioEquip1 = sala.equips[0].punts;
+    let puntuacioEquip2 = sala.equips[1].punts;
+    let puntuacio = {equip1: puntuacioEquip1, equip2: puntuacioEquip2}
+    pinia.setPuntuacio(puntuacio);
+    console.log('Received sumar-punt:', sala);
+  });
+
+  socket.on('jugador-eliminat', (sala, jugador) => {
+    pinia.setJugadorEnCamp(jugador);
+    console.log('Received jugador-eliminat:', sala, jugador);
+  });
+
+  socket.on('canvi-equip', (equipAtacant) => {
+    pinia.setEquipAtacant(equipAtacant)
+    console.log('Received canvi-equip:', equipAtacant);
+  });
+
+  socket.on('tornar-taulell', () => {
+    pinia.setTornarTaulell(true);
+    router.push("/partida");
+    console.log('Received tornar-taulell:');
+  });
+
+  socket.on('moure-jugador', (sala, jugador) => {
+    pinia.setJugadorEnCamp(jugador);
+    console.log('Received moure-jugador:', sala, jugador);
   });
 
 });

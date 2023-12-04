@@ -22,13 +22,12 @@ export default {
     methods: {
         respostaSeleccionada(idResposta) {
             console.log("Has seleccionat la resposta" + idResposta);
-            socket.emit('votacio-resposta', this.indexSala, idResposta);
+            socket.emit('vot-resposta', this.indexSala, idResposta);
         }
     },
     setup() {
         const pinia = useAppStore();
         return { pinia };
-
     },
     computed: {
         temporitzador() {
@@ -40,11 +39,6 @@ export default {
     },
     mounted() {
         this.temporitzador = this.pinia.getTemporitzador();
-        this.pinia.$subscribe((mutation, state) => {
-            if(this.pinia.votacioPreguntaEnCurs == false) {
-                this.$router.push('/resultats'); 
-            }
-        });
     }
 }
 
