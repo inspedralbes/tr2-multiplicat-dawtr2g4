@@ -7,8 +7,8 @@ import Menubar from 'primevue/menubar';
         <Menubar>
             <template #start>
                 <RouterLink to="/">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Legoland_logo.svg/1280px-Legoland_logo.svg.png"
-                        width="120" height="40" class="h-2rem" alt="lego" />
+                    <img src="../../public/img/icon_mathball.png"
+                        width="70" height="60" class="h-2rem" alt="lego" />
                 </RouterLink>
             </template>
 
