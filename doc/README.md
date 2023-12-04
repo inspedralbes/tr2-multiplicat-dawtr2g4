@@ -74,40 +74,5 @@ const sales = [
 ```
 
 
-**Tindrem sockets al servidor NODE per a actualitzar la següent informació:**
-- Jugadors s'uneixen als equips:
-  - ON: `equip-seleccionat(indexSala, equip)`
-  - EMIT: `equips-actualitzats(sala)`
-- La professora comença la partida:
-  - ON: `partida-iniciada(indexSala)`
-  - EMIT: `partida-iniciada(equipAtacant)`
-- Començar votacions per a la dificultat de la pregunta
-  - ON: `començar-votacio-dificultat(indexSala)`
-  - EMIT: `començar-votacio-dificultat(cronometre)`
-- Jugadors atacants voten la dificultat de la pregunta:
-  - ON: `vot-dificultat(indexSala, vot)`
-  - EMIT: `vot-dificultat(totalVots)`
-- Temporitzador per a votar la dificultat (o la resposta) decrementa 1 segon:
-  - EMIT: `actualitzar-comptador(cronometre)`
-- Tots els jugadors atacants han votat dificultat o el temps s'ha acabat
-  - EMIT: `finalitzar-votacio-dificultat(dificultat)`
-- Mostrar una nova pregunta a tots els jugadors:
-  - EMIT: `nova-pregunta(pregunta)`
-- Jugadors voten la resposta a la pregunta
-  - ON: `vot-resposta(indexSala, vot)`
-  - EMIT: `vot-resposta(totalVots)`
-- Tots els jugadors han votat respostes o el temps s'ha acabat:
-  - EMIT: `finalitzar-votacions-respostes({votsEquip1, votsEquip2, equipAcertat})`
-- Calcular els efectes de la pregunta (bases avançades, jugadors eliminats, punts aconseguits, canvi d'equip atacant...)
-  - ON: `calcular-efectes-pregunta(indexSala)`
-  - EMIT: `sumar-punt(equipAtacant)`
-  - EMIT: `jugador-eliminat(jugador)`
-  - EMIT: `moureJugador(jugador)`
-  - EMIT: `canvi-equip(equipAtacant)`
- 
-  
-- Actualitzar el terreny de joc
-
-
-9. ...
-10. Mostrar resultats finals de la partida
+**Diagrama Connexió NODE:**
+![DiagramaMathStrikeQuest drawio](https://github.com/inspedralbes/tr2-multiplicat-dawtr2g4/assets/90318659/906852ae-9de5-4110-8fb8-10eb3225fe3a)
