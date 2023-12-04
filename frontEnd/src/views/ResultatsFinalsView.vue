@@ -5,10 +5,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Equip</th>
+                        <th>EQUIP</th>
                         <th v-for=" (actual, index) in res">
                             {{ index }}
                         </th>
+                        <th>TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +68,7 @@ export default {
     methods: {
         calcularPuntuacioTotal(idEquip){
             let comptadorEquip = 0;
-            for (let index = 0; index < res.length; index++) {
+            for (let index = 0; index < this.res.length; index++) {
                 if (this.res[index].equipAtacant == idEquip) {
                     comptadorEquip = comptadorEquip + this.res[index].punts;
                 }
