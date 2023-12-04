@@ -36,25 +36,11 @@ export default {
             }
         },
         començarPartida() {
-            //this.$router.push('/partida');
             socket.emit('partida-iniciada', this.indexSala) 
         }
     },
     mounted() {
         this.store = useAppStore();
-
-        this.store.$subscribe((mutation, state) => {
-            if(this.store.equipAtacant != '') {
-                this.$router.push('/partida'); 
-            }
-        });
-        //computed d'una propietat de pinia 
-        //subscribe al magatgem de pinia
-        //this.socket = io('http://localhost:3000');
-
-        /*this.socket.on('equips-actualitzats', (jugadorsSala) => {
-            console.log(jugadorsSala);
-        });*/
     }
 }
 </script>

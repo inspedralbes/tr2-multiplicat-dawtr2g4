@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Resultats</h1>
-        <h2>L'equip {{ equipAcertat }} s'emporta aquesta pregunta</h2>
+        <h2>L'equip {{ salaInfo.resultatsActuals.equipAcertat }} s'emporta aquesta pregunta</h2>
         <button @click="tornarTaulell()">CONTINUAR</button>
         <div class="flex">
             <div class="grafic">
@@ -51,15 +51,15 @@ export default {
     },
     computed: {
         res1() {
-            let res1 = this.store.getResultatsPreguntaAct().votsEquip1;
+            let res1 = this.store.getResultatsActuals().votsEquip1;
             return res1;
         },
         res2() {
-            let res2 = this.store.getResultatsPreguntaAct().votsEquip2;
+            let res2 = this.store.getResultatsActuals().votsEquip2;
             return res2;
         },
-        equipAcertat() {
-            return this.store.getResultatsPreguntaAct().equipAcertat;
+        salaInfo() {
+            return this.store.getSalaInfo();
         }
     },
     methods: {

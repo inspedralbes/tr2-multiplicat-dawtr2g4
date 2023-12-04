@@ -1,8 +1,8 @@
 <template>
     <div>
         <p>{{ temporitzador }}</p>
-        <h1>{{ preguntaAct.text_pregunta }}</h1>
-        <div v-for="(resposta, index ) in preguntaAct.respostes">
+        <h1>{{ salaInfo.preguntaActual.text_pregunta }}</h1>
+        <div v-for="(resposta, index ) in salaInfo.preguntaActual.respostes">
             <button v-on:click="respostaSeleccionada(index)">{{ resposta.text_resposta }}</button>
         </div>
     </div>
@@ -33,8 +33,8 @@ export default {
         temporitzador() {
             return this.pinia.getTemporitzador();
         },
-        preguntaAct() {
-            return this.pinia.getPreguntaAct();
+        salaInfo() {
+            return this.pinia.getSalaInfo();
         }
     },
     mounted() {
