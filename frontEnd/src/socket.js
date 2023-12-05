@@ -16,10 +16,10 @@ socket.on("connect", () => {
     router.push("/sala");
   });
 
-  socket.on('equips-actualitzats', (sala) => {
+  socket.on('equips-actualitzats', (id, sala) => {
     // Handle the 'equips-actualitzats' event here
-    pinia.setSalaInfo(sala)
-    console.log('Received equips-actualitzats:', sala);
+    pinia.setSalaInfo(id, sala)
+    console.log('Received equips-actualitzats:', id, sala);
   });
 
   socket.on('partida-iniciada', (sala) => {

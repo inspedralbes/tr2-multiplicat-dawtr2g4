@@ -22,7 +22,6 @@ export default {
     data() {
         return {
             store: null,
-            indexSala: 0,
             isEquipEscollit: false
         }
     },
@@ -41,7 +40,8 @@ export default {
     },
     mounted() {
         this.store = useAppStore();
-    }
+        this.indexSala = this.store.getIndexSala()
+    },
 }
 </script>
 
