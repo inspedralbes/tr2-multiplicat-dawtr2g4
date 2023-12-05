@@ -33,25 +33,25 @@ const sales = [{
 }];
 
   // Executar funcio per a crear 10 sales
-  // (function () {
-  //   for (let i = 0; i < 10; i++) {
-  //     let sala = {
-  //       jugadors: [],
-  //       equips: [
-  //         { nJugadors: 0, punts: 0 },
-  //         { nJugadors: 0, punts: 0 }
-  //       ],
-  //       rondes: [],
-  //       totalVots: 0,
-  //       equipAtacant: 0,
-  //       categoria: 1,
-  //       preguntaActual: null,
-  //       resultatsActuals: null,
-  //       nomSala: "Sala " + (i + 1)
-  //     }
-  //     sales.push(sala)
-  //   }
-  // })()
+  (function () {
+    for (let i = 0; i < 10; i++) {
+      let sala = {
+        jugadors: [],
+        equips: [
+          { nJugadors: 0, punts: 0 },
+          { nJugadors: 0, punts: 0 }
+        ],
+        rondes: [],
+        totalVots: 0,
+        equipAtacant: 0,
+        categoria: 1,
+        preguntaActual: null,
+        resultatsActuals: null,
+        nomSala: "Sala " + (i + 1)
+      }
+      sales.push(sala)
+    }
+  })()
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 30;
