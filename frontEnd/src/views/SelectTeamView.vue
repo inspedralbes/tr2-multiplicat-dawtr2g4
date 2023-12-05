@@ -98,7 +98,7 @@ h1 {
     font-size: 18px;
     text-align: center;
     text-transform: uppercase;
-    border-radius: 50%;
+    border-radius: 20%;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -130,6 +130,7 @@ h1 {
     border-bottom: 1px solid black;
     padding-bottom: 2px;
     margin-bottom: 10px;
+    background-color: rgba(50, 50, 50, 0.7);
 }
 
 .llistaLi:hover {
