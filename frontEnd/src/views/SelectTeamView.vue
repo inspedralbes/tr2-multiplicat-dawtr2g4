@@ -5,9 +5,23 @@
         <div class="cont">
             <div>
                 <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
+                <ul class="llistaUl">
+                    <div v-if="!llistaJugadors">
+                    </div>
+                    <li v-else v-for="(actual, index) in equip1" :key="index" class="llistaLi">
+                        {{ actual.nom }}
+                    </li>
+                </ul>
             </div>
             <div>
                 <button class="button e2" @click="escollirEquip(2)">Equip 2</button>
+                <ul class="llistaUl">
+                    <div v-if="!llistaJugadors">
+                    </div>
+                    <li v-else v-for="(actual, index) in equip2" :key="index" class="llistaLi">
+                        {{ actual.nom }}
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -15,15 +29,15 @@
 
 <script>
 //import io from 'socket.io-client';
-import {useAppStore} from '../stores/app'
+import { useAppStore } from '../stores/app'
 import { socket } from '@/socket';
 
 export default {
     data() {
         return {
-            store: null,
+            store: useAppStore(),
             indexSala: 0,
-            isEquipEscollit: false
+            isEquipEscollit: false,
         }
     },
     methods: {
@@ -32,15 +46,28 @@ export default {
             if (this.isEquipEscollit == false && (idEquip == 1 || idEquip == 2)) {
                 this.isEquipEscollit = true;
                 this.store.setTeam(idEquip);
-                socket.emit('equip-seleccionat', this.indexSala, idEquip);
+                socket.emit('equip-seleccionat', this.indexSala, idEquip, this.store.user);
             }
         },
         començarPartida() {
-            socket.emit('partida-iniciada', this.indexSala) 
-        }
+            socket.emit('partida-iniciada', this.indexSala)
+        },
+
     },
-    mounted() {
-        this.store = useAppStore();
+    // mounted() {
+    //     this.store = useAppStore();
+    // },
+    computed: {
+
+        llistaJugadors() {
+            return this.store.getLlistaJugadors();
+        },
+        equip1() {
+            return this.llistaJugadors.filter(jugador => jugador.equip === 1 && jugador.nom);
+        },
+        equip2() {
+            return this.llistaJugadors.filter(jugador => jugador.equip === 2 && jugador.nom);
+        }
     }
 }
 </script>
@@ -89,5 +116,23 @@ h1 {
 .button:hover {
     border-color: #ffffff;
     /* Blanco */
+}
+
+.llistaUl {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 20px;
+}
+
+.llistaLi {
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+}
+
+.llistaLi:hover {
+    background-color: #f5f5f5;
 }
 </style>

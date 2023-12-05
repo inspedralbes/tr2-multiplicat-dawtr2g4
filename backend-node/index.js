@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
   })
 
   // Jugador s'uneix a un equip
-  socket.on('equip-seleccionat', (indexSala, equip) => {
+  socket.on('equip-seleccionat', (indexSala, equip, usrNom) => {
     let sala = sales[indexSala];
 
     // Comprovar si la sala existeix i el jugador està en la sala
@@ -116,6 +116,7 @@ io.on('connection', (socket) => {
 
       // Afegeix el jugador a la sala
       sala.jugadors.push({
+        nom: usrNom,
         id: socket.id,
         equip: equip,
         baseActual: 0,
