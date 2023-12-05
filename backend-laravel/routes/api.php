@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PreguntesController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -20,6 +21,8 @@ use App\Http\Controllers\AuthController;
 Route::post('/getPregunta', [PreguntesController::class, 'search']);
 Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
+
+Route::get('/getCategories', [CategoriesController::class, 'index']);
 
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
