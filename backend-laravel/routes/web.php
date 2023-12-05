@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PreguntesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landingAdmin');
+})->name('landing-admin');
+
+//PREGUNTES
+Route::get('/preguntes', [PreguntesController::class, 'index'])->name('preguntesIndex');
+Route::get('/preguntes/search', [PreguntesController::class, 'searchCrud'])->name('preguntesIndexSearch');
+Route::get('/preguntes/{id}', [PreguntesController::class, 'show'])->name('preguntesShow');
+Route::get('/crearPregunta', [PreguntesController::class, 'store'])->name('preguntesStore');
+Route::post('/crearPregunta', [PreguntesController::class, 'store'])->name('preguntesStore');
+Route::put('/preguntes/{id}', [PreguntesController::class, 'update'])->name('preguntesUpdate');
+Route::delete('/preguntes/{id}', [PreguntesController::class, 'destroy'])->name('preguntesDestroy');
