@@ -13,7 +13,7 @@
         </div>
         <div id="moviment-bases">
             <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
-            <p>{{ temporitzador }}</p>
+            <p v-if="votacioBaseEnCurs == true">{{ temporitzador }}</p>
             <div v-if="votacioBaseEnCurs == true && equip == salaInfo.equipAtacant">
                 <p>Quantes bases us voleu moure?</p>
                 <div v-for="index in 3" :key="index">
