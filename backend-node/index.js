@@ -49,11 +49,19 @@ io.on('connection', (socket) => {
     console.log('Un usuari s\'ha desconnectat');
     clearInterval(intervalId);
 
-    // Quan el jugador es desconnecta, el treiem de la sala
-    let sala = socketRooms[socket.id];
-    if (sala) {
-      socket.leave(sala);
+    // Quan el jugador es desconnecta, el treiem de la room i la sala
+    let room = socketRooms[socket.id];
+    if (room) {
+      socket.leave(room);
       delete socketRooms[socket.id];
+      let jugador = sales.find(s => s.nomSala === room).jugadors.find(j => j.id === socket.id);
+      if (jugador) {
+        let indexSala = sales.findIndex(s => s.nomSala === room)
+        let indexJugador = sales[indexSala].jugadors.findIndex(j => j.id === socket.id)
+        sales[indexSala].jugadors.splice(indexJugador, 1)
+        sales[indexSala].equips[jugador.equip - 1].nJugadors--;
+        io.to(room).emit('equips-actualitzats', sales[indexSala]);
+      }      
     }
   });
 

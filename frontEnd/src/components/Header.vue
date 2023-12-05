@@ -1,22 +1,21 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import Menubar from 'primevue/menubar';
 </script>
 <template>
-    <div id="header">
+    <div>
         <Menubar>
             <template #start>
                 <RouterLink to="/">
-                    <img src="../../public/img/icon_mathball.png"
-                        width="70" height="60" class="h-2rem" alt="lego" />
+                    <img src="/img/icon_no_text.png" width="50" height="50" alt="lego" />
                 </RouterLink>
             </template>
 
             <template #end>
                 <RouterLink to="/login">
-                    <div class="flex align-items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-filled" width="24"
-                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    <div class="flex align-items-center gap-2 text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-filled" width="50"
+                            height="50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0"
@@ -34,22 +33,13 @@ import Menubar from 'primevue/menubar';
 <script>
 export default {
     components: {
-        Menubar
-    },
-
+        name: 'Header',
+    },// 2196F3
 }
 </script>
 
 <style  scoped>
-* {
-    margin: 0;
-    padding: 0;
-
-}
-
-#header {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
+    .p-menubar {
+        background-color: #f8f9fa;
+    }
 </style>
