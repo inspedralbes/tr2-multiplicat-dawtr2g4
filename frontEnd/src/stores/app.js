@@ -63,6 +63,9 @@ export const useAppStore = defineStore('app', {
     getSalaInfo() {
       return this.salaInfo
     },
+    getLlistaJugadors() {
+      return this.salaInfo.jugadors
+    },
     getPreguntaActual() {
       return this.salaInfo.preguntaActual
     },
@@ -204,6 +207,6 @@ export const useAppStore = defineStore('app', {
     setUser(user) {
       this.user = user
     },
-    
+
   },
 })
