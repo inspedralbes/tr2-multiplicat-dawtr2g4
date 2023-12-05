@@ -8,14 +8,22 @@
         </div>
         <div v-else>
             <div class="grid m-5">
-                <Card v-for="(actual, index) in pinia.getSales()" @click="setSala(index)" class="col-12 md:col-5 lg:col-3">
-                    <template #title> {{ actual.nomSala }} </template>
-                    <template #content>
-                        <p class="m-0">
-                            Jugadors: {{ actual.jugadors.length }}
-                        </p>
-                    </template>
-                </Card>
+                <div v-for="(actual, index) in sales" class="col-2">
+                    <Card class="p-4">
+                        <template #title> {{ actual.nomSala }} </template>
+                        <template #content>
+                            <p class="m-0">
+                                Jugadors: {{ actual.jugadors.length }}
+                            </p>
+                            <p class="m-0">
+                                Categoria: {{ actual.categoria }}
+                            </p>
+                        </template>
+                        <template #footer>
+                            <Button label="Entrar" @click="setSala(index)" />
+                        </template>
+                    </Card>
+                </div>
             </div>
         </div>
     </div>
