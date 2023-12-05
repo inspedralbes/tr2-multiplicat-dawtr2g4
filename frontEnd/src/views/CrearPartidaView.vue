@@ -27,6 +27,7 @@ import { socket } from '@/socket';
 export default {
     data() {
         return {
+            categories: [],
             partida: {
                 nom: '',
                 categoria: '',
@@ -39,38 +40,18 @@ export default {
         enviarPartida() {
             console.log(this.partida);
             //socket.emit('crear-partida', this.partida);
-        }
-    },
-    setup() {
-        var categories;
-
-        categories = [
-            { id: 1, nom: "Nombres i Operacions" },
-            { id: 2, nom: "Equacions" },
-            { id: 3, nom: "Funcions" },
-            { id: 4, nom: "Mesures" },
-            { id: 5, nom: "Geometria" },
-            { id: 6, nom: "Estadística" }
-        ]
-
-        //SIMULACIÓ DE FETCH DE CATEGORIES (AFEGIR al BACKEND o al FRONTEND????)
-        // onMounted(async () => {
-        //     try {
-        //         const response = await fetch("http://localhost:3000/api/categories");
-        //         categories = await response.json();
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // });
-
-        return { categories };
+        },
     },
     computed: {
 
     },
-    mounted() {
-
-    }
+    created() {
+        fetch("http://localhost:8000/api/getCategories")
+            .then(response => response.json())
+            .then(data => {
+                this.categories = data;
+            });
+    },
 }
 
 </script>
