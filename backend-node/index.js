@@ -30,7 +30,28 @@ const sales = [{
   preguntaActual: null,
   resultatsActuals: null,
   nomSala: "Sala 1"
-}]
+}];
+
+  // Executar funcio per a crear 10 sales
+  // (function () {
+  //   for (let i = 0; i < 10; i++) {
+  //     let sala = {
+  //       jugadors: [],
+  //       equips: [
+  //         { nJugadors: 0, punts: 0 },
+  //         { nJugadors: 0, punts: 0 }
+  //       ],
+  //       rondes: [],
+  //       totalVots: 0,
+  //       equipAtacant: 0,
+  //       categoria: 1,
+  //       preguntaActual: null,
+  //       resultatsActuals: null,
+  //       nomSala: "Sala " + (i + 1)
+  //     }
+  //     sales.push(sala)
+  //   }
+  // })()
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 30;
@@ -60,8 +81,8 @@ io.on('connection', (socket) => {
         let indexJugador = sales[indexSala].jugadors.findIndex(j => j.id === socket.id)
         sales[indexSala].jugadors.splice(indexJugador, 1)
         sales[indexSala].equips[jugador.equip - 1].nJugadors--;
-        io.to(room).emit('equips-actualitzats', sales[indexSala]);
-      }      
+        io.emit('equips-actualitzats', sales[indexSala]);
+      }
     }
   });
 
@@ -104,7 +125,7 @@ io.on('connection', (socket) => {
       });
 
       // Notifica als clients de la sala sobre l'actualització dels equips
-      io.to(sala.nomSala).emit('equips-actualitzats', sala);
+      io.emit('equips-actualitzats', sala);
     }
   })
 

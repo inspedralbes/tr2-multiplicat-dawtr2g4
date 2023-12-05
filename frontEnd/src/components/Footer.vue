@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center align-center surface-ground py-3">
+    <div class="flex justify-center align-center surface-ground py-3 border-top-1 surface-border">
         <div class="col-12 md-6 text-center">
             © 2023 MathBall. All rights reserved.
         </div>
