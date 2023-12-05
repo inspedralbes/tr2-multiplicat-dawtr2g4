@@ -26,6 +26,8 @@
 
 <script>
 
+import { useAppStore } from '../stores/app';
+
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
@@ -40,11 +42,14 @@ export default {
     },
     data() {
         return {
+            store: useAppStore(),
             email: '',
-            password: ''
+            password: '',
         }
     },
     methods: {
+
+
 
         // const socket = socket();
 
@@ -64,7 +69,8 @@ export default {
                     if (data.error) {
                         alert(data.error);
                     } else {
-                        localStorage.setItem('token', data.token);
+                        this.store.setToken(data.token);
+                        this.store.setUser(data.user.name);
                         router.push('/');
                     }
                 })

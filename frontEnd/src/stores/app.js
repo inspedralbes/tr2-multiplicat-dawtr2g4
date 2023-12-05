@@ -9,7 +9,7 @@ export const useAppStore = defineStore('app', {
       password: '',
     },
     team: '',
-    
+
     //socket: io('http://localhost:3000'),
     sales: [],
     salaInfo: {
@@ -45,6 +45,8 @@ export const useAppStore = defineStore('app', {
     },
     //Resultats Finals marcador
     resultatsFinals: [],
+    token: '',
+    user: {},
   }),
   actions: {
 
@@ -106,6 +108,14 @@ export const useAppStore = defineStore('app', {
     //Resultats Finals marcador
     getResultatsFinals() {
       return this.resultatsFinals
+    },
+
+    //token i user
+    getToken() {
+      return this.token
+    },
+    getUser() {
+      return this.user
     },
 
     //setters
@@ -185,5 +195,15 @@ export const useAppStore = defineStore('app', {
     enviarResposta(resposta_id) {
       this.socket.emit('enviarResposta', resposta_id)
     },
+
+
+    //token i user
+    setToken(token) {
+      this.token = token
+    },
+    setUser(user) {
+      this.user = user
+    },
+    
   },
 })
