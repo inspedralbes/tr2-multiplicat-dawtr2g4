@@ -62,6 +62,11 @@ export default {
             socket.emit('sala-seleccionada', id)
         }
     },
+    computed: {
+        sales() {
+            return this.pinia.getSales();
+        }
+    },
     components: {
         RouterLink,
         RouterView
