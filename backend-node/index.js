@@ -104,7 +104,6 @@ io.on('connection', (socket) => {
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip, usrNom) => {
     let sala = sales[indexSala];
-    console.log(indexSala)
 
     // Comprovar si la sala existeix i el jugador està en la sala
     if (!sala || sala.jugadors.find(jugador => jugador.id === socket.id)) {

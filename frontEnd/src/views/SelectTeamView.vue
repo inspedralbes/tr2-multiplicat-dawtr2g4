@@ -65,7 +65,7 @@ export default {
             return this.llistaJugadors.filter(jugador => jugador.equip === 2 && jugador.nom);
         },
         indexSala() {
-            this.store.getIndexSala();
+            return this.store.getIndexSala();
         }
     }
 }
