@@ -1,11 +1,12 @@
 <template>
     <div>
         <h1 class="tit">ESCULL EQUIP</h1>
+        <button></button>
         <button class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
                 <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
-                <div v-if="!llistaJugadors">
+                <div v-if="!equip1.length">
                 </div>
                 <ul v-else class="llistaUl el1">
                     <li v-for="(actual, index) in equip1" :key="index" class="llistaLi">
@@ -15,7 +16,7 @@
             </div>
             <div>
                 <button class="button e2" @click="escollirEquip(2)">Equip 2</button>
-                <div v-if="!llistaJugadors">
+                <div v-if="!equip2.length">
                 </div>
                 <ul v-else class="llistaUl el2">
                     <li v-for="(actual, index) in equip2" :key="index" class="llistaLi">
