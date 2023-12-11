@@ -75,6 +75,13 @@ class PreguntesController extends Controller
         return view('preguntes.index', ['preguntes' => $preguntes, 'categories' => $categories]);
     }
 
+    public function storeShow()
+    {
+        $categories = Categoria::all();
+
+        return view('preguntes.create', ['categories' => $categories]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -109,6 +116,7 @@ class PreguntesController extends Controller
             } else {
                 $resposta->correcta = false;
             }
+            $resposta->pregunta_id = $pregunta->id;
             $resposta->save();
         }
 

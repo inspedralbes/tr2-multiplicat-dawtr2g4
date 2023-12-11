@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a href="" class="btn btn-primary">Crear Pregunta</a>
+                <a href="{{ route('preguntesStore') }}" class="btn btn-primary">Crear Pregunta</a>
             </ul>
             <form method="GET" action="{{ route('preguntesIndexSearch') }}" class="d-flex">
                 @method('GET')
