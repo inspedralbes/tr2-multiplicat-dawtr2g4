@@ -3,8 +3,8 @@
         <div>
             <h1>Ara mateix batejant EQUIP {{ salaInfo.equipAtacant }}</h1>
         </div>
-        <div id="flex-container">
-            <div id="container">
+        <div id="grid-container">
+            <div id="camp-de-joc">
                 <img class="jugador home-base" id="jugador-0" src="/img/jugador.png" alt="jugador">
                 <img class="camp" src="/img/camp.jpg" alt="">
             </div>
@@ -13,12 +13,15 @@
                 <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>
             </div>
             <div id="moviment-bases">
-                <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
-                <p>{{ temporitzador }}</p>
+                <button v-if="votacioBaseEnCurs == false" @click="initVotacio">COMENÇAR VOTACIÓ</button>
+                <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70"
+                        height="70" alt="">
+                    <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
+                </div>
                 <div v-if="votacioBaseEnCurs == true && equip == salaInfo.equipAtacant">
                     <p>Quantes bases us voleu moure?</p>
-                    <div v-for="index in 3" :key="index">
-                        <button v-on:click="baseSeleccionada(index)">{{ index }}</button>
+                    <div class="contenidor-dificultat-bases" v-for="index in 3" :key="index">
+                        <button :class="base-item" v-on:click="baseSeleccionada(index)">{{ index }}</button>
                     </div>
                 </div>
             </div>
@@ -83,7 +86,8 @@ export default {
             return this.pinia.getTeam();
         },
         temporitzador() {
-            return this.pinia.getTemporitzador();
+            let temporitzador = this.pinia.getTemporitzador();
+            return temporitzador.toString().padStart(2, '0');
         },
         votacioBaseEnCurs() {
             return this.pinia.getVotacioBaseEnCurs();
@@ -114,18 +118,23 @@ export default {
     --timeMov: 0.75s;
 }
 
-#flex-container {
-    display: flex;
-    justify-content: center;
+#grid-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+        "camp-de-joc puntuacio"
+        "camp-de-joc moviment-bases";
     margin-top: 20px;
-    column-gap: 20px;
+    gap: 20px 20px;
 }
 
-#container {
+#camp-de-joc {
+    grid-area: camp-de-joc;
     position: relative;
     width: 612px;
     height: 535px;
     border: 1px solid black;
+    justify-self: right;
 }
 
 .camp {
@@ -142,14 +151,21 @@ export default {
 }
 
 #puntuacio {
+    grid-area: puntuacio;
     border: 1px solid black;
     padding: 5px;
+    justify-self: left;
+    margin-right: 50px;
+    width: 40%;
 }
 
 #moviment-bases {
+    grid-area: moviment-bases;
     border: 1px solid black;
     padding: 5px;
-    height: 10%;
+    justify-self: left;
+    margin-right: 50px;
+    width: 40%;
 }
 
 .moviment {
@@ -180,4 +196,51 @@ export default {
     bottom: 34%;
     left: 26%;
 }
+
+.temporitzador {
+    position: absolute;
+    top: 0;
+    left: 31%;
+}
+
+@keyframes rotacioInfinita {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.temporitzador-container {
+    margin: 0 auto;
+    position: relative;
+}
+
+.temporitzador-container > img {
+    animation: rotacioInfinita 8s linear infinite;
+}
+
+.contenidor-dificultat-bases {
+    margin-bottom: 10px;
+}
+
+.base-item {
+    width: 100%;
+    height: 30px;
+    border: none;
+    padding: 20px 30px;
+    text-align: center;
+    line-height: 0;
+    background-color: #555555;
+    color: #e7e7e7;
+    font-weight: bolder;
+}
+
+.base-item--selected {
+    background-color: #e7e7e7;
+    color:  #555555;
+}
+
 </style>
