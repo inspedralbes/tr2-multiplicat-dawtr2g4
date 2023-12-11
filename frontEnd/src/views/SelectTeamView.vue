@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1 class="tit">Select Team</h1>
-        <button @click="començarPartida()">COMENÇAR PARTIDA</button>
+        <h1 class="tit">ESCULL EQUIP</h1>
+        <button class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
                 <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
-                <ul class="llistaUl">
+                <ul class="llistaUl el1">
                     <div v-if="!llistaJugadors">
                     </div>
                     <li v-else v-for="(actual, index) in equip1" :key="index" class="llistaLi">
@@ -15,7 +15,7 @@
             </div>
             <div>
                 <button class="button e2" @click="escollirEquip(2)">Equip 2</button>
-                <ul class="llistaUl">
+                <ul class="llistaUl el2">
                     <div v-if="!llistaJugadors">
                     </div>
                     <li v-else v-for="(actual, index) in equip2" :key="index" class="llistaLi">
@@ -101,20 +101,27 @@ h1 {
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
+    background-image: url('../components/icons/pilota-boto-fons.png');
+    background-size: 120% 110%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .e1 {
-    background-color: #ff4d4d;
-    /* Rojo */
+    border: 2px solid #ff4d4d;
+    color: #ff4d4d;
+    font-size: xx-large;
 }
 
 .e2 {
-    background-color: #4da6ff;
-    /* Azul */
+    border: 2px solid #4da6ff;
+    color: #4da6ff;
+    font-size: xx-large;
 }
 
 .button:hover {
     border-color: #ffffff;
+    color: #ffffff;
     /* Blanco */
 }
 
@@ -123,16 +130,61 @@ h1 {
     padding: 0;
     margin: 0;
     margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.llistaUl::-webkit-scrollbar {
+    width: 0;
 }
 
 .llistaLi {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     border-bottom: 1px solid black;
     padding-bottom: 2px;
     margin-bottom: 10px;
+    background-color: #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.el1 {
+    background-color: #ff4d4d;
+    color: #ff4d4d;
+}
+
+.el2 {
+    background-color: #4da6ff;
+    color: #4da6ff;
 }
 
 .llistaLi:hover {
-    background-color: #f5f5f5;
+    background-color: rgba(50, 50, 50, 0.7);
+}
+
+.startB {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #32CD32;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.startB:hover {
+    background-color: #228B22;
 }
 </style>
