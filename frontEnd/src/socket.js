@@ -12,7 +12,8 @@ socket.on("connect", () => {
   console.log("connected");
 
   socket.on("sala-seleccionada", (msg) => {
-    console.log("From socket.js: sala seleccionada " + msg);
+    console.log("From socket.js: sala seleccionada ", msg);
+    pinia.setSalaInfo(msg);
     router.push("/sala");
   });
 

@@ -1,5 +1,5 @@
 <template>
-        <div class="temporitzador w-max"><p class="text-center text-3xl font-semibold text-white pt-2 mt-6 burst-12">{{ temporitzador }}</p></div>
+        <div class="temporitzador w-max cont mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="90" height="90" alt=""><p class="temp text-align text-3xl font-semibold">{{ temporitzador }}</p></div>
         <div class="pregunta-respostes grid mt-6">
             <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
             <div class="col-12 mt-4 p-0 grid-container">
@@ -26,7 +26,8 @@ export default {
     },
     computed: {
         temporitzador() {
-            return this.pinia.getTemporitzador();
+            let temporitzador = this.pinia.getTemporitzador();
+            return temporitzador.toString().padStart(2, '0');
         },
         salaInfo() {
             return this.pinia.getSalaInfo();
@@ -67,32 +68,31 @@ export default {
         margin: 0 5rem;
     }
     
-    .burst-12 {
-      background: rgb(128,0,0);
-      width: 60px;
-      height: 60px;
-      position: relative;
-      text-align: center;
+    .cont {
+        position: relative;
     }
-    .burst-12:before, .burst-12:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 60px;
-      width: 60px;
-      background: rgb(128,0,0);
-      z-index: -1;
+
+    .temp {
+        position: absolute;
+        top: 0;
+        left: 33%;
     }
-    .burst-12:before {
-      transform: rotate(30deg);
-    }
-    .burst-12:after {
-      transform: rotate(60deg);
+
+    @keyframes rotacioInfinita {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     .temporitzador {
         margin: 0 auto;
+    }
+
+    .temporitzador > img {
+        animation: rotacioInfinita 8s linear infinite;
     }
 
     @media (min-width: 992px) {

@@ -51,6 +51,9 @@ export const useAppStore = defineStore('app', {
       console.log("sala info", this.sales[this.indexSala])
       return this.sales[this.indexSala]
     },
+    getLlistaJugadors() {
+      return this.salaInfo.jugadors
+    },
     getPreguntaActual() {
       return this.sales[this.indexSala].preguntaActual
     },
@@ -199,6 +202,6 @@ export const useAppStore = defineStore('app', {
     setUser(user) {
       this.user = user
     },
-    
+
   },
 })
