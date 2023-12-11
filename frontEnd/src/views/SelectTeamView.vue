@@ -5,20 +5,20 @@
         <div class="cont">
             <div>
                 <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
-                <ul class="llistaUl el1">
-                    <div v-if="!llistaJugadors">
-                    </div>
-                    <li v-else v-for="(actual, index) in equip1" :key="index" class="llistaLi">
+                <div v-if="!llistaJugadors">
+                </div>
+                <ul v-else class="llistaUl el1">
+                    <li v-for="(actual, index) in equip1" :key="index" class="llistaLi">
                         {{ actual.nom }}
                     </li>
                 </ul>
             </div>
             <div>
                 <button class="button e2" @click="escollirEquip(2)">Equip 2</button>
-                <ul class="llistaUl el2">
-                    <div v-if="!llistaJugadors">
-                    </div>
-                    <li v-else v-for="(actual, index) in equip2" :key="index" class="llistaLi">
+                <div v-if="!llistaJugadors">
+                </div>
+                <ul v-else class="llistaUl el2">
+                    <li v-for="(actual, index) in equip2" :key="index" class="llistaLi">
                         {{ actual.nom }}
                     </li>
                 </ul>
