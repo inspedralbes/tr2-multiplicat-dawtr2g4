@@ -20,8 +20,10 @@
                 </div>
                 <div v-if="votacioBaseEnCurs == true && equip == salaInfo.equipAtacant">
                     <p>Quantes bases us voleu moure?</p>
-                    <div class="contenidor-dificultat-bases" v-for="index in 3" :key="index">
-                        <button :class="base-item" v-on:click="baseSeleccionada(index)">{{ index }}</button>
+                    <div class="contenidor-dificultat-bases">
+                        <button :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(1)">{{ 1 }}</button>
+                        <button :class="[dificultatSeleccionada.isSelected_2 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(2)">{{ 2 }}</button>
+                        <button :class="[dificultatSeleccionada.isSelected_3 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(3)">{{ 3 }}</button>
                     </div>
                 </div>
             </div>
@@ -45,7 +47,13 @@ export default {
     methods: {
         baseSeleccionada(idBase) {
             if (idBase == 1 | idBase == 2 | idBase == 3) {
-                console.log("Has pulsado " + idBase);
+                if (idBase == 1) {
+                    this.dificultatSeleccionada.isSelected_1 = true;
+                } else if (idBase == 2) {
+                    this.dificultatSeleccionada.isSelected_2 = true;
+                } else if (idBase == 3) {
+                    this.dificultatSeleccionada.isSelected_3 = true;
+                }
                 socket.emit('vot-dificultat', this.indexSala, idBase);
             }
         },
@@ -97,6 +105,9 @@ export default {
         },
         salaInfo() {
             return this.pinia.getSalaInfo();
+        },
+        dificultatSeleccionada() {
+            return this.pinia.getDificultatSeleccionada();
         }
     },
     mounted() {
@@ -222,10 +233,6 @@ export default {
     animation: rotacioInfinita 8s linear infinite;
 }
 
-.contenidor-dificultat-bases {
-    margin-bottom: 10px;
-}
-
 .base-item {
     width: 100%;
     height: 30px;
@@ -233,9 +240,12 @@ export default {
     padding: 20px 30px;
     text-align: center;
     line-height: 0;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.base-item--not-selected {
     background-color: #555555;
     color: #e7e7e7;
-    font-weight: bolder;
 }
 
 .base-item--selected {

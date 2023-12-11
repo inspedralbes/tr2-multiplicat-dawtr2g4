@@ -9,6 +9,11 @@ export const useAppStore = defineStore('app', {
       password: '',
     },
     team: '',
+    dificultatSeleccionada: {
+      isSelected_1: false,
+      isSelected_2: false,
+      isSelected_3: false,
+    },
     
     //socket: io('http://localhost:3000'),
     sales: [],
@@ -102,6 +107,9 @@ export const useAppStore = defineStore('app', {
     getTotalJugadors() {
       return this.totalJugadors
     },
+    getDificultatSeleccionada() {
+      return this.dificultatSeleccionada
+    },
 
     //Resultats Finals marcador
     getResultatsFinals() {
@@ -164,6 +172,9 @@ export const useAppStore = defineStore('app', {
     },
     setTotalJugadors(totalJugadors) {
       this.totalJugadors = totalJugadors
+    },
+    setDificultatSeleccionada(dificultatSeleccionada) {
+      return this.dificultatSeleccionada = dificultatSeleccionada
     },
 
     //Resultats Finals marcador
