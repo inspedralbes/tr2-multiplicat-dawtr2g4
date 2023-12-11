@@ -40,17 +40,26 @@ class PreguntesController extends Controller
         }
     }
 
-    public function searchCrud(Request $request){
+    public function searchCrud(Request $request)
+    {
         //$search = $request->search;
-        $search = "Quina";
-        $dificultat = 1;
-        $categoria = 1;
+        
+        $search = $request->search;
+        $dificultat = $request->dificultat;
+        $categoria = $request->categoria_id;
 
         $categories = Categoria::all();
-        $preguntes = Pregunta::where('text_pregunta', 'LIKE', "%{$search}%")
-                                ->where('dificultat', 'LIKE', $dificultat)
-                                ->where('categoria_id', 'LIKE', $categoria);
-        dd($preguntes);
+
+        $preguntes = Pregunta::when(!empty($search), function ($query) use ($search) {
+                                    $query->where('text_pregunta', 'LIKE', "%{$search}%");
+                                })
+                                ->when($dificultat != '0', function ($query) use ($dificultat) {
+                                    $query->where('dificultat', 'LIKE', $dificultat);
+                                })
+                                ->when($categoria != '0', function ($query) use ($categoria) {
+                                    $query->where('categoria_id', 'LIKE', $categoria);
+                                })
+                                ->get();
 
         return view('preguntes.index', ['preguntes' => $preguntes, 'categories' => $categories]);
     }
@@ -123,6 +132,16 @@ class PreguntesController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'text_pregunta' => 'required',
+            'dificultat' => 'required|integer|between:1,3',
+            'categoria_id' => 'required|integer',
+            'textResposta1' => 'required',
+            'textResposta2' => 'required',
+            'textResposta3' => 'required',
+            'textResposta4' => 'required',
+            'correcta' => 'required|integer|between:1,4'
+        ]);
         //Buscar la pregunta i actualitzar-la
         $pregunta = Pregunta::findOrFail($id);
 
@@ -136,6 +155,11 @@ class PreguntesController extends Controller
         for ($i = 1; $i <= 4; $i++) {
             $resposta = Resposta::findOrFail($request->{"idResposta{$i}"});
             $resposta->text_resposta = $request->{"textResposta{$i}"};
+            if ($request->correcta == $i) {
+                $resposta->correcta = true;
+            } else {
+                $resposta->correcta = false;
+            }
             $resposta->save();
         }
 

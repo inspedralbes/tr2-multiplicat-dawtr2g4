@@ -25,4 +25,4 @@ Route::get('/preguntes/{id}', [PreguntesController::class, 'show'])->name('pregu
 Route::get('/crearPregunta', [PreguntesController::class, 'store'])->name('preguntesStore');
 Route::post('/crearPregunta', [PreguntesController::class, 'store'])->name('preguntesStore');
 Route::put('/preguntes/{id}', [PreguntesController::class, 'update'])->name('preguntesUpdate');
-Route::delete('/preguntes/{id}', [PreguntesController::class, 'destroy'])->name('preguntesDestroy');
+Route::delete('/preguntes/delete/{id}', [PreguntesController::class, 'destroy'])->name('preguntesDestroy');
