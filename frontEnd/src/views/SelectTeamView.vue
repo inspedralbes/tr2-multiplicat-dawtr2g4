@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1 class="tit">ESCULL EQUIP</h1>
+        <button></button>
         <button class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
