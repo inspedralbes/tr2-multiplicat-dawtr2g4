@@ -8,7 +8,7 @@
         </div>
         <div v-else>
             <div class="grid m-5">
-                <div v-for="(actual, index) in sales" class="col-2">
+                <div v-for="(actual, index) in sales" class="col-6 md:col-4 lg:col-2">
                     <Card class="p-4">
                         <template #title> {{ actual.nomSala }} </template>
                         <template #content>
@@ -59,6 +59,7 @@ export default {
     },
     methods: {
         setSala(id) {
+            this.pinia.setIndexSala(id);
             socket.emit('sala-seleccionada', id)
         }
     },

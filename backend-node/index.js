@@ -33,25 +33,25 @@ const sales = [{
 }];
 
   // Executar funcio per a crear 10 sales
-  // (function () {
-  //   for (let i = 0; i < 10; i++) {
-  //     let sala = {
-  //       jugadors: [],
-  //       equips: [
-  //         { nJugadors: 0, punts: 0 },
-  //         { nJugadors: 0, punts: 0 }
-  //       ],
-  //       rondes: [],
-  //       totalVots: 0,
-  //       equipAtacant: 0,
-  //       categoria: 1,
-  //       preguntaActual: null,
-  //       resultatsActuals: null,
-  //       nomSala: "Sala " + (i + 1)
-  //     }
-  //     sales.push(sala)
-  //   }
-  // })()
+  (function () {
+    for (let i = 0; i < 10; i++) {
+      let sala = {
+        jugadors: [],
+        equips: [
+          { nJugadors: 0, punts: 0 },
+          { nJugadors: 0, punts: 0 }
+        ],
+        rondes: [],
+        totalVots: 0,
+        equipAtacant: 0,
+        categoria: 1,
+        preguntaActual: null,
+        resultatsActuals: null,
+        nomSala: "Sala " + (i + 1)
+      }
+      sales.push(sala)
+    }
+  })()
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 30;
@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
         let indexJugador = sales[indexSala].jugadors.findIndex(j => j.id === socket.id)
         sales[indexSala].jugadors.splice(indexJugador, 1)
         sales[indexSala].equips[jugador.equip - 1].nJugadors--;
-        io.emit('equips-actualitzats', sales[indexSala]);
+        io.emit('equips-actualitzats', indexSala, sales[indexSala]);
       }
     }
   });
@@ -104,6 +104,7 @@ io.on('connection', (socket) => {
   // Jugador s'uneix a un equip
   socket.on('equip-seleccionat', (indexSala, equip, usrNom) => {
     let sala = sales[indexSala];
+    console.log(indexSala)
 
     // Comprovar si la sala existeix i el jugador està en la sala
     if (!sala || sala.jugadors.find(jugador => jugador.id === socket.id)) {
@@ -126,7 +127,7 @@ io.on('connection', (socket) => {
       });
 
       // Notifica als clients de la sala sobre l'actualització dels equips
-      io.emit('equips-actualitzats', sala);
+      io.emit('equips-actualitzats', indexSala, sala);
     }
   })
 
@@ -314,7 +315,7 @@ function calcularResultatsRespostes(sala) {
     equipAcertat = 1
   } else if (percentatgeCorrecteEquip2 > percentatgeCorrecteEquip1) {
     equipAcertat = 2
-  } else if (percentatgeCorrecteEquip1 === 0 && percentatgeCorrecteEquip2 == 0) {
+  } else if (percentatgeCorrecteEquip1 === 0 && percentatgeCorrecteEquip2 === 0) {
     equipAcertat = sala.equipAtacant == 1 ? 2 : 1
   } else {
     equipAcertat = sala.equipAtacant

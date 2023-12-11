@@ -36,7 +36,6 @@ export default {
     data() {
         return {
             store: useAppStore(),
-            indexSala: 0,
             isEquipEscollit: false,
         }
     },
@@ -54,9 +53,6 @@ export default {
         },
 
     },
-    // mounted() {
-    //     this.store = useAppStore();
-    // },
     computed: {
 
         llistaJugadors() {
@@ -67,6 +63,9 @@ export default {
         },
         equip2() {
             return this.llistaJugadors.filter(jugador => jugador.equip === 2 && jugador.nom);
+        },
+        indexSala() {
+            this.store.getIndexSala();
         }
     }
 }

@@ -35,8 +35,6 @@ import { watch } from 'vue'
 export default {
     data() {
         return {
-            //player: { id: 0, equip: null, base: 0 },
-            indexSala: 0, // indexSala hardcodeado
         }
     },
     methods: {
@@ -93,11 +91,12 @@ export default {
         },
         salaInfo() {
             return this.pinia.getSalaInfo();
+        },
+        indexSala() {
+            return this.pinia.getIndexSala()
         }
     },
     mounted() {
-        //this.player.equip = this.pinia.getTeam();
-
         this.pinia.$subscribe((mutation, state) => {
 
             if (this.pinia.jugadorEnCamp.baseActual != 0) {
