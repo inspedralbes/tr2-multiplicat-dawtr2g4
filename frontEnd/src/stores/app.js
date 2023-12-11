@@ -117,6 +117,7 @@ export const useAppStore = defineStore('app', {
       this.team = team
     },
     setSalaInfo(id, salaInfo) {
+      id = id === null ? this.indexSala : id;
       this.sales[id] = salaInfo
     },
     setPreguntaActual(preguntaActual) {
