@@ -45,7 +45,14 @@ socket.on("connect", () => {
 
   socket.on('finalitzar-votacio-dificultat', (dificultat) => {
     // Handle the 'finalitzar-votacio' event here
+    let dificultatSeleccionada = {
+      isSelected_1: false,
+      isSelected_2: false,
+      isSelected_3: false,
+    };
+
     pinia.setVotacioBaseEnCurs(false);
+    pinia.setDificultatSeleccionada(dificultatSeleccionada);
     pinia.setVotacioPreguntaEnCurs(true);
     router.push("/pregunta");
     console.log('Received finalitzar-votacio:', dificultat);
