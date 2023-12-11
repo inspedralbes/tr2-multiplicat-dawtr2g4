@@ -14,23 +14,9 @@ export const useAppStore = defineStore('app', {
       isSelected_2: false,
       isSelected_3: false,
     },
-    
     //socket: io('http://localhost:3000'),
     sales: [],
-    salaInfo: {
-      jugadors: [],
-      equips: [
-        { nJugadors: 0, punts: 0 },
-        { nJugadors: 0, punts: 0 }
-      ],
-      rondes: [],
-      totalVots: 0,
-      equipAtacant: 0,
-      categoria: 1,
-      preguntaActual: null,
-      resultatsActuals: null,
-      nomSala: "Sala 1"
-    },
+    indexSala: null,
 
     //100%
     temporitzador: '', // utilitzat a Partida View
@@ -50,6 +36,8 @@ export const useAppStore = defineStore('app', {
     },
     //Resultats Finals marcador
     resultatsFinals: [],
+    token: '',
+    user: {},
   }),
   actions: {
 
@@ -64,10 +52,14 @@ export const useAppStore = defineStore('app', {
       return this.team
     },
     getSalaInfo() {
-      return this.salaInfo
+      console.log("sala info", this.sales[this.indexSala])
+      return this.sales[this.indexSala]
+    },
+    getLlistaJugadors() {
+      return this.salaInfo.jugadors
     },
     getPreguntaActual() {
-      return this.salaInfo.preguntaActual
+      return this.sales[this.indexSala].preguntaActual
     },
     getTemporitzador() {
       return this.temporitzador
@@ -85,19 +77,22 @@ export const useAppStore = defineStore('app', {
       return this.tornarTaulell
     },
     getEquipAtacant() {
-      return this.salaInfo.equipAtacant
+      return this.sales[this.indexSala].equipAtacant
     },
     getJugadorEnCamp() {
       return this.jugadorEnCamp
     },
     getTotalVots() {
-      return this.salaInfo.totalVots
+      return this.sales[this.indexSala].totalVots
     },
     getResultatsActuals() {
-      return this.salaInfo.resultatsActuals
+      return this.sales[this.indexSala].resultatsActuals
     },
     getRondes() {
-      return this.salaInfo.rondes
+      return this.sales[this.indexSala].rondes
+    },
+    getIndexSala() { 
+      return this.indexSala;
     },
 
     //grafics
@@ -116,6 +111,14 @@ export const useAppStore = defineStore('app', {
       return this.resultatsFinals
     },
 
+    //token i user
+    getToken() {
+      return this.token
+    },
+    getUser() {
+      return this.user
+    },
+
     //setters
     setUserInfo(userInfo) {
       this.userInfo = userInfo
@@ -123,11 +126,12 @@ export const useAppStore = defineStore('app', {
     setTeam(team) {
       this.team = team
     },
-    setSalaInfo(salaInfo) {
-      this.salaInfo = salaInfo
+    setSalaInfo(id, salaInfo) {
+      id = id === null ? this.indexSala : id;
+      this.sales[id] = salaInfo
     },
     setPreguntaActual(preguntaActual) {
-      this.salaInfo.preguntaActual = preguntaActual
+      this.sales[this.indexSala].preguntaActual = preguntaActual
     },
     setSales(sales) {
       this.sales = sales
@@ -151,19 +155,22 @@ export const useAppStore = defineStore('app', {
       this.base = base
     },
     setEquipAtacant(equipAtacant) {
-      this.salaInfo.equipAtacant = equipAtacant
+      this.sales[this.indexSala].equipAtacant = equipAtacant
     },
     setJugadorEnCamp(jugadorEnCamp) {
       this.jugadorEnCamp = jugadorEnCamp
     },
     setTotalVots(totalVots) {
-      this.salaInfo.totalVots = totalVots
+      this.sales[this.indexSala].totalVots = totalVots
     },
     setResultatsActuals(resultatsActuals) {
-      this.salaInfo.resultatsActuals = resultatsActuals
+      this.sales[this.indexSala].resultatsActuals = resultatsActuals
     },
     setRondes(rondes) {
-      this.salaInfo.rondes = rondes
+      this.sales[this.indexSala].rondes = rondes
+    },
+    setIndexSala(index) {
+      this.indexSala = index
     },
 
     //grafics
@@ -196,5 +203,15 @@ export const useAppStore = defineStore('app', {
     enviarResposta(resposta_id) {
       this.socket.emit('enviarResposta', resposta_id)
     },
+
+
+    //token i user
+    setToken(token) {
+      this.token = token
+    },
+    setUser(user) {
+      this.user = user
+    },
+
   },
 })

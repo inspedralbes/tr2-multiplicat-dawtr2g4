@@ -12,20 +12,21 @@ socket.on("connect", () => {
   console.log("connected");
 
   socket.on("sala-seleccionada", (msg) => {
-    console.log("From socket.js: sala seleccionada " + msg);
+    console.log("From socket.js: sala seleccionada ", msg);
+    pinia.setSalaInfo(msg);
     router.push("/sala");
   });
 
-  socket.on('equips-actualitzats', (sala) => {
+  socket.on('equips-actualitzats', (id, sala) => {
     // Handle the 'equips-actualitzats' event here
-    pinia.setSalaInfo(sala)
-    console.log('Received equips-actualitzats:', sala);
+    pinia.setSalaInfo(id, sala)
+    console.log('Received equips-actualitzats:', id, sala);
   });
 
   socket.on('partida-iniciada', (sala) => {
     // Handle the 'partida-iniciada' event here
     pinia.setTorn(0);
-    pinia.setSalaInfo(sala);
+    pinia.setSalaInfo(null, sala);
     router.push("/partida");
     console.log('Received partida-iniciada:', sala);
   });
@@ -92,12 +93,12 @@ socket.on("connect", () => {
     let puntuacioEquip2 = sala.equips[1].punts;
     let puntuacio = {equip1: puntuacioEquip1, equip2: puntuacioEquip2}
     pinia.setPuntuacio(puntuacio);*/
-    pinia.setSalaInfo(sala);
+    pinia.setSalaInfo(null, sala);
     console.log('Received sumar-punt:', sala);
   });
 
   socket.on('jugador-eliminat', (sala, jugador) => {
-    pinia.setSalaInfo(sala);
+    pinia.setSalaInfo(null, sala);
     pinia.setJugadorEnCamp(jugador);
     console.log('Received jugador-eliminat:', sala, jugador);
   });
@@ -114,7 +115,7 @@ socket.on("connect", () => {
   });
 
   socket.on('moure-jugador', (sala, jugador) => {
-    pinia.setSalaInfo(sala);
+    pinia.setSalaInfo(null, sala);
     pinia.setJugadorEnCamp(jugador);
     console.log('Received moure-jugador:', sala, jugador);
   });

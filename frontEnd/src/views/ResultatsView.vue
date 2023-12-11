@@ -47,11 +47,6 @@ import { socket } from '@/socket';
 export default {
 
     components: { PieChart },
-    data() {
-        return {
-            indexSala: 0, // indexSala hardcodeado
-        }
-    },
     setup() {
         const store = useAppStore();
         return { store };
@@ -67,6 +62,9 @@ export default {
         },
         salaInfo() {
             return this.store.getSalaInfo();
+        },
+        indexSala() {
+            return this.store.getIndexSala();
         }
     },
     methods: {

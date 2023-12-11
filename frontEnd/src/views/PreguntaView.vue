@@ -14,11 +14,6 @@ import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
 
 export default {
-    data() {
-        return {
-            indexSala: 0, // indexSala hardcodeado
-        }
-    },
     methods: {
         respostaSeleccionada(idResposta) {
             console.log("Has seleccionat la resposta" + idResposta);
@@ -36,6 +31,9 @@ export default {
         },
         salaInfo() {
             return this.pinia.getSalaInfo();
+        },
+        indexSala() {
+            return this.pinia.getIndexSala()
         }
     },
     mounted() {
