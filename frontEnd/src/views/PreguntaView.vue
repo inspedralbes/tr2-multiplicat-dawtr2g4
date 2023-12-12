@@ -5,6 +5,7 @@
             <div class="col-12 mt-4 p-0 grid-container">
                 <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, index ) in salaInfo.preguntaActual.respostes" v-on:click="respostaSeleccionada(index)">{{ resposta.text_resposta }}</button>
             </div>
+
         </div>
 </template>
 
@@ -38,6 +39,7 @@ export default {
     },
     mounted() {
         this.temporitzador = this.pinia.getTemporitzador();
+
     }
 }
 

@@ -18,6 +18,7 @@ export const useAppStore = defineStore('app', {
     sales: [],
     indexSala: null,
 
+
     //100%
     temporitzador: '', // utilitzat a Partida View
     torn: '',
@@ -38,6 +39,7 @@ export const useAppStore = defineStore('app', {
     resultatsFinals: [],
     token: '',
     user: {},
+
   }),
   actions: {
 
