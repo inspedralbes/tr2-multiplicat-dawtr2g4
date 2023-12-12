@@ -1,11 +1,17 @@
 import { io } from "socket.io-client";
 import { useAppStore } from "./stores/app";
-import { pushScopeId } from "vue";
 import router from "./router";
 
-const URL = "http://localhost:3000";
+let url;
+if(window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
+  url = "http://tr2g4.daw.inspedralbes.cat:3378";
+} else if(window.location.hostname === 'mathball.daw.inspedralbes.cat') {
+  url = "http://mathball.daw.inspedralbes.cat:3378";
+} else {
+  url = "http://localhost:3378";
+}
 
-export const socket = io(URL);
+export const socket = io(url);
 
 socket.on("connect", () => {
   const pinia = useAppStore();
