@@ -85,6 +85,32 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('crear-sala', (Sala) => {
+    // Comprovar si ja existeix una sala amb el mateix nom
+    if (sales.find(s => s.nomSala === Sala.nom)) {
+      socket.emit('sala-creada', false);
+      return;
+    }
+
+    // Crear nova sala
+    let sala = {
+      jugadors: [],
+      equips: [
+        { nJugadors: 0, punts: 0 },
+        { nJugadors: 0, punts: 0 }
+      ],
+      rondes: [],
+      totalVots: 0,
+      equipAtacant: 0,
+      categoria: Sala.categoria,
+      preguntaActual: null,
+      resultatsActuals: null,
+      nomSala: Sala.nom
+    }
+    sales.push(sala);
+    socket.emit('sala-creada', true);
+  });
+
   socket.on('sala-seleccionada', (indexSala) => {
     let sala = sales[indexSala];
     if (!sala) return;

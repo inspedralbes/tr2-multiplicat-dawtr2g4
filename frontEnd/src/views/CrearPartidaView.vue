@@ -1,20 +1,17 @@
 <template>
-    <div>
+    <div class="contenidor">
         <h1>Creació de sala</h1>
+        <div class="contingut">
+            <label for="nom">Nom de la sala</label>
+            <input type="text" id="nom" v-model="sala.nom" required>
 
-        <label for="nom">Nom de la partida</label>
-        <input type="text" id="nom" v-model="partida.nom" required>
+            <label for="categoria">Categoria</label>
+            <select id="categoria" v-model="sala.categoria" required>
+                <option v-for="(actual, index) in categories" :value="actual.id">{{ actual.nom }}</option>
+            </select>
 
-        <label for="categoria">Categoria</label>
-        <select id="categoria" v-model="partida.categoria" required>
-            <option v-for="(actual, index) in categories" :value="actual.id">{{ actual.nom }}</option>
-        </select>
-        <label for="numJugadors1">Nombre de jugadors per equip</label>
-        <input type="number" id="numJugadors1" v-model="partida.numJugadors1" required>
-
-        <label for="numJugadors2">Nombre de jugadors per equip</label>
-        <input type="number" id="numJugadors2" v-model="partida.numJugadors2" required>
-        <button @click="enviarPartida()">Crear partida</button>
+            <button @click="enviarPartida()">Crear sala</button>
+        </div>
 
     </div>
 </template>
@@ -28,18 +25,16 @@ export default {
     data() {
         return {
             categories: [],
-            partida: {
+            sala: {
                 nom: '',
                 categoria: '',
-                numJugadors1: '',
-                numJugadors2: '',
             }
         }
     },
     methods: {
         enviarPartida() {
-            console.log(this.partida);
-            //socket.emit('crear-partida', this.partida);
+            console.log(this.sala);
+            socket.emit('crear-sala', this.sala);
         },
     },
     computed: {
@@ -56,4 +51,76 @@ export default {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.contenidor h1 {
+    margin-top: 200px;
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+}
+
+/* .contenidor {
+    position: absolute;
+    width: fit-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: auto;
+    margin-right: auto;
+} */
+
+.contingut {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contingut label {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.contingut button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contingut select {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contingut input {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.contingut button:hover {
+    background-color: #0056b3;
+}</style>
