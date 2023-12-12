@@ -34,7 +34,7 @@ import Menubar from 'primevue/menubar';
                 <div v-else>
                     <div class="flex align-items-center gap-2">
                         <p class="mr-3 font-bold">Benvingut {{ nom }}!</p>
-                        <img src="/img/logout.png" alt="logout" height="50" width="50">
+                        <img @click="logout" class="logout" src="/img/logout.png" alt="logout" height="50" width="50">
                     </div>
                 </div>
             </template>
@@ -54,6 +54,11 @@ export default {
     data() {
         return {
             store: useAppStore(),
+        }
+    },
+    methods: {
+        logout() {
+            this.store.logout();
         }
     },
     computed: {
@@ -77,5 +82,8 @@ export default {
 
 .icon {
     color: #2196F3;
+}
+.logout {
+    cursor: pointer;
 }
 </style>

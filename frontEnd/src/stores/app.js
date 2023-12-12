@@ -213,5 +213,13 @@ export const useAppStore = defineStore('app', {
       this.user = user
     },
 
+
+    //logout
+
+    logout() {
+      this.token = ''
+      this.user = {}
+    },
+
   },
 })
