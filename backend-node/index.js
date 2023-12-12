@@ -29,29 +29,43 @@ const sales = [{
   categoria: 1,
   preguntaActual: null,
   resultatsActuals: null,
-  nomSala: "Sala 1"
+  nomSala: "Sala 1",
+  jugadorsBanqueta: [],
+  jugadorsCamp: []
 }];
 
-  // Executar funcio per a crear 10 sales
-  (function () {
-    for (let i = 0; i < 10; i++) {
-      let sala = {
-        jugadors: [],
-        equips: [
-          { nJugadors: 0, punts: 0 },
-          { nJugadors: 0, punts: 0 }
-        ],
-        rondes: [],
-        totalVots: 0,
-        equipAtacant: 0,
-        categoria: 1,
-        preguntaActual: null,
-        resultatsActuals: null,
-        nomSala: "Sala " + (i + 1)
-      }
-      sales.push(sala)
+const JUGADORS_PER_EQUIP = 5;
+for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
+  let jugador = {
+    baseActual: null,
+    eliminat: false,
+    id: i
+  }
+  sales[0].jugadorsBanqueta.push(jugador);
+}
+
+// Executar funcio per a crear 10 sales
+(function () {
+  for (let i = 0; i < 10; i++) {
+    let sala = {
+      jugadors: [],
+      equips: [
+        { nJugadors: 0, punts: 0 },
+        { nJugadors: 0, punts: 0 }
+      ],
+      rondes: [],
+      totalVots: 0,
+      equipAtacant: 0,
+      categoria: 1,
+      preguntaActual: null,
+      resultatsActuals: null,
+      nomSala: "Sala " + (i + 1),
+      jugadorsBanqueta: [],
+      jugadorsCamp: []
     }
-  })()
+    sales.push(sala)
+  }
+})()
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 30;
@@ -139,6 +153,7 @@ io.on('connection', (socket) => {
       equipAtacant: equipAtacant,
       punts: 0
     })
+    nouJugadorAlCamp(sala);
     io.to(sala.nomSala).emit('partida-iniciada', sala)
   })
 
@@ -268,6 +283,13 @@ io.on('connection', (socket) => {
   function moureJugador(sala, moviments) {
     let jugador = sala.jugadors.find(j => j.equip === sala.equipAtacant)
     jugador.baseActual += moviments
+
+    for (let i = 0; i < sala.jugadorsCamp.length; i++) {
+      sala.jugadorsCamp[i].baseActual += moviments;
+    }
+
+    nouJugadorAlCamp(sala);
+
     io.to(sala.nomSala).emit('moure-jugador', sala, jugador)
     return jugador
   }
@@ -372,6 +394,12 @@ function resetejarVotacions(sala) {
     jugador.votacioResposta = null
   });
   sala.totalVots = 0;
+}
+
+function nouJugadorAlCamp(sala) {
+  let jugadorBatejant = sala.jugadorsBanqueta.shift(); // Treiem el primer jugador de l'array banqueta
+  jugadorBatejant.baseActual = 0;
+  sala.jugadorsCamp.push(jugadorBatejant); // I el col·loquem al camp
 }
 
 server.listen(port, () => { // We make the http server listen on port 3000.
