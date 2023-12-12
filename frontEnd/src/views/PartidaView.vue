@@ -1,115 +1,122 @@
 <template>
     <div>
-        <h1>PARTIDA</h1>
-        <p>{{ pregunta }}</p>
-    </div>
-    <div id="flex-container">
-        <div id="container">
-            <img class="jugador home-base" id="jugador-0" src="/img/jugador.png" alt="jugador">
-            <img class="camp" src="/img/camp.jpg" alt="">
+        <div>
+            <h1>Ara mateix batejant EQUIP {{ salaInfo.equipAtacant }}</h1>
         </div>
-        <div id="moviment-bases">
-            <!--<button @click="initVotacio" v-if="count === 3">COMENÇAR VOTACIÓ</button>--> 
-            <button @click="initVotacio">COMENÇAR VOTACIÓ</button>
-            <p>{{ count }}</p>
-            <div v-if="isVotacioEnCurs == true">
-                <p>Quantes bases us voleu moure?</p>
-                <form id="form" action="" v-on:change="seleccionarBase()">
-                    <input type="radio" id="base1" name="base" value="1" v-model="baseEscollida">
-                    <label for="base1"> 1 </label><br>
-                    <input type="radio" id="base2" name="base" value="2" v-model="baseEscollida">
-                    <label for="base2"> 2 </label><br>
-                    <input type="radio" id="base3" name="base" value="3" v-model="baseEscollida">
-                    <label for="base3"> 3 </label><br><br>
-                </form>
-                <h2>El jugador es troba a la base: {{ player.base }}</h2>
+        <div id="grid-container">
+            <div id="camp-de-joc">
+                <img class="jugador home-base" id="jugador-0" src="/img/jugador.png" alt="jugador">
+                <img class="camp" src="/img/camp.jpg" alt="">
+            </div>
+            <div id="puntuacio">
+                <p>EQUIP 1: {{ salaInfo.equips[0].punts }}</p>
+                <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>
+            </div>
+            <div id="moviment-bases">
+                <button v-if="votacioBaseEnCurs == false" @click="initVotacio">COMENÇAR VOTACIÓ</button>
+                <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70"
+                        height="70" alt="">
+                    <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
+                </div>
+                <div v-if="votacioBaseEnCurs == true && equip == salaInfo.equipAtacant">
+                    <p>Quantes bases us voleu moure?</p>
+                    <div class="contenidor-dificultat-bases">
+                        <button :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(1)">{{ 1 }}</button>
+                        <button :class="[dificultatSeleccionada.isSelected_2 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(2)">{{ 2 }}</button>
+                        <button :class="[dificultatSeleccionada.isSelected_3 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(3)">{{ 3 }}</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
+
+import { useAppStore } from '../stores/app'
+import { socket } from '@/socket';
+import { watch } from 'vue'
 export default {
     data() {
         return {
-            socket: null,
-            player: { id: 0, base: 0 },
-            baseEscollida: "",
-            isVotacioEnCurs: false,
-            count: "",
-            indexSala: 0,
-            pregunta: "Pregunta"
         }
     },
     methods: {
-        seleccionarBase() {
-
-            const bases = document.getElementsByName('base');
-            const jugador = document.getElementById('jugador-0');
-            
-            if (this.baseEscollida != "") {
-                this.socket.emit('seleccionar base', {baseEscollida: this.baseEscollida, player: this.player});
-                this.socket.emit('votacio-base', this.indexSala, this.baseEscollida);
-                console.log(this.indexSala);
+        baseSeleccionada(idBase) {
+            if (idBase == 1 | idBase == 2 | idBase == 3) {
+                if (idBase == 1) {
+                    this.dificultatSeleccionada.isSelected_1 = true;
+                } else if (idBase == 2) {
+                    this.dificultatSeleccionada.isSelected_2 = true;
+                } else if (idBase == 3) {
+                    this.dificultatSeleccionada.isSelected_3 = true;
+                }
+                socket.emit('vot-dificultat', this.indexSala, idBase);
             }
-
-            this.isVotacioEnCurs = false;
         },
         pintarCamp() {
             const jugador = document.getElementById('jugador-0');
-            if (this.player.base == 0) {
+            if (this.jugadorEnCamp.baseActual == 0) {
                 jugador.classList.add("home-base");
-            } else if (this.player.base == 1) {
+            } else if (this.jugadorEnCamp.baseActual == 1) {
                 jugador.classList.remove("home-base");
                 jugador.classList.add("primera-base");
             }
-            else if (this.player.base == 2) {
+            else if (this.jugadorEnCamp.baseActual == 2) {
                 jugador.classList.remove("home-base");
                 jugador.classList.remove("primera-base");
                 jugador.classList.add("segona-base");
-            } else if (this.player.base == 3) {
+            } else if (this.jugadorEnCamp.baseActual == 3) {
                 jugador.classList.remove("home-base");
                 jugador.classList.remove("primera-base");
                 jugador.classList.remove("segona-base");
                 jugador.classList.add("tercera-base");
-            } else if (this.player.base > 3) {
+            } else if (this.jugadorEnCamp.baseActual > 3) {
                 jugador.classList.remove("primera-base");
                 jugador.classList.remove("segona-base");
                 jugador.classList.remove("tercera-base");
                 jugador.classList.add("home-base");
             }
         },
-        initVotacio(){  
-            this.socket.emit('començar-votacio', true);
+        initVotacio() {
+            socket.emit('començar-votacio-dificultat', this.indexSala);
+        }
+    },
+    setup() {
+        const pinia = useAppStore();
+        return { pinia };
+    },
+    computed: {
+        equip() {
+            return this.pinia.getTeam();
+        },
+        temporitzador() {
+            let temporitzador = this.pinia.getTemporitzador();
+            return temporitzador.toString().padStart(2, '0');
+        },
+        votacioBaseEnCurs() {
+            return this.pinia.getVotacioBaseEnCurs();
+        },
+        jugadorEnCamp() {
+            return this.pinia.getJugadorEnCamp();
+        },
+        salaInfo() {
+            return this.pinia.getSalaInfo();
+        },
+        dificultatSeleccionada() {
+            return this.pinia.getDificultatSeleccionada();
+        },
+        indexSala() {
+            return this.pinia.getIndexSala();
         }
     },
     mounted() {
-        this.socket = io('http://localhost:3000');
+        this.pinia.$subscribe((mutation, state) => {
 
-        this.socket.on('començar-votacio-dificultat', (cronometre) => {
-            console.log(cronometre);
-            this.isVotacioEnCurs = true;
-            this.count = cronometre;
-        });
-
-        this.socket.on('actualitzar-comptador', (cronometre) => {
-            this.count = cronometre;
-        });
-
-        this.socket.on('finalitzar-votacio', (isVotacioEnCurs) => {
-            this.isVotacioEnCurs = isVotacioEnCurs;
-        });
-
-        this.socket.on('nova-pregunta', (pregunta) => {
-            this.pregunta = pregunta;
-        });
-
-        this.socket.on('seleccionar base', (msg) => {
-            this.player.base = parseInt(msg.player.base) + parseInt(msg.baseEscollida);
-            console.log("actualitzar");
-            this.pintarCamp();
-            this.baseEscollida = "";
+            if (this.pinia.jugadorEnCamp.baseActual != 0) {
+                this.pintarCamp();
+            }
         });
     }
 }
@@ -117,18 +124,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#flex-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    column-gap: 20px;
+:root {
+    --timeMov: 0.75s;
 }
 
-#container {
+#grid-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+        "camp-de-joc puntuacio"
+        "camp-de-joc moviment-bases";
+    margin-top: 20px;
+    gap: 20px 20px;
+}
+
+#camp-de-joc {
+    grid-area: camp-de-joc;
     position: relative;
     width: 612px;
     height: 535px;
     border: 1px solid black;
+    justify-self: right;
 }
 
 .camp {
@@ -144,10 +160,27 @@ export default {
     height: 60px;
 }
 
-#moviment-bases {
+#puntuacio {
+    grid-area: puntuacio;
     border: 1px solid black;
     padding: 5px;
-    height: 10%;
+    justify-self: left;
+    margin-right: 50px;
+    width: 40%;
+}
+
+#moviment-bases {
+    grid-area: moviment-bases;
+    border: 1px solid black;
+    padding: 5px;
+    justify-self: left;
+    margin-right: 50px;
+    width: 40%;
+}
+
+.moviment {
+    transition: all var(--timeMov) ease;
+    /* Puedes ajustar la duración y la función de temporización según tus necesidades */
 }
 
 .home-base {
@@ -173,4 +206,50 @@ export default {
     bottom: 34%;
     left: 26%;
 }
+
+.temporitzador {
+    position: absolute;
+    top: 0;
+    left: 31%;
+}
+
+@keyframes rotacioInfinita {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.temporitzador-container {
+    margin: 0 auto;
+    position: relative;
+}
+
+.temporitzador-container > img {
+    animation: rotacioInfinita 8s linear infinite;
+}
+
+.base-item {
+    width: 100%;
+    height: 30px;
+    border: none;
+    padding: 20px 30px;
+    text-align: center;
+    line-height: 0;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.base-item--not-selected {
+    background-color: #555555;
+    color: #e7e7e7;
+}
+
+.base-item--selected {
+    background-color: #e7e7e7;
+    color:  #555555;
+}
+
 </style>

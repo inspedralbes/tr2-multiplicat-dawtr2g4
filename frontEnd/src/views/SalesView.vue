@@ -1,23 +1,30 @@
 <template>
-    <div>
-        <h1>SALES</h1>
+    <div class="salas">
+        <div class="title-container flex align-items-center justify-content-center border-round-lg m-5">
+            <div class="block text-6xl font-bold mb-1 text-white">Sales</div>
+        </div>
         <div v-if="this.loading">
             <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca.gif" alt="loading_gif">
         </div>
         <div v-else>
-            <div class="flex">
-                <h2>Num</h2>
-                <h2>Nom</h2>
-                <h2>Num Jugadors</h2>
+            <div class="grid m-5">
+                <div v-for="(actual, index) in sales" class="col-6 md:col-4 lg:col-2">
+                    <Card class="p-4">
+                        <template #title> {{ actual.nomSala }} </template>
+                        <template #content>
+                            <p class="m-0">
+                                Jugadors: {{ actual.jugadors.length }}
+                            </p>
+                            <p class="m-0">
+                                Categoria: {{ actual.categoria }}
+                            </p>
+                        </template>
+                        <template #footer>
+                            <Button label="Entrar" @click="setSala(index)" />
+                        </template>
+                    </Card>
+                </div>
             </div>
-            <div @click="setSala(index)" v-for="(actual, index) in pinia.getSales()" class="flex sales">
-
-                    <h2>{{ index + 1 }}</h2>
-                    <h2>{{ actual.nomSala }}</h2>
-                    <h2> {{ actual.jugadors.length }}</h2>
-                
-            </div>
-
         </div>
     </div>
 </template>
@@ -27,8 +34,6 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
-//import { io } from 'socket.io-client';
-//const socket = io("http://localhost:3000");
 
 export default {
     setup() {
@@ -37,8 +42,18 @@ export default {
 
         onMounted(async () => {
             loading.value = true;
+
+            let url;
+            if (window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
+                url = "http://tr2g4.daw.inspedralbes.cat:3378/api/salas";
+            } else if (window.location.hostname === 'mathball.daw.inspedralbes.cat') {
+                url = "http://mathball.daw.inspedralbes.cat:3378/api/salas";
+            } else {
+                url = "http://localhost:3378/api/salas";
+            }
+
             try {
-                const response = await fetch("http://localhost:3000/api/salas");
+                const response = await fetch(url);
                 const data = await response.json();
 
                 pinia.setSales(data.sales);
@@ -54,7 +69,13 @@ export default {
     },
     methods: {
         setSala(id) {
+            this.pinia.setIndexSala(id);
             socket.emit('sala-seleccionada', id)
+        }
+    },
+    computed: {
+        sales() {
+            return this.pinia.getSales();
         }
     },
     components: {
@@ -65,27 +86,28 @@ export default {
 </script>
 
 <style scoped>
-.flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
+.salas {
+    position: relative;
 }
 
-.flex>h2 {
-    margin: 0;
-    display: inline-block;
-    width: 10%;
-    /* max-width: 10%; */
+.salas::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    z-index: -1;
 }
 
-.sales:hover {
-    background-color: #e6e6e6;
-    cursor: pointer;
+.title-container {
+    height: 100px;
+    background-color: rgba(50, 50, 50, 0.7);
 }
 </style>
 

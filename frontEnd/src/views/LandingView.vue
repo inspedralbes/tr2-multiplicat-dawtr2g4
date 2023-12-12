@@ -1,21 +1,42 @@
 <template>
-    <div>
-
-        <RouterLink to="/sales">
-            <div class="card flex justify-content-center">
-                <Button type="button" label="ANAR A SALES"/>
+    <div class="landing flex justify-content-center">
+        <div class="flex flex-column justify-content-center">
+            <div class="container flex flex-column align-items-center gap-6 py-5 px-8 border-round-lg">
+                <div class="block text-8xl font-bold mb-1 text-white">MathBall</div>
+                <RouterLink to="/sales">
+                    <Button id="buttonSales" severity="primary" raised rounded size="large" label="JUGAR" />
+                </RouterLink>
             </div>
-        </RouterLink>
-        
-        <Footer />
-
+        </div>
     </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.landing {
+    position: relative;
+}
+
+.landing::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    z-index: -1;
+}
+
+.container {
+    background-color: rgba(50, 50, 50, 0.7);
+}
+
+</style>
