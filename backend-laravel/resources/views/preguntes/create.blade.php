@@ -1,5 +1,4 @@
 @extends('app')
-
 @section('content')
 <div class="container w-30 border p-4 mt-5">
     <div class="row mx-auto">
