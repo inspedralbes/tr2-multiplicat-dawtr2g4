@@ -13,6 +13,7 @@
                 <img class = jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '.png'" alt="">
             </div>
             <div id="puntuacio">
+                <p>OUTS: {{ salaInfo.outs }}</p>
                 <p>EQUIP 1: {{ salaInfo.equips[0].punts }}</p>
                 <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>
             </div>
@@ -126,7 +127,7 @@ export default {
     width: 612px;
     height: 535px;
     border: 1px solid black;
-    justify-self: right;
+    justify-self: center;
 }
 
 .camp {
