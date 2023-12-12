@@ -12,7 +12,7 @@
             <div>
                 <form @submit.prevent="login">
                     <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-                    <InputText v-model="email" id="email1" type="text" class="w-full mb-3" />
+                    <InputText v-model="email" id="email1" type="email" class="w-full mb-3" />
 
                     <label for="password1" class="block text-900 font-medium mb-2">Contrassenya</label>
                     <InputText v-model="password" id="password1" type="password" class="w-full mb-3" />

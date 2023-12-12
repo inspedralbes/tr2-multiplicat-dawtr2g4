@@ -60,7 +60,6 @@ export default {
 
         register() {
             if (this.password === this.password1) {
-
                 fetch('http://localhost:8000/api/register', {
                     method: 'POST',
                     headers: {
