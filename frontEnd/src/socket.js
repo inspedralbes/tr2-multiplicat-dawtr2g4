@@ -138,6 +138,11 @@ socket.on("connect", () => {
     console.log('Received finalitzar-partida:');
   });
 
+  socket.on('resetejar-torn', (sala) => {
+    pinia.setSalaInfo(null, sala);
+    console.log('Received resetejar-torn:');
+  });
+
 });
 
 socket.on("disconnect", () => {

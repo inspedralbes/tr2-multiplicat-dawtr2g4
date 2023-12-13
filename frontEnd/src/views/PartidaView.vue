@@ -1,14 +1,19 @@
 <template>
-    <div>
+    <div class="partida">
         <div>
             <h1>Ara mateix batejant EQUIP {{ salaInfo.equipAtacant }}</h1>
         </div>
         <div id="grid-container">
             <div id="camp-de-joc">
-                <img class="jugador home-base" id="jugador-0" src="/img/jugador.png" alt="jugador">
+                <img v-for="jugador in salaInfo.jugadorsCamp" :class="[jugador.baseActual == 0 ? 'home-base' : jugador.baseActual == 1 ? 'primera-base' : jugador.baseActual == 2 ? 'segona-base' : jugador.baseActual == 3 ? 'tercera-base' : 'home-base', 'jugador']" :src="'/img/jugador-' + jugador.id + '.png'" alt="jugador">
                 <img class="camp" src="/img/camp.jpg" alt="">
             </div>
+            <div id="banqueta">
+                <p>BANQUETA</p>
+                <img class = jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '.png'" alt="">
+            </div>
             <div id="puntuacio">
+                <p>OUTS: {{ salaInfo.outs }}</p>
                 <p>EQUIP 1: {{ salaInfo.equips[0].punts }}</p>
                 <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>
             </div>
@@ -40,6 +45,7 @@ import { watch } from 'vue'
 export default {
     data() {
         return {
+            
         }
     },
     methods: {
@@ -53,30 +59,6 @@ export default {
                     this.dificultatSeleccionada.isSelected_3 = true;
                 }
                 socket.emit('vot-dificultat', this.indexSala, idBase);
-            }
-        },
-        pintarCamp() {
-            const jugador = document.getElementById('jugador-0');
-            if (this.jugadorEnCamp.baseActual == 0) {
-                jugador.classList.add("home-base");
-            } else if (this.jugadorEnCamp.baseActual == 1) {
-                jugador.classList.remove("home-base");
-                jugador.classList.add("primera-base");
-            }
-            else if (this.jugadorEnCamp.baseActual == 2) {
-                jugador.classList.remove("home-base");
-                jugador.classList.remove("primera-base");
-                jugador.classList.add("segona-base");
-            } else if (this.jugadorEnCamp.baseActual == 3) {
-                jugador.classList.remove("home-base");
-                jugador.classList.remove("primera-base");
-                jugador.classList.remove("segona-base");
-                jugador.classList.add("tercera-base");
-            } else if (this.jugadorEnCamp.baseActual > 3) {
-                jugador.classList.remove("primera-base");
-                jugador.classList.remove("segona-base");
-                jugador.classList.remove("tercera-base");
-                jugador.classList.add("home-base");
             }
         },
         initVotacio() {
@@ -112,12 +94,6 @@ export default {
         }
     },
     mounted() {
-        this.pinia.$subscribe((mutation, state) => {
-
-            if (this.pinia.jugadorEnCamp.baseActual != 0) {
-                this.pintarCamp();
-            }
-        });
     }
 }
 
@@ -128,12 +104,19 @@ export default {
     --timeMov: 0.75s;
 }
 
+.partida{
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 #grid-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     grid-template-areas:
-        "camp-de-joc puntuacio"
-        "camp-de-joc moviment-bases";
+        ". camp-de-joc puntuacio"
+        "banqueta camp-de-joc moviment-bases";
     margin-top: 20px;
     gap: 20px 20px;
 }
@@ -144,7 +127,7 @@ export default {
     width: 612px;
     height: 535px;
     border: 1px solid black;
-    justify-self: right;
+    justify-self: center;
 }
 
 .camp {
@@ -152,12 +135,20 @@ export default {
     height: 535px;
     position: absolute;
     object-fit: cover;
-    z-index: -1;
 }
 
 .jugador {
     width: 60px;
     height: 60px;
+    z-index: 1;
+}
+
+#banqueta {
+    grid-area: banqueta;
+    border: 1px solid black;
+    background-color: white;
+    justify-self: right;
+    width: 40%;
 }
 
 #puntuacio {
@@ -167,6 +158,7 @@ export default {
     justify-self: left;
     margin-right: 50px;
     width: 40%;
+    background-color: white;
 }
 
 #moviment-bases {
@@ -176,6 +168,7 @@ export default {
     justify-self: left;
     margin-right: 50px;
     width: 40%;
+    background-color: #4caf50;
 }
 
 .moviment {
@@ -242,13 +235,13 @@ export default {
     font-weight: bolder;
     margin-bottom: 10px;
 }
-.base-item--not-selected {
+.base-item--selected {
     background-color: #555555;
-    color: #e7e7e7;
+    color: #f1f1f1;
 }
 
-.base-item--selected {
-    background-color: #e7e7e7;
+.base-item--not-selected {
+    background-color: #f1f1f1;
     color:  #555555;
 }
 
