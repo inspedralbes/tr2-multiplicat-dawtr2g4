@@ -40,7 +40,7 @@
                 <a class="nav-link" href="{{ route('preguntesIndex') }}">Preguntes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Categories</a>
+                    <a class="nav-link" href="{{ route('categoriesIndex') }}">Categories</a>
                 </li>
             </ul>
             </div>

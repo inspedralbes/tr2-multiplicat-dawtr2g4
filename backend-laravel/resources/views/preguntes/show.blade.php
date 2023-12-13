@@ -49,6 +49,11 @@
             @endforeach
 
             <input type="submit" value="Actualitzar pregunta" class="btn btn-primary my-2" />
+            <div style="display: inline-block; margin-top: 10px; float: right;">
+                <a href="{{ route('preguntesIndex') }}" class="btn btn-secondary">
+                    Cancelar
+                </a>
+            </div>
         </div>
     </form>
 

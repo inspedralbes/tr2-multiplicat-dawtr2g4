@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PreguntesController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,12 @@ Route::get('/crearPregunta', [PreguntesController::class,'storeShow'])->name('pr
 Route::post('/crearPregunta', [PreguntesController::class, 'store'])->name('preguntesStore');
 Route::put('/preguntes/{id}', [PreguntesController::class, 'update'])->name('preguntesUpdate');
 Route::delete('/preguntes/delete/{id}', [PreguntesController::class, 'destroy'])->name('preguntesDestroy');
+
+//CATEGORIES
+Route::get('/categories', [CategoriesController::class, 'indexWeb'])->name('categoriesIndex');
+Route::get('/categories/search', [CategoriesController::class, 'searchCrudWeb'])->name('categoriesIndexSearch');
+Route::get('/categories/{id}', [CategoriesController::class, 'showWeb'])->name('categoriesShow');
+Route::get('/crearCategoria', [CategoriesController::class,'storeShowWeb'])->name('categoriesStore');
+Route::post('/crearCategoria', [CategoriesController::class, 'storeWeb'])->name('categoriesStore');
+Route::put('/categories/{id}', [CategoriesController::class, 'updateWeb'])->name('categoriesUpdate');
+Route::delete('/categories/delete/{id}', [CategoriesController::class, 'destroyWeb'])->name('categoriesDestroy');
