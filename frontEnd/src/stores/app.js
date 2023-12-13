@@ -3,6 +3,10 @@ import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
+
+    //ruta
+    url: '',
+
     //local
     userInfo: {
       username: '',
@@ -226,13 +230,10 @@ export const useAppStore = defineStore('app', {
       this.profe = profe
     },
 
-
     //logout
-
     logout() {
       this.token = ''
       this.user = {}
     },
-
   },
 })

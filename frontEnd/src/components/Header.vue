@@ -31,7 +31,10 @@ import Menubar from 'primevue/menubar';
                         </div>
                     </RouterLink>
                 </div>
-                <div v-else>
+                <div v-else class="flex1">
+                    <div v-if="profe" class="flex align-items-center gap-2">
+                        <a href="">administrar</a>
+                    </div>
                     <div class="flex align-items-center gap-2">
                         <p class="mr-3 font-bold">Benvingut {{ nom }}!</p>
                         <img @click="logout" class="logout" src="/img/logout.png" alt="logout" height="50" width="50">
@@ -67,7 +70,10 @@ export default {
         },
         nom() {
             return this.store.getUser();
-        }
+        },
+        profe() {
+            return this.store.getProfe();
+        },
     },
 }
 </script>
@@ -83,7 +89,17 @@ export default {
 .icon {
     color: #2196F3;
 }
+
 .logout {
     cursor: pointer;
+}
+
+.flex1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flex1 > :first-child {
+    margin-right: 1rem;
 }
 </style>
