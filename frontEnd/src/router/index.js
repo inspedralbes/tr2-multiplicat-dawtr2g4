@@ -10,6 +10,7 @@ import totalVotacions from '../views/totalVotacions.vue'
 import ResultatsView from '../views/ResultatsView.vue'
 import ResultatsFinalsView from '../views/ResultatsFinalsView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import PolitiquesPrivacitatView from '../views/PolitiquesPrivView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +69,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView
+    },
+    {
+      path: '/politiquesPrivacitat',
+      name: 'politiquesPrivacitat',
+      component: PolitiquesPrivacitatView
     },
   ]
 })
