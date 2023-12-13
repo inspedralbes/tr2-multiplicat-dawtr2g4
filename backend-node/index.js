@@ -226,7 +226,7 @@ io.on('connection', (socket) => {
   async function finalitzarVotacionsDificultat(sala) {
     clearInterval(intervalId)
     let dificultatVotada = calcularResultatsDificultat(sala)
-    io.to(sala.nomSala).emit('finalitzar-votacio-dificultat', dificultatVotada);
+    io.to(sala.nomSala).emit('finalitzar-votacio-dificultat', dificultatVotada, sala.jugadorsCamp.length);
     resetejarVotacions(sala)
     await novaPregunta(sala, dificultatVotada, sala.categoria, [])
   }

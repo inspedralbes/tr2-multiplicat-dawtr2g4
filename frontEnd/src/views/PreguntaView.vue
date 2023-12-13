@@ -4,7 +4,7 @@
             <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
             <img class = jugador :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
             <div class="col-12 mt-4 p-0 grid-container">
-                <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, index) in pregunta.respostes" v-on:click="respostaSeleccionada(index)">{{ resposta.text_resposta }}</button>
+                <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(pregunta.id, indexResposta)">{{ resposta.text_resposta }}</button>
             </div>
 
         </div>
@@ -17,9 +17,12 @@ import { socket } from '@/socket';
 
 export default {
     methods: {
-        respostaSeleccionada(idResposta) {
-            console.log("Has seleccionat la resposta" + idResposta);
-            socket.emit('vot-resposta', this.indexSala, idResposta);
+        respostaSeleccionada(idPregunta, idResposta) {
+            if (this.isPreguntaResposta == false) {
+            console.log("Has seleccionat la resposta " + idResposta + " de la pregunta " + idPregunta);
+            this.isPreguntaResposta = true;
+            socket.emit('vot-resposta', this.indexSala, idPregunta, idResposta);
+            }
         }
     },
     setup() {
@@ -36,6 +39,9 @@ export default {
         },
         indexSala() {
             return this.pinia.getIndexSala()
+        },
+        isPreguntaResposta() {
+            return this.pinia.getIsPreguntaResposta();
         }
     },
     mounted() {

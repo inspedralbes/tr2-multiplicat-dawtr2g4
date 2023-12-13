@@ -49,7 +49,7 @@ socket.on("connect", () => {
     console.log('Received actualitzar-comptador:', cronometre);
   });
 
-  socket.on('finalitzar-votacio-dificultat', (dificultat) => {
+  socket.on('finalitzar-votacio-dificultat', (dificultat, numPreguntes) => {
     // Handle the 'finalitzar-votacio' event here
     let dificultatSeleccionada = {
       isSelected_1: false,
@@ -57,8 +57,14 @@ socket.on("connect", () => {
       isSelected_3: false,
     };
 
+    let isPreguntaResposta = [];
+    for (let i = 0; i < numPreguntes; i++) {
+      isPreguntaResposta.push(false);
+    }
+
     pinia.setVotacioBaseEnCurs(false);
     pinia.setDificultatSeleccionada(dificultatSeleccionada);
+    pinia.setIsPreguntaResposta(isPreguntaResposta);
     pinia.setVotacioPreguntaEnCurs(true);
     router.push("/pregunta");
     console.log('Received finalitzar-votacio:', dificultat);

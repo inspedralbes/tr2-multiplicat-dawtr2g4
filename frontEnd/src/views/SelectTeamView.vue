@@ -42,8 +42,8 @@ export default {
     },
     methods: {
         escollirEquip(idEquip) {
-            console.log("Has ecollit equip " + idEquip);
             if (this.isEquipEscollit == false && (idEquip == 1 || idEquip == 2)) {
+                console.log("Has ecollit equip " + idEquip);
                 this.isEquipEscollit = true;
                 this.store.setTeam(idEquip);
                 socket.emit('equip-seleccionat', this.indexSala, idEquip, this.store.user);
