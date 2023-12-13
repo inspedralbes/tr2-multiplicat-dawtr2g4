@@ -62,7 +62,7 @@
             <h5 class="card-title">ID: {{ $pregunta->id }}</h5>
             <p class="card-text">Enunciat: {{ $pregunta->text_pregunta }}</p>
             <p class="card-text">Dificultat: {{ $pregunta->dificultat }}</p>
-            <p class="card-text">Categoria: {{ $pregunta->categoria_id }}</p>
+            <p class="card-text">Categoria: {{ $categories[$pregunta->categoria_id]->nom }}</p>
             <a href="{{ route('preguntesShow', ['id' => $pregunta->id]) }}" class="btn btn-primary">Edita</a>
             <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$pregunta->id}}">
                 Eliminar
