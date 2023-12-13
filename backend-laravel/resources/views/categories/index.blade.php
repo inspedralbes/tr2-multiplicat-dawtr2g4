@@ -26,14 +26,24 @@
             <h1 class="modal-title fs-5" id="exampleModalLabel">Segur que vols eliminar la categoria {{ $categoria->id }}</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
-            <form action="{{ route('categoriesDestroy', ['id' => $categoria->id]) }}" method="POST">
-                @method('DELETE')
-                @csrf
+        <form action="{{ route('categoriesDestroy', ['id' => $categoria->id]) }}" method="POST">
+            @method('DELETE')
+            @csrf
+            <div class="modal-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="true" name="eliminar_preg" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Eliminar totes les preguntes d'aquesta categoria
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                
                 <button class="btn btn-danger btn-sm">Eliminar</button>
-            </form>
-        </div>
+                
+            </div>
+        </form>
         </div>
     </div>
     </div>
@@ -41,7 +51,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">ID: {{ $categoria->id }}</h5>
-            <p class="card-text">Enunciat: {{ $categoria->nom }}</p>
+            <p class="card-text">Nom: {{ $categoria->nom }}</p>
             <a href="{{ route('categoriesShow', ['id' => $categoria->id]) }}" class="btn btn-primary">Edita</a>
             <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$categoria->id}}">
                 Eliminar

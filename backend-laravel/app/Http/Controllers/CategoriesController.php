@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categoria;
+use App\Models\Pregunta;
 
 class CategoriesController extends Controller
 {
@@ -92,8 +93,11 @@ class CategoriesController extends Controller
         $categoria->save();
         return redirect()->route('categoriesIndex');
     }
-    public function destroyWeb(string $id)
+    public function destroyWeb(Request $request, string $id)
     {
+        if($request->eliminar_preg){
+            Pregunta::where('categoria_id', $id)->delete();
+        }
         Categoria::findOrFail($id)->delete();
         return redirect()->route('categoriesIndex');
     }
