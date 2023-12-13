@@ -3,6 +3,11 @@
         <div class="flex flex-column justify-content-center">
             <div class="container flex flex-column align-items-center gap-6 py-5 px-8 border-round-lg">
                 <div class="block text-8xl font-bold mb-1 text-white">MathBall</div>
+                <div v-if="pinia.getProfe()">
+                    <RouterLink to="/crearSala">
+                        <Button id="buttonCreate" severity="primary" raised rounded size="large" label="CREAR SALA" />
+                    </RouterLink>
+                </div>
                 <RouterLink to="/sales">
                     <Button id="buttonSales" severity="primary" raised rounded size="large" label="JUGAR" />
                 </RouterLink>
@@ -12,7 +17,19 @@
 </template>
 
 <script>
-export default {}
+import { RouterLink } from 'vue-router';
+import { useAppStore } from '../stores/app';
+
+export default {
+    components: { RouterLink },
+    setup() {
+        const pinia = useAppStore();
+
+        return {
+            pinia,
+        }
+    },
+}
 </script>
 
 <style scoped>
@@ -38,5 +55,4 @@ export default {}
 .container {
     background-color: rgba(50, 50, 50, 0.7);
 }
-
 </style>

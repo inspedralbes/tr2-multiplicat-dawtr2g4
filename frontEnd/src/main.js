@@ -13,6 +13,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Checkbox from 'primevue/checkbox';
 import Card from 'primevue/card';
+import { useAppStore } from './stores/app';
 
 const app = createApp(App)
 
@@ -23,5 +24,9 @@ app.component('Button', Button)
 app.component('InputText', InputText)
 app.component('Checkbox', Checkbox)
 app.component('Card', Card)
+
+
+const store = useAppStore();
+store.url = window.location.hostname;
 
 app.mount('#app')
