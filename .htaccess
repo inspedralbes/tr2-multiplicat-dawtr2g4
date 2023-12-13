@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Prevent loop by not rewriting requests already going to /frontEnd
+RewriteCond %{REQUEST_URI} !^/frontEnd/
+# Internally rewrite everything else to /frontEnd
+RewriteRule ^(.*)$ /frontEnd/$1 [L]

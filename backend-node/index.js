@@ -3,19 +3,18 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const { getPregunta } = require('./communicationManager'); // Ruta correcta al archivo communicationManager.js
 const cors = require('cors');
-const { connect } = require('node:http2');
 
 const app = express();
 app.use(cors())
 
-const server = createServer(app); // Express initializes app to be a function handler that you can supply to an HTTP server
+const server = createServer(app); 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"], // Reemplaza con la URL de tu aplicación Vue.js
+    origin: ["http://mathball.daw.inspedralbes.cat","http://tr2g4.daw.inspedralbes.cat","http://localhost:5173", "http://127.0.0.1:5173"], 
     methods: ["GET", "POST"]
   }
 });
-const port = 3000 //node és el seu propi servidor. a la nostra aplicació que escolti per aquest port
+const port = 3378
 
 const sales = [{
   jugadors: [],
@@ -103,6 +102,32 @@ io.on('connection', (socket) => {
         io.emit('equips-actualitzats', indexSala, sales[indexSala]);
       }
     }
+  });
+
+  socket.on('crear-sala', (Sala) => {
+    // Comprovar si ja existeix una sala amb el mateix nom
+    if (sales.find(s => s.nomSala === Sala.nom)) {
+      socket.emit('sala-creada', false);
+      return;
+    }
+
+    // Crear nova sala
+    let sala = {
+      jugadors: [],
+      equips: [
+        { nJugadors: 0, punts: 0 },
+        { nJugadors: 0, punts: 0 }
+      ],
+      rondes: [],
+      totalVots: 0,
+      equipAtacant: 0,
+      categoria: Sala.categoria,
+      preguntaActual: null,
+      resultatsActuals: null,
+      nomSala: Sala.nom
+    }
+    sales.push(sala);
+    socket.emit('sala-creada', true);
   });
 
   socket.on('sala-seleccionada', (indexSala) => {
@@ -469,6 +494,6 @@ function checkContinuaJugant(jugador) {
   return jugador.baseActual <= 3;
 }
 
-server.listen(port, () => { // We make the http server listen on port 3000.
-  console.log(`server running at http://localhost:${port}`);
+server.listen(port, () => {
+  console.log(`server running at port ${port}`);
 });

@@ -18,6 +18,7 @@ export const useAppStore = defineStore('app', {
     sales: [],
     indexSala: null,
 
+
     //100%
     temporitzador: '', // utilitzat a Partida View
     torn: '',
@@ -38,6 +39,7 @@ export const useAppStore = defineStore('app', {
     resultatsFinals: [],
     token: '',
     user: {},
+    profe: false,
   }),
   actions: {
 
@@ -91,7 +93,7 @@ export const useAppStore = defineStore('app', {
     getRondes() {
       return this.sales[this.indexSala].rondes
     },
-    getIndexSala() { 
+    getIndexSala() {
       return this.indexSala;
     },
 
@@ -117,6 +119,9 @@ export const useAppStore = defineStore('app', {
     },
     getUser() {
       return this.user
+    },
+    getProfe() {
+      return this.profe
     },
 
     //setters
@@ -211,6 +216,22 @@ export const useAppStore = defineStore('app', {
     },
     setUser(user) {
       this.user = user
+    },
+    setProfe(profe) {
+      if (profe === 1) {
+        profe = true
+      } else {
+        profe = false
+      }
+      this.profe = profe
+    },
+
+
+    //logout
+
+    logout() {
+      this.token = ''
+      this.user = {}
     },
 
   },

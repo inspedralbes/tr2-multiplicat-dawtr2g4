@@ -59,30 +59,34 @@ export default {
     methods: {
 
         register() {
-            fetch('http://localhost:8000/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: this.name,
-                    email: this.email,
-                    password: this.password,
-                    password_confirmation: this.password1
+            if (this.password === this.password1) {
+                fetch('http://localhost:8000/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: this.name,
+                        email: this.email,
+                        password: this.password,
+                        password_confirmation: this.password1
+                    })
                 })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.errors) {
-                        alert(data.errors);
-                    } else {
-                        this.store.setToken(data.token);
-                        this.store.setUser(data.user.name);
-                        router.push('/');
-                    }
-                })
-                .catch(err => console.log(err));
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.errors) {
+                            alert(data.errors);
+                        } else {
+                            this.store.setToken(data.token);
+                            this.store.setUser(data.user.name);
+                            router.push('/');
+                        }
+                    })
+                    .catch(err => console.log(err));
 
+            } else {
+                alert('Les contrassenyes no coincideixen');
+            }
         }
 
     }
