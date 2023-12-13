@@ -71,6 +71,7 @@ export default {
                     } else {
                         this.store.setToken(data.token);
                         this.store.setUser(data.user.name);
+                        this.store.setProfe(data.user.esAdmin);
                         router.push('/');
                     }
                 })
