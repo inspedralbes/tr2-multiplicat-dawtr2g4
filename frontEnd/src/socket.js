@@ -59,7 +59,7 @@ socket.on("connect", () => {
 
     let isPreguntaResposta = [];
     for (let i = 0; i < numPreguntes; i++) {
-      isPreguntaResposta.push(false);
+      isPreguntaResposta.push(-1);
     }
 
     pinia.setVotacioBaseEnCurs(false);

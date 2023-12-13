@@ -72,7 +72,7 @@ const OUTS_ELIMINAR = 3;
 const CARRERES_GUANYAR = 10;
 
 const TEMPS_ESCOLLIR_BASE = 10;
-const TEMPS_VOTAR_RESPOSTA = 30;
+const TEMPS_VOTAR_RESPOSTA = 99;
 const socketRooms = {};
 let cronometre;
 let intervalId;
@@ -234,6 +234,7 @@ io.on('connection', (socket) => {
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
     // Trucar la API de Laravel per demanar la pregunta
     try {
+      sala.preguntaActual = [];
       for (let i = 0; i < sala.jugadorsCamp.length; i++) {
         let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
         pregunta.jugadorId = sala.jugadorsCamp[i].id;
@@ -259,11 +260,12 @@ io.on('connection', (socket) => {
 
   socket.on('vot-resposta', (indexSala, vot) => {
     // Vot ha de ser del 0 al 3
-    if (!esVotValid(vot, true)) return;
+    //if (!esVotValid(vot, true)) return;
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
 
-    if (jugador && !jugador.votacioResposta) {
+    //if (jugador && !jugador.votacioResposta) { //SEGURETAT QUE JA VEUREM COM ARREGLEM
+    if (jugador) {
       jugador.votacioResposta = vot;
       sala.totalVots++;
       io.to(sala.nomSala).emit('vot-resposta', sala.totalVots)
@@ -288,7 +290,7 @@ io.on('connection', (socket) => {
 
     if (sala.equipAtacant === sala.resultatsActuals.equipAcertat) {
       // Si l'equip atacant ha acertat, tots els jugador avancen bases
-      let jugador = moureJugador(sala, sala.preguntaActual.dificultat);
+      let jugador = moureJugador(sala, sala.preguntaActual[0].dificultat);
       let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
 
       // Comprovem quins jugadors han arribat a la base casa
@@ -381,12 +383,38 @@ io.on('connection', (socket) => {
 });
 
 function calcularResultatsRespostes(sala) {
-  const votsEquip1 = [0, 0, 0, 0];
-  const votsEquip2 = [0, 0, 0, 0];
-  const indexRespostaCorrecta = sala.preguntaActual.indexRespostaCorrecta;
+
+  const votsEquip1 = {};
+  const votsEquip2 = {};
+  const indexRespostesCorrectes = [];
+  //const votsEquip1 = [0, 0, 0, 0];
+  //const votsEquip2 = [0, 0, 0, 0];
+  //const indexRespostaCorrecta = sala.preguntaActual.indexRespostaCorrecta;
+
+  for (let i = 0; i < sala.preguntaActual.length; i++) {
+    votsEquip1["pregunta_" + i] = [0, 0, 0, 0];
+    votsEquip2["pregunta_" + i] = [0, 0, 0, 0];
+   }
+
+  for (let i = 0; i < sala.preguntaActual.length; i++) {
+    indexRespostesCorrectes.push(sala.preguntaActual[i].indexRespostaCorrecta);
+  }
 
   // Guarda els vots en els arrays votsEquip1 i votsEquip2
-  sala.jugadors.forEach(jugador => {
+  for (let i = 0; i < sala.preguntaActual.length; i++) {
+    sala.jugadors.forEach(jugador => {
+      if (jugador.votacioResposta != -1) {
+        if (jugador.equip === 1) {
+          votsEquip1["pregunta_" + i][jugador.votacioResposta]++;
+        } else if (jugador.equip === 2) {
+          votsEquip2["pregunta_" + i][jugador.votacioResposta]++;
+        }
+      }
+    });
+  }
+
+  // Guarda els vots en els arrays votsEquip1 i votsEquip2
+  /*sala.jugadors.forEach(jugador => {
     if (jugador.votacioResposta != null) {
       if (jugador.equip === 1) {
         votsEquip1[jugador.votacioResposta]++;
@@ -394,17 +422,57 @@ function calcularResultatsRespostes(sala) {
         votsEquip2[jugador.votacioResposta]++;
       }
     }
-  });
+  });*/
+
+  console.log("ARRAY VOTACIONS")
+  console.log(votsEquip1);
+  console.log(votsEquip2);
 
   // Calcular total de vots per equip i percentatge d'encerts
-  const totalVotsEquip1 = votsEquip1.reduce((acc, cur) => acc + cur, 0)
-  const totalVotsEquip2 = votsEquip2.reduce((acc, cur) => acc + cur, 0)
+  const totalVotsEquip1 = [];
+  const totalVotsEquip2 = [];
+  for (let i = 0; i < sala.preguntaActual.length; i++) {
+    totalVotsEquip1.push(votsEquip1["pregunta_" + i].reduce((acc, cur) => acc + cur, 0))
+    totalVotsEquip2.push(votsEquip2["pregunta_" + i].reduce((acc, cur) => acc + cur, 0))
+  }
 
-  const percentatgeCorrecteEquip1 = totalVotsEquip1 === 0 ? 0 : votsEquip1[indexRespostaCorrecta] / totalVotsEquip1;
-  const percentatgeCorrecteEquip2 = totalVotsEquip2 === 0 ? 0 : votsEquip2[indexRespostaCorrecta] / totalVotsEquip2;
+  console.log("TOTAL VOTS EQUIPS")
+  console.log(totalVotsEquip1);
+  console.log(totalVotsEquip2);
 
-  let equipAcertat;
-  if (percentatgeCorrecteEquip1 > percentatgeCorrecteEquip2) {
+  const percentatgeCorrecteEquip1 = [];
+  const percentatgeCorrecteEquip2 = [];
+  for (let i = 0; i < sala.preguntaActual.length; i++) {
+    percentatgeCorrecteEquip1.push(totalVotsEquip1[i] === 0 ? 0 : votsEquip1["pregunta_" + i][indexRespostesCorrectes[i]] / totalVotsEquip1[i]);
+    percentatgeCorrecteEquip2.push(totalVotsEquip2[i] === 0 ? 0 : votsEquip2["pregunta_" + i][indexRespostesCorrectes[i]] / totalVotsEquip2[i]);
+  }
+
+  console.log("PERCENTATGES EQUIPS")
+  console.log(percentatgeCorrecteEquip1);
+  console.log(percentatgeCorrecteEquip2);
+
+  // Calcular total de vots per equip i percentatge d'encerts
+  //const totalVotsEquip1 = votsEquip1.reduce((acc, cur) => acc + cur, 0)
+  //const totalVotsEquip2 = votsEquip2.reduce((acc, cur) => acc + cur, 0)
+
+  //const percentatgeCorrecteEquip1 = totalVotsEquip1 === 0 ? 0 : votsEquip1[indexRespostaCorrecta] / totalVotsEquip1;
+  //const percentatgeCorrecteEquip2 = totalVotsEquip2 === 0 ? 0 : votsEquip2[indexRespostaCorrecta] / totalVotsEquip2;
+
+  let equipAcertat = [];
+  for (let i = 0; i < sala.preguntaActual.length; i++) {
+    if (percentatgeCorrecteEquip1[i] > percentatgeCorrecteEquip2[i]) {
+      equipAcertat[i] = 1
+    } else if (percentatgeCorrecteEquip2[i] > percentatgeCorrecteEquip1[i]) {
+      equipAcertat[i] = 2
+    } else if (percentatgeCorrecteEquip1[i] === 0 && percentatgeCorrecteEquip2[i] === 0) {
+      equipAcertat[i] = sala.equipAtacant == 1 ? 2 : 1
+    } else {
+      equipAcertat[i] = sala.equipAtacant
+    }
+  }
+
+  //let equipAcertat;
+  /*if (percentatgeCorrecteEquip1 > percentatgeCorrecteEquip2) {
     equipAcertat = 1
   } else if (percentatgeCorrecteEquip2 > percentatgeCorrecteEquip1) {
     equipAcertat = 2
@@ -412,7 +480,7 @@ function calcularResultatsRespostes(sala) {
     equipAcertat = sala.equipAtacant == 1 ? 2 : 1
   } else {
     equipAcertat = sala.equipAtacant
-  }
+  }*/
 
   return { votsEquip1, votsEquip2, equipAcertat }
 }
@@ -448,7 +516,7 @@ function esVotValid(vot, sonVotsRespostes) {
 function totsHanVotat(sala, sonVotsRespostes) {
   // Si els vots són de les respostes, tots han de votar. Sino, només un equip ha de votar
   if (sonVotsRespostes) {
-    return sala.totalVots === (sala.equips[0].nJugadors + sala.equips[1].nJugadors)
+    return sala.totalVots === ((sala.equips[0].nJugadors * sala.jugadorsCamp.length) + (sala.equips[1].nJugadors * sala.jugadorsCamp.length))
   }
   return sala.totalVots === (sala.equipAtacant === 1 ? sala.equips[0].nJugadors : sala.equips[1].nJugadors);
 }
