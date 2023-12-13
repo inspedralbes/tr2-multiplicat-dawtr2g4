@@ -36,7 +36,7 @@ const sales = [{
   outs: 0
 }];
 
-const JUGADORS_PER_EQUIP = 3;
+const JUGADORS_PER_EQUIP = 5;
 for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
   let jugador = {
     baseActual: null,
@@ -69,8 +69,8 @@ for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
   }
 })()
 
-const OUTS_ELIMINAR = 2;
-const CARRERES_GUANYAR = 7;
+const OUTS_ELIMINAR = 3;
+const CARRERES_GUANYAR = 10;
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 30;
@@ -263,19 +263,23 @@ io.on('connection', (socket) => {
       let jugador = moureJugador(sala, sala.preguntaActual.dificultat);
       let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
 
-      // Si un jugador torna a casa...
-      for (let i = 0; i < sala.jugadorsCamp.length; i++) { 
-        if (sala.jugadorsCamp[i].baseActual >= 4) {
-          //...surt del camp i torna a la banqueta
-          sala.jugadorsCamp[i].baseActual = null;
-          let jugador = sala.jugadorsCamp.shift();
-          sala.jugadorsBanqueta.push(jugador);
-          //...el marcador del seu equip suma una carrera
-          sala.equips[indexAtacant].punts++;
-          sala.rondes[sala.rondes.length - 1].punts++;
-          io.to(sala.nomSala).emit('sumar-punt', sala);
-        }
+      // Comprovem quins jugadors han arribat a la base casa
+      let banqueta = sala.jugadorsCamp.filter(checkBaseHome);
+      // Comprovem quins jugadors encara no han arribat a la base casa
+      let camp = sala.jugadorsCamp.filter(checkContinuaJugant);
+
+      // Sumem tants punts com jugadors han arribat a la base casa
+      if (banqueta.length > 0) {
+        sala.equips[indexAtacant].punts += banqueta.length;
+        sala.rondes[sala.rondes.length - 1].punts += banqueta.length;
+        io.to(sala.nomSala).emit('sumar-punt', sala);
       }
+
+      // Afegim els jugadors que han arribat a la base casa a la banqueta
+      sala.jugadorsBanqueta.push(...banqueta);
+
+      // Actualitzem els jugadors que queden al camp
+      sala.jugadorsCamp = camp;
 
       //Si hi ha algún jugador a la banqueta salta al camp a batejar; si no hi ha ningú per batejar es canvia d'equip
       if (sala.jugadorsBanqueta.length != 0) {
@@ -289,8 +293,6 @@ io.on('connection', (socket) => {
       if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
         io.to(sala.nomSala).emit('finalitzar-partida');
       }
-
-      
 
       /*if (jugador.baseActual >= 4) {
         jugador.baseActual = 0;
@@ -433,13 +435,13 @@ function resetejarTorn(sala) {
   sala.jugadorsCamp = [];
   sala.jugadorsBanqueta = [];
   for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
-  let jugador = {
-    baseActual: null,
-    eliminat: false,
-    id: i
+    let jugador = {
+      baseActual: null,
+      eliminat: false,
+      id: i
+    }
+    sales[0].jugadorsBanqueta.push(jugador);
   }
-  sales[0].jugadorsBanqueta.push(jugador);
-}  
   nouJugadorAlCamp(sala);
 
   io.to(sala.nomSala).emit('resetejar-torn', sala)
@@ -457,6 +459,14 @@ function nouJugadorAlCamp(sala) {
   let jugadorBatejant = sala.jugadorsBanqueta.shift(); // Treiem el primer jugador de l'array banqueta
   jugadorBatejant.baseActual = 0;
   sala.jugadorsCamp.push(jugadorBatejant); // I el col·loquem al camp
+}
+
+function checkBaseHome(jugador) {
+  return jugador.baseActual > 3;
+}
+
+function checkContinuaJugant(jugador) {
+  return jugador.baseActual <= 3;
 }
 
 server.listen(port, () => { // We make the http server listen on port 3000.
