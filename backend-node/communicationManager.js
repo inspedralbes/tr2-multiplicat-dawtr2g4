@@ -2,7 +2,8 @@ const fetch = require('node-fetch');
 
 // let url = "http://mathball.daw.inspedralbes.cat/backend-laravel/public/api/getPregunta";
 // let url = "http://tr2g4.daw.inspedralbes.cat/backend-laravel/public/api/getPregunta";
-let url = "http://localhost:8000/api/getPregunta";
+let url = "http://127.0.0.1:8000/api/getPregunta"; // A l'Alvaro només li funciona aquesta url en l'entorn de desenvolupament
+//let url = "http://localhost:8000/api/getPregunta"; // Alternativament, en desenvolupament també podem utilitzar aquesta url
 
 async function getPregunta(dificultat, categoria, preguntesAnteriors) {
     const response = await fetch(url, {
