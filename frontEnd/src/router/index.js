@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import LoginView from '../views/LoginView.vue'
-import CrearPartidaView from '../views/CrearPartidaView.vue'
+import CrearSalaView from '../views/CrearSalaView.vue'
 import SalesView from '../views/SalesView.vue'
 import SelectTeam from '../views/SelectTeamView.vue'
 import PartidaView from '../views/PartidaView.vue'
@@ -26,9 +26,9 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/crearPartida',
-      name: 'crearPartida',
-      component: CrearPartidaView
+      path: '/crearSala',
+      name: 'crearSala',
+      component: CrearSalaView
     },
     {
       path: '/sales',

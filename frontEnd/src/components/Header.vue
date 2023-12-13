@@ -33,7 +33,24 @@ import Menubar from 'primevue/menubar';
                 </div>
                 <div v-else class="flex1">
                     <div v-if="profe" class="flex align-items-center gap-2">
-                        <a href="">administrar</a>
+                        <div>
+                            <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-menu-2 menu" width="24" height="24" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 6l16 0" />
+                                <path d="M4 12l16 0" />
+                                <path d="M4 18l16 0" />
+                            </svg>
+                            <transition name="slide">
+                                <div v-show="show" class="accordion-content">
+                                    <button @click="goPreg"><a :href="goPreg()">preguntes</a></button>
+                                    <button @click="goCat"><a :href="goCat()">categoria</a></button>
+                                    <button @click="goUsr"><a :href="goUsr()">usuaris</a></button>
+                                </div>
+                            </transition>
+                        </div>
                     </div>
                     <div class="flex align-items-center gap-2">
                         <p class="mr-3 font-bold">Benvingut {{ nom }}!</p>
@@ -57,12 +74,26 @@ export default {
     data() {
         return {
             store: useAppStore(),
+            show: false,
+            href: '',
         }
     },
     methods: {
         logout() {
             this.store.logout();
-        }
+        },
+        goPreg() {
+            this.href = 'http://' + this.store.getUrl() + ':8000/preguntes';
+            return this.href;
+        },
+        goCat() {
+            this.href = 'http://' + this.store.getUrl() + ':8000/categories';
+            return this.href;
+        },
+        goUsr() {
+            this.href = 'http://' + this.store.getUrl() + ':8000/usuaris';
+            return this.href;
+        },
     },
     computed: {
         token() {
@@ -99,7 +130,59 @@ export default {
     justify-content: space-between;
     align-items: center;
 }
-.flex1 > :first-child {
+
+.flex1> :first-child {
     margin-right: 1rem;
+}
+
+.menu {
+    cursor: pointer;
+}
+
+.accordion-content {
+    position: absolute;
+    background-color: #f1f1f1;
+    width: fit-content;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.accordion-content button {
+    background-color: #2196F3;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: medium;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    transform: translateY(-10px);
+    opacity: 0;
+}
+
+.slide-enter-to,
+.slide-leave-from {
+    transform: translateY(0);
+    opacity: 1;
+}
+a {
+    color: white;
+    text-decoration: none;
 }
 </style>
