@@ -11,6 +11,7 @@ import ResultatsView from '../views/ResultatsView.vue'
 import ResultatsFinalsView from '../views/ResultatsFinalsView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import PolitiquesPrivacitatView from '../views/PolitiquesPrivView.vue'
+import NormesView from '../views/NormesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +75,11 @@ const router = createRouter({
       path: '/politiquesPrivacitat',
       name: 'politiquesPrivacitat',
       component: PolitiquesPrivacitatView
+    },
+    {
+      path: '/normes',
+      name: 'normes',
+      component: NormesView
     },
   ]
 })
