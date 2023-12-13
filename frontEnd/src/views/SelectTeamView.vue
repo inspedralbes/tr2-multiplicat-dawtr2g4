@@ -2,7 +2,7 @@
     <div>
         <h1 class="tit">ESCULL EQUIP</h1>
         <button></button>
-        <button class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
+        <button v-if="store.getProfe()" class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
                 <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
