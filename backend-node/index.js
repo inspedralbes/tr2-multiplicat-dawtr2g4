@@ -26,7 +26,7 @@ const sales = [{
   totalVots: 0,
   equipAtacant: 0,
   categoria: 1,
-  preguntaActual: null,
+  preguntaActual: [],
   resultatsActuals: null,
   nomSala: "Sala 1",
   jugadorsTots: [],
@@ -58,7 +58,7 @@ for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
       totalVots: 0,
       equipAtacant: 0,
       categoria: 1,
-      preguntaActual: null,
+      preguntaActual: [],
       resultatsActuals: null,
       nomSala: "Sala " + (i + 1),
       jugadorsBanqueta: [],
@@ -234,9 +234,12 @@ io.on('connection', (socket) => {
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
     // Trucar la API de Laravel per demanar la pregunta
     try {
-      let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
-      sala.preguntaActual = pregunta
-      io.to(sala.nomSala).emit('nova-pregunta', pregunta);
+      for (let i = 0; i < sala.jugadorsCamp.length; i++) {
+        let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
+        pregunta.jugadorId = sala.jugadorsCamp[i].id;
+        sala.preguntaActual.push(pregunta);
+      }
+      io.to(sala.nomSala).emit('nova-pregunta', sala.preguntaActual);
     } catch (error) {
       console.error('Error en obtenir la pregunta:', error);
       return;

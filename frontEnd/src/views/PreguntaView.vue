@@ -1,9 +1,10 @@
 <template>
         <div class="temporitzador w-max cont mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="90" height="90" alt=""><p class="temp text-align text-3xl font-semibold">{{ temporitzador }}</p></div>
-        <div class="pregunta-respostes grid mt-6">
-            <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
+        <div v-for="pregunta in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6">
+            <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+            <img class = jugador :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
             <div class="col-12 mt-4 p-0 grid-container">
-                <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, index ) in salaInfo.preguntaActual.respostes" v-on:click="respostaSeleccionada(index)">{{ resposta.text_resposta }}</button>
+                <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, index) in pregunta.respostes" v-on:click="respostaSeleccionada(index)">{{ resposta.text_resposta }}</button>
             </div>
 
         </div>
@@ -95,6 +96,11 @@ export default {
 
     .temporitzador > img {
         animation: rotacioInfinita 8s linear infinite;
+    }
+
+    .jugador {
+        width: 60px;
+        height: 60px;
     }
 
     @media (min-width: 992px) {
