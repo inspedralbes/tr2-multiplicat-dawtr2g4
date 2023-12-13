@@ -127,6 +127,9 @@ export const useAppStore = defineStore('app', {
     getProfe() {
       return this.profe
     },
+    getUrl() {
+      return this.url
+    },
 
     //setters
     setUserInfo(userInfo) {

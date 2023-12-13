@@ -41,7 +41,8 @@ export default {
 
     },
     created() {
-        fetch("http://localhost:8000/api/getCategories")
+        const store = useAppStore();
+        fetch("http://"+store.getUrl()+":8000/api/getCategories")
             .then(response => response.json())
             .then(data => {
                 this.categories = data;
