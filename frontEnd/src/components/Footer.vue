@@ -1,12 +1,20 @@
 <template>
     <div class="surface-ground py-3 border-top-1 surface-border flex1">
-        <RouterLink to="/politiquesPrivacitat">
-            <div class="col-12 md-6 text-center">
+
+        <div class="col-12 md-6 text-center">
+            <RouterLink to="/normes">
+                <a class="text-900">
+                    Normes
+                </a>
+            </RouterLink>
+            <br>
+            <RouterLink to="/politiquesPrivacitat">
                 <a class="text-900">
                     Política de privacitat
                 </a>
-            </div>
-        </RouterLink>
+            </RouterLink>
+        </div>
+
 
         <div class="col-12 md-6 text-center">
             © 2023 MathBall. All rights reserved.
@@ -83,5 +91,6 @@ export default {
 .flex1>* {
     display: inline;
     width: fit-content;
-}</style>
+}
+</style>
   

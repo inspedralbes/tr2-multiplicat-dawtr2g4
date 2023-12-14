@@ -39,6 +39,9 @@ export const useAppStore = defineStore('app', {
     token: '',
     user: {},
     profe: false,
+    //Vista usuari si resposta correcta o incorrecta
+    respostaSeleccionada: '',
+    respostaCorrecta: '',
   }),
   actions: {
 
@@ -128,6 +131,14 @@ export const useAppStore = defineStore('app', {
     },
     getUrl() {
       return this.url
+    },
+
+    //Vista usuari si resposta correcta o incorrecta
+    getRespostaSeleccionada() {
+      return this.respostaSeleccionada
+    },
+    getRespostaCorrecta() {
+      return this.respostaCorrecta
     },
 
     //setters
@@ -230,6 +241,13 @@ export const useAppStore = defineStore('app', {
         profe = false
       }
       this.profe = profe
+    },
+    //Vista usuari si resposta correcta o incorrecta
+    setRespostaSeleccionada(respostaSeleccionada) {
+      this.respostaSeleccionada = respostaSeleccionada
+    },
+    setRespostaCorrecta(respostaCorrecta) {
+      this.respostaCorrecta = respostaCorrecta
     },
 
     //logout

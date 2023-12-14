@@ -1,9 +1,11 @@
 <template>
-    <div class="mx-8 mt-4">
-        <button v-if="profe" class="continuar_button mb-4 p-3 border-900 border-1" @click="tornarTaulell()">CONTINUAR PARTIDA</button>
-        <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat }} S'EMPORTA AQUESTA PREGUNTA</h1>
+    <div v-if="profe" class="mx-8 mt-4">
+        <button class="continuar_button mb-4 p-3 border-900 border-1" @click="tornarTaulell()">CONTINUAR PARTIDA</button>
+        <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat }} S'EMPORTA AQUESTA
+            PREGUNTA</h1>
         <div class="mt-4 text-2xl grid">
-            <h1 class="col-12 w-full text-xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
+            <h1 class="col-12 w-full text-xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta
+            }}</h1>
             <div class="col-12 p-0 respostes_contenidor">
                 <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
                     v-for="(resposta, index ) in salaInfo.preguntaActual.respostes"
@@ -32,6 +34,35 @@
                         backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
                     }]
                 }" />
+            </div>
+        </div>
+    </div>
+    <div v-else class="contenidor">
+        <div v-if="resultat" class="correcte">
+            <div>
+                <h1>Resposta Correcta</h1>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24"
+                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 12l5 5l10 -10" />
+                </svg>
+            </div>
+        </div>
+        <div v-else class="incorrecte">
+            <div>
+                <h1>Resposta Incorrecta</h1>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24"
+                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg>
             </div>
         </div>
     </div>
@@ -68,6 +99,13 @@ export default {
         },
         profe() {
             return this.store.getProfe();
+        },
+        resultat() {
+            if (this.store.getRespostaCorrecta() == this.store.getRespostaSeleccionada()) {
+                return true;
+            } else {
+                return false;
+            }
         }
     },
     methods: {
@@ -75,7 +113,8 @@ export default {
             //this.$router.push('/partida'); 
             socket.emit('tornar-taulell', this.indexSala);
             socket.emit('calcular-efectes-pregunta', this.indexSala);
-        }
+        },
+
     },
     mounted() {
 
@@ -146,6 +185,7 @@ h1 {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
+
 .continuar_button:hover {
     background-color: black;
     color: #ffffff;
@@ -153,5 +193,41 @@ h1 {
 
 .informacio_encert {
     clear: both;
+}
+
+.contenidor {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.correcte,
+.incorrecte {
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.correcte>div, .incorrecte>div {
+    width: 100%;
+    text-align: center;
+}
+
+.correcte {
+    background-color: rgb(0, 255, 0);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.incorrecte {
+    background-color: rgb(255, 17, 0);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 </style>

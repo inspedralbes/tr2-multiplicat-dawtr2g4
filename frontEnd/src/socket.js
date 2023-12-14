@@ -96,8 +96,9 @@ socket.on("connect", () => {
     console.log('Received vot-dificultat:', totalVots);
   });
 
-  socket.on('vot-resposta', (totalVots) => {
+  socket.on('vot-resposta', (totalVots, res) => {
     pinia.setTotalVots(totalVots);
+    pinia.setRespostaCorrecta(res);
     console.log('Received vot-resposta:', totalVots);
   });
 

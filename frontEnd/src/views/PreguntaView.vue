@@ -29,6 +29,7 @@ export default {
     methods: {
         respostaSeleccionada(idResposta) {
             console.log("Has seleccionat la resposta" + idResposta);
+            this.pinia.setRespostaSeleccionada(idResposta);
             socket.emit('vot-resposta', this.indexSala, idResposta);
             this.$router.push({ name: 'totalVotacions' });
         }
