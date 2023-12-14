@@ -2,18 +2,23 @@
     <div class="mx-8 mt-4">
         <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR
             PARTIDA</button>
-        <div v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+    </div>
+    <div class="mx-8 my-4">
+    <div class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+        <div @click="mostrarGrafic(index)"
+            :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
+            <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+            <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
+            <p>EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}</p>
+        </div>
+        <div v-if="isGraficDesplegat[index]"
+            :class="['grafics-respostes', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-grafics' : 'equip2-grafics']">
             <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }} S'EMPORTA
                 AQUESTA PREGUNTA</h1>
-            <img class = jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
-            <div class="mt-4 text-2xl grid">
-                <h1 class="col-12 w-full text-xl text-center border-1 border-round-lg">{{
-                    salaInfo.preguntaActual[index].text_pregunta }}</h1>
-                <div class="col-12 p-0 respostes_contenidor">
-                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
-                        v-for="(resposta, indexResposta ) in salaInfo.preguntaActual[index].respostes">{{
-                            resposta.text_resposta }}</button>
-                </div>
+            <div class="col-12 p-0 respostes_contenidor">
+                <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
+                    v-for="(resposta, indexResposta ) in salaInfo.preguntaActual[index].respostes">{{
+                        resposta.text_resposta }}</button>
             </div>
             <div class="flex mt-4">
                 <div class="grafic">
@@ -41,6 +46,7 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -56,6 +62,11 @@ export default {
     setup() {
         const store = useAppStore();
         return { store };
+    },
+    data() {
+        return {
+            isGraficDesplegat: [false, false, false, false]
+        }
     },
     computed: {
         res1() {
@@ -78,6 +89,17 @@ export default {
             //this.$router.push('/partida'); 
             socket.emit('tornar-taulell', this.indexSala);
             socket.emit('calcular-efectes-pregunta', this.indexSala); // CREO QUE ESTO NO HACE NADA
+        },
+        mostrarGrafic(index) {
+            this.resetejarMostrarGrafic(index);
+            this.isGraficDesplegat[index] = !this.isGraficDesplegat[index];
+        },
+        resetejarMostrarGrafic(index) {
+            for (let i = 0; i < this.isGraficDesplegat.length; i++) {
+                if (i != index) {
+                    this.isGraficDesplegat[i] = false;
+                }
+            }
         }
     },
     mounted() {
@@ -108,8 +130,8 @@ h1 {
     display: inline-block;
     /*width: 600px;
     height: 600px;*/
-    width: 344px;
-    height: 344px;
+    width: fit-content;
+    height: fit-content;
     margin-left: auto;
     margin-right: auto;
 }
@@ -146,7 +168,43 @@ h1 {
 }
 
 .jugador {
-        width: 60px;
-        height: 60px;
+    width: 60px;
+    height: 60px;
+}
+
+.resum-pregunta {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.equip1-resum {
+    background-color: rgb(255, 77, 77);
+}
+
+.equip2-resum {
+    background-color: rgb(77, 166, 255);
+}
+
+.equip1-grafics {
+    background-color: rgba(255, 77, 77, 0.4);
+}
+
+.equip2-grafics {
+    background-color: rgba(77, 166, 255, 0.4);
+}
+
+.resum-pregunta--seleccionat {
+    border-radius: 20px 20px 0px 0px;
+}
+
+.grafics-respostes {
+    width: 100%;
+    border-radius: 0px 0px 20px 20px;
+    padding: 20px;
+    height: fit-content;
 }
 </style>
