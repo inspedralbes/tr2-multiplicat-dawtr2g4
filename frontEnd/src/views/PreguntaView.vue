@@ -1,12 +1,37 @@
 <template>
         <div class="temporitzador w-max cont mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="90" height="90" alt=""><p class="temp text-align text-3xl font-semibold">{{ temporitzador }}</p></div>
-        <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6">
-            <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
-            <img class = jugador :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
-            <div class="col-12 mt-4 p-0 grid-container">
-                <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+        <div v-if="salaInfo.preguntaActual.length == 1">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
+                <div class="contenidor-jugador-pregunta">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <h1 class="p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                </div>
+                <div class="col-12 mt-4 p-0 contenidor-respostes">
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
             </div>
-
+        </div>
+        <div v-if="salaInfo.preguntaActual.length == 2" class="contenidor-dos-preguntes">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="grid mt-6 mb-4">
+                <div class="contenidor-jugador-pregunta">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <h1 class="p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                </div>
+                <div class="col-12 mt-4 p-0 contenidor-respostes">
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+            </div>
+        </div>
+        <div v-if="salaInfo.preguntaActual.length == 3" class="contenidor-tres-preguntes">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="contenidor-tres-preguntes__item grid mt-6 mb-4">
+                <div class="contenidor-jugador-pregunta">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <h1 class="p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                </div>
+                <div class="col-12 mt-4 p-0 contenidor-respostes">
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+            </div>
         </div>
 </template>
 
@@ -54,24 +79,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .grid-container {
+    .contenidor-respostes {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 25px 20px;
     }
 
-    .grid-container .resposta:nth-child(1) {
+    .contenidor-respostes .resposta:nth-child(1) {
         background-color: #f87979;
     }
 
-    .grid-container .resposta:nth-child(2) {
+    .contenidor-respostes .resposta:nth-child(2) {
         background-color: #36a2eb;
     }
 
-    .grid-container .resposta:nth-child(3) {
+    .contenidor-respostes .resposta:nth-child(3) {
         background-color: green;
     }
-    .grid-container .resposta:nth-child(4) {
+    .contenidor-respostes .resposta:nth-child(4) {
         background-color: purple;
     }
     .pregunta-respostes {
@@ -108,6 +133,29 @@ export default {
     .jugador {
         width: 60px;
         height: 60px;
+    }
+
+    .contenidor-jugador-pregunta {
+        display: flex;
+        align-items: center;
+        gap: 0px 10px;
+    }
+
+    .contenidor-dos-preguntes {
+        display: flex;
+        gap: 0px 80px;
+        margin: 0 80px;
+    }
+
+    .contenidor-tres-preguntes {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 0px 80px;
+        margin: 0 80px;
+    }
+
+    .contenidor-tres-preguntes__item:nth-child(3) {
+        grid-column: 1/span 2;
     }
 
     @media (min-width: 992px) {

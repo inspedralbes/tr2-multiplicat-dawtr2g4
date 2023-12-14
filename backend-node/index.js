@@ -68,7 +68,7 @@ for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
   }
 })()
 
-const OUTS_ELIMINAR = 3;
+const OUTS_ELIMINAR = 2;
 const CARRERES_GUANYAR = 10;
 
 const TEMPS_ESCOLLIR_BASE = 10;
@@ -320,13 +320,23 @@ io.on('connection', (socket) => {
     // Actualitzem els jugadors que queden al camp
     sala.jugadorsCamp = camp;
 
-    //Si hi ha algún jugador a la banqueta salta al camp a batejar; si no hi ha ningú per batejar es canvia d'equip
+    // Si hi ha n outs o no hi ha ningú per batejar es canvia d'equip; si hi ha algún jugador a la banqueta salta al camp a batejar
+    if (sala.outs === OUTS_ELIMINAR || sala.jugadorsBanqueta.length === 0) {
+      console.log("ENTRO CONDICIÓN")
+      canviarEquips(sala);
+    } else {
+      nouJugadorAlCamp(sala);
+      io.to(sala.nomSala).emit('moure-jugador', sala, null)
+    }
+
+    /* 
     if (sala.jugadorsBanqueta.length != 0) {
       nouJugadorAlCamp(sala);
       io.to(sala.nomSala).emit('moure-jugador', sala, null)
     } else {
       canviarEquips(sala);
     }
+    */
 
     //Si un equip fa n carreres guanya el joc
     if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
