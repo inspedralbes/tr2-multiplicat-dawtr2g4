@@ -1,37 +1,43 @@
 <template>
     <div class="mx-8 mt-4">
-        <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR PARTIDA</button>
-        <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat }} S'EMPORTA AQUESTA PREGUNTA</h1>
-        <div class="mt-4 text-2xl grid">
-            <h1 class="col-12 w-full text-xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
-            <div class="col-12 p-0 respostes_contenidor">
-                <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
-                    v-for="(resposta, index ) in salaInfo.preguntaActual.respostes"
-                    v-on:click="respostaSeleccionada(index)">{{ resposta.text_resposta }}</button>
+        <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR
+            PARTIDA</button>
+        <div v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+            <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }} S'EMPORTA
+                AQUESTA PREGUNTA</h1>
+            <img class = jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+            <div class="mt-4 text-2xl grid">
+                <h1 class="col-12 w-full text-xl text-center border-1 border-round-lg">{{
+                    salaInfo.preguntaActual[index].text_pregunta }}</h1>
+                <div class="col-12 p-0 respostes_contenidor">
+                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
+                        v-for="(resposta, indexResposta ) in salaInfo.preguntaActual[index].respostes">{{
+                            resposta.text_resposta }}</button>
+                </div>
             </div>
-        </div>
-        <div class="flex mt-4">
-            <div class="grafic">
-                <h2>EQUIP 1</h2>
-                <PieChart :chart-data="{
-                    //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
-                    datasets: [{
-                        data: res1,
-                        label: 'Respostes',
-                        backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
-                    }]
-                }" />
-            </div>
-            <div class="grafic">
-                <h2>EQUIP 2</h2>
-                <PieChart :chart-data="{
-                    datasets: [{
+            <div class="flex mt-4">
+                <div class="grafic">
+                    <h2>EQUIP 1</h2>
+                    <PieChart :chart-data="{
                         //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
-                        data: res2,
-                        label: 'Respostes',
-                        backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
-                    }]
-                }" />
+                        datasets: [{
+                            data: res1[index],
+                            label: 'Respostes',
+                            backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
+                        }]
+                    }" />
+                </div>
+                <div class="grafic">
+                    <h2>EQUIP 2</h2>
+                    <PieChart :chart-data="{
+                        datasets: [{
+                            //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
+                            data: res2[index],
+                            label: 'Respostes',
+                            backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
+                        }]
+                    }" />
+                </div>
             </div>
         </div>
     </div>
@@ -71,7 +77,7 @@ export default {
         tornarTaulell() {
             //this.$router.push('/partida'); 
             socket.emit('tornar-taulell', this.indexSala);
-            socket.emit('calcular-efectes-pregunta', this.indexSala);
+            socket.emit('calcular-efectes-pregunta', this.indexSala); // CREO QUE ESTO NO HACE NADA
         }
     },
     mounted() {
@@ -137,5 +143,10 @@ h1 {
 
 .informacio_encert {
     clear: both;
+}
+
+.jugador {
+        width: 60px;
+        height: 60px;
 }
 </style>
