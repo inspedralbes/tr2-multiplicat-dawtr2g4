@@ -1,6 +1,6 @@
 <template>
     <div class="mx-8 mt-4">
-        <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR PARTIDA</button>
+        <button v-if="profe" class="continuar_button mb-4 p-3 border-900 border-1" @click="tornarTaulell()">CONTINUAR PARTIDA</button>
         <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat }} S'EMPORTA AQUESTA PREGUNTA</h1>
         <div class="mt-4 text-2xl grid">
             <h1 class="col-12 w-full text-xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
@@ -65,6 +65,9 @@ export default {
         },
         indexSala() {
             return this.store.getIndexSala();
+        },
+        profe() {
+            return this.store.getProfe();
         }
     },
     methods: {
@@ -133,6 +136,19 @@ h1 {
 .continuar_button {
     float: right;
     margin-right: -8px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    border: 1px solid black;
+    background-color: white;
+    font-size: 1rem;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.continuar_button:hover {
+    background-color: black;
+    color: #ffffff;
 }
 
 .informacio_encert {

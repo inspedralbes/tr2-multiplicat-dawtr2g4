@@ -22,17 +22,12 @@ export const useAppStore = defineStore('app', {
     sales: [],
     indexSala: null,
 
-
-    //100%
     temporitzador: '', // utilitzat a Partida View
     torn: '',
     votacioBaseEnCurs: false, // utilitzat a Partida View
     votacioPreguntaEnCurs: false,
     tornarTaulell: false,
     base: '',
-
-    totalVotacions: 0,
-    totalJugadors: 0,
     jugadorEnCamp: {
       baseActual: 0,
       eliminat: false,
@@ -103,11 +98,15 @@ export const useAppStore = defineStore('app', {
 
     //grafics
     getTotalVotacions() {
-      return this.totalVotacions
+      // return this.totalVotacions
+      console.log(this.sales[this.indexSala].totalVots)
+      return this.sales[this.indexSala].totalVots;
     },
     getTotalJugadors() {
-      return this.totalJugadors
+      // return this.totalJugadors;
+      return this.sales[this.indexSala].jugadors.length;
     },
+
     getDificultatSeleccionada() {
       return this.dificultatSeleccionada
     },

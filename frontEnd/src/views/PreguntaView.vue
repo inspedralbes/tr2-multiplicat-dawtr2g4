@@ -1,12 +1,22 @@
 <template>
-        <div class="temporitzador w-max cont mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="90" height="90" alt=""><p class="temp text-align text-3xl font-semibold">{{ temporitzador }}</p></div>
-        <div class="pregunta-respostes grid mt-6">
-            <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
-            <div class="col-12 mt-4 p-0 grid-container">
-                <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, index ) in salaInfo.preguntaActual.respostes" v-on:click="respostaSeleccionada(index)">{{ resposta.text_resposta }}</button>
-            </div>
-
+    <div class="temporitzador w-max cont mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="90" height="90" alt="">
+        <p class="temp text-align text-3xl font-semibold">{{ temporitzador }}</p>
+    </div>
+    <div class="pregunta-respostes grid mt-6">
+        <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
+        <div v-if="!profe" class="col-12 mt-4 p-0 grid-container">
+            <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
+                v-for="(resposta, index ) in salaInfo.preguntaActual.respostes" v-on:click="respostaSeleccionada(index)">
+                {{ resposta.text_resposta }}
+            </button>
         </div>
+        <div v-else class="col-12 mt-4 p-0 grid-container">
+            <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
+                v-for="(resposta, index ) in salaInfo.preguntaActual.respostes">
+                {{ resposta.text_resposta }}
+            </button>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -15,10 +25,12 @@ import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
 
 export default {
+    inheritAttrs: false,
     methods: {
         respostaSeleccionada(idResposta) {
             console.log("Has seleccionat la resposta" + idResposta);
             socket.emit('vot-resposta', this.indexSala, idResposta);
+            this.$router.push({ name: 'totalVotacions' });
         }
     },
     setup() {
@@ -35,6 +47,9 @@ export default {
         },
         indexSala() {
             return this.pinia.getIndexSala()
+        },
+        profe() {
+            return this.pinia.getProfe();
         }
     },
     mounted() {
@@ -46,69 +61,71 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px 20px;
-    }
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 20px;
+}
 
-    .grid-container .resposta:nth-child(1) {
-        background-color: #f87979;
-    }
+.grid-container .resposta:nth-child(1) {
+    background-color: #f87979;
+}
 
-    .grid-container .resposta:nth-child(2) {
-        background-color: #36a2eb;
-    }
+.grid-container .resposta:nth-child(2) {
+    background-color: #36a2eb;
+}
 
-    .grid-container .resposta:nth-child(3) {
-        background-color: green;
-    }
-    .grid-container .resposta:nth-child(4) {
-        background-color: purple;
-    }
-    .pregunta-respostes {
-        margin: 0 5rem;
-    }
-    
-    .cont {
-        position: relative;
-    }
+.grid-container .resposta:nth-child(3) {
+    background-color: green;
+}
 
-    .temp {
-        position: absolute;
-        top: 0;
-        left: 33%;
-    }
+.grid-container .resposta:nth-child(4) {
+    background-color: purple;
+}
 
-    @keyframes rotacioInfinita {
-      0% {
+.pregunta-respostes {
+    margin: 0 5rem;
+}
+
+.cont {
+    position: relative;
+}
+
+.temp {
+    position: absolute;
+    top: 0;
+    left: 33%;
+}
+
+@keyframes rotacioInfinita {
+    0% {
         transform: rotate(0deg);
-      }
-      100% {
+    }
+
+    100% {
         transform: rotate(360deg);
-      }
     }
+}
 
-    .temporitzador {
-        margin: 0 auto;
+.temporitzador {
+    margin: 0 auto;
+}
+
+.temporitzador>img {
+    animation: rotacioInfinita 8s linear infinite;
+}
+
+@media (min-width: 992px) {
+    .pregunta-respostes {
+        margin: 0 20%;
     }
+}
 
-    .temporitzador > img {
-        animation: rotacioInfinita 8s linear infinite;
+@media (min-width: 1400px) {
+    .pregunta-respostes {
+        margin: 0 30%;
     }
-
-    @media (min-width: 992px) {
-        .pregunta-respostes {
-            margin: 0 20%;
-        }
-    }
-
-    @media (min-width: 1400px) {
-        .pregunta-respostes {
-            margin: 0 30%;
-        }
-    }
-
+}
 </style>
 
 
