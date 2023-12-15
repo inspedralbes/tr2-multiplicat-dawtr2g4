@@ -69,7 +69,7 @@ for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
 })()
 
 const OUTS_ELIMINAR = 2;
-const CARRERES_GUANYAR = 10;
+const CARRERES_GUANYAR = 3;
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 99;

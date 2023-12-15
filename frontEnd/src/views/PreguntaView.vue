@@ -1,4 +1,5 @@
 <template>
+    <div>
         <div class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70" height="70" alt=""><p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p></div>
         <div v-if="salaInfo.preguntaActual.length == 1">
             <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
@@ -6,8 +7,11 @@
                     <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
                     <h1 class="p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
                 </div>
-                <div class="col-12 mt-4 p-0 contenidor-respostes">
+                <div v-if="!profe" class="col-12 mt-4 p-0 contenidor-respostes">
                     <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+                <div v-else class="col-12 mt-4 p-0 contenidor-respostes">
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
                 </div>
             </div>
         </div>
@@ -17,8 +21,11 @@
                     <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
                     <h1 class="w-full p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
                 </div>
-                <div class="col-12 mt-4 p-0 contenidor-respostes">
+                <div v-if="!profe" class="col-12 mt-4 p-0 contenidor-respostes">
                     <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+                <div v-else class="col-12 mt-4 p-0 contenidor-respostes">
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
                 </div>
             </div>
         </div>
@@ -28,8 +35,11 @@
                     <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
                     <h1 class="w-full p-2 text-lg text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
                 </div>
-                <div class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
+                <div v-if="!profe" class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
                     <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+                <div v-else class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
+                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
                 </div>
             </div>
         </div>
@@ -39,8 +49,11 @@
                     <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
                     <h1 class="w-full p-2 text-lg text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
                 </div>
-                <div class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
+                <div v-if="!profe" class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
                     <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+                <div v-else class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
+                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
                 </div>
             </div>
         </div>
@@ -169,15 +182,16 @@ export default {
     0% {
         transform: rotate(0deg);
     }
-
-    .temporitzador-container {
-        margin: 0 auto;
-        position: relative;
-
+    
     100% {
         transform: rotate(360deg);
     }
 }
+
+    .temporitzador-container {
+        margin: 0 auto;
+        position: relative;
+    }
 
     .temporitzador-container > img {
         animation: rotacioInfinita 8s linear infinite;

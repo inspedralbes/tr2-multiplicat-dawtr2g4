@@ -3,8 +3,7 @@
         <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR
             PARTIDA</button>
     </div>
-    <div class="mx-8 my-4">
-    <div class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+    <div v-if="profe" class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
         <div @click="mostrarGrafic(index)"
             :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
             <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
@@ -259,7 +258,7 @@ h1 {
     border-radius: 0px 0px 20px 20px;
     padding: 20px;
     height: fit-content;
-
+}
 .contenidor {
     height: 100%;
     display: flex;
