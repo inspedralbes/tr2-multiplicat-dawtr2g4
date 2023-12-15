@@ -329,73 +329,11 @@ io.on('connection', (socket) => {
       io.to(sala.nomSala).emit('moure-jugador', sala, null)
     }
 
-    /* 
-    if (sala.jugadorsBanqueta.length != 0) {
-      nouJugadorAlCamp(sala);
-      io.to(sala.nomSala).emit('moure-jugador', sala, null)
-    } else {
-      canviarEquips(sala);
-    }
-    */
-
     //Si un equip fa n carreres guanya el joc
     if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
       io.to(sala.nomSala).emit('finalitzar-partida');
     }
 
-    /*if (sala.equipAtacant === sala.resultatsActuals.equipAcertat) {
-      // Si l'equip atacant ha acertat, tots els jugador avancen bases
-      let jugador = moureJugador(sala, sala.preguntaActual[0].dificultat);
-      let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
-
-      // Comprovem quins jugadors han arribat a la base casa
-      let banqueta = sala.jugadorsCamp.filter(checkBaseHome);
-      // Comprovem quins jugadors encara no han arribat a la base casa
-      let camp = sala.jugadorsCamp.filter(checkContinuaJugant);
-
-      // Sumem tants punts com jugadors han arribat a la base casa
-      if (banqueta.length > 0) {
-        sala.equips[indexAtacant].punts += banqueta.length;
-        sala.rondes[sala.rondes.length - 1].punts += banqueta.length;
-        io.to(sala.nomSala).emit('sumar-punt', sala);
-      }
-
-      // Afegim els jugadors que han arribat a la base casa a la banqueta
-      sala.jugadorsBanqueta.push(...banqueta);
-
-      // Actualitzem els jugadors que queden al camp
-      sala.jugadorsCamp = camp;
-
-      //Si hi ha algún jugador a la banqueta salta al camp a batejar; si no hi ha ningú per batejar es canvia d'equip
-      if (sala.jugadorsBanqueta.length != 0) {
-        nouJugadorAlCamp(sala);
-        io.to(sala.nomSala).emit('moure-jugador', sala, null)
-      } else {
-        canviarEquips(sala);
-      }
-
-      //Si un equip fa tres carreres guanya el joc
-      if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
-        io.to(sala.nomSala).emit('finalitzar-partida');
-      }
-
-    } else {
-      // Si l'equip atacant ha fallat, elimina el jugador
-      let jugador = sala.jugadors.find(j => j.equip === sala.equipAtacant)
-      jugador.baseActual = 0;
-      jugador.eliminat = true;
-
-      // Si l'equip atacant ha fallat, sumem un out
-      sala.outs++;
-      // Si hi ha n outs es canvia d'equip; si no el jugador de la base queda eliminat i salta un nou jugador al camp
-      if (sala.outs === OUTS_ELIMINAR || sala.jugadorsBanqueta.length === 0) {
-        canviarEquips(sala);
-      } else {
-        sala.jugadorsCamp.pop();
-        nouJugadorAlCamp(sala);
-        io.to(sala.nomSala).emit('jugador-eliminat', sala, jugador);
-      }
-    }*/
   })
 
   function moureJugador(sala, moviments, jugadorId, isEliminat) {
@@ -433,15 +371,14 @@ function calcularResultatsRespostes(sala) {
   const votsEquip1 = [];
   const votsEquip2 = [];
   const indexRespostesCorrectes = [];
-  //const votsEquip1 = [0, 0, 0, 0];
-  //const votsEquip2 = [0, 0, 0, 0];
-  //const indexRespostaCorrecta = sala.preguntaActual.indexRespostaCorrecta;
 
+  // Genera un array de votacions per cada pregunta i equip
   for (let i = 0; i < sala.preguntaActual.length; i++) {
     votsEquip1[i] = [0, 0, 0, 0];
     votsEquip2[i] = [0, 0, 0, 0];
-   }
+  }
 
+  // Guarda l'index de la resposta correcta de cada pregunta
   for (let i = 0; i < sala.preguntaActual.length; i++) {
     indexRespostesCorrectes.push(sala.preguntaActual[i].indexRespostaCorrecta);
   }
@@ -450,7 +387,7 @@ function calcularResultatsRespostes(sala) {
   for (let i = 0; i < sala.preguntaActual.length; i++) {
     sala.jugadors.forEach(jugador => {
       if (jugador.votacioResposta != -1) {
-        console.log("----VOT JUGADOR---- " + jugador.votacioResposta )
+        //console.log("----VOT JUGADOR---- " + jugador.votacioResposta )
         if (jugador.equip === 1) {
           votsEquip1[i][jugador.votacioResposta[i]]++;
         } else if (jugador.equip === 2) {
@@ -460,20 +397,9 @@ function calcularResultatsRespostes(sala) {
     });
   }
 
-  // Guarda els vots en els arrays votsEquip1 i votsEquip2
-  /*sala.jugadors.forEach(jugador => {
-    if (jugador.votacioResposta != null) {
-      if (jugador.equip === 1) {
-        votsEquip1[jugador.votacioResposta]++;
-      } else if (jugador.equip === 2) {
-        votsEquip2[jugador.votacioResposta]++;
-      }
-    }
-  });*/
-
-  console.log("ARRAY VOTACIONS")
+  /*console.log("ARRAY VOTACIONS")
   console.log(votsEquip1);
-  console.log(votsEquip2);
+  console.log(votsEquip2);*/
 
   // Calcular total de vots per equip i percentatge d'encerts
   const totalVotsEquip1 = [];
@@ -483,9 +409,9 @@ function calcularResultatsRespostes(sala) {
     totalVotsEquip2.push(votsEquip2[i].reduce((acc, cur) => acc + cur, 0))
   }
 
-  console.log("TOTAL VOTS EQUIPS")
+  /*console.log("TOTAL VOTS EQUIPS")
   console.log(totalVotsEquip1);
-  console.log(totalVotsEquip2);
+  console.log(totalVotsEquip2);*/
 
   const percentatgeCorrecteEquip1 = [];
   const percentatgeCorrecteEquip2 = [];
@@ -494,16 +420,9 @@ function calcularResultatsRespostes(sala) {
     percentatgeCorrecteEquip2.push(totalVotsEquip2[i] === 0 ? 0 : votsEquip2[i][indexRespostesCorrectes[i]] / totalVotsEquip2[i]);
   }
 
-  console.log("PERCENTATGES EQUIPS")
+  /*console.log("PERCENTATGES EQUIPS")
   console.log(percentatgeCorrecteEquip1);
-  console.log(percentatgeCorrecteEquip2);
-
-  // Calcular total de vots per equip i percentatge d'encerts
-  //const totalVotsEquip1 = votsEquip1.reduce((acc, cur) => acc + cur, 0)
-  //const totalVotsEquip2 = votsEquip2.reduce((acc, cur) => acc + cur, 0)
-
-  //const percentatgeCorrecteEquip1 = totalVotsEquip1 === 0 ? 0 : votsEquip1[indexRespostaCorrecta] / totalVotsEquip1;
-  //const percentatgeCorrecteEquip2 = totalVotsEquip2 === 0 ? 0 : votsEquip2[indexRespostaCorrecta] / totalVotsEquip2;
+  console.log(percentatgeCorrecteEquip2);*/
 
   let equipAcertat = [];
   for (let i = 0; i < sala.preguntaActual.length; i++) {
@@ -517,17 +436,6 @@ function calcularResultatsRespostes(sala) {
       equipAcertat[i] = sala.equipAtacant
     }
   }
-
-  //let equipAcertat;
-  /*if (percentatgeCorrecteEquip1 > percentatgeCorrecteEquip2) {
-    equipAcertat = 1
-  } else if (percentatgeCorrecteEquip2 > percentatgeCorrecteEquip1) {
-    equipAcertat = 2
-  } else if (percentatgeCorrecteEquip1 === 0 && percentatgeCorrecteEquip2 === 0) {
-    equipAcertat = sala.equipAtacant == 1 ? 2 : 1
-  } else {
-    equipAcertat = sala.equipAtacant
-  }*/
 
   return { votsEquip1, votsEquip2, equipAcertat }
 }
