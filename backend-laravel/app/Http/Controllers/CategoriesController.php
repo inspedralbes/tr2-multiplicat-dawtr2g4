@@ -97,11 +97,13 @@ class CategoriesController extends Controller
     }
     public function destroyWeb(Request $request, string $id)
     {
+        $msg ="Categoria eliminada correctament";
         if($request->eliminar_preg){
             Pregunta::where('categoria_id', $id)->delete();
+            $msg = 'Categoria i preguntes adherides eliminades correctament';
         }
         Categoria::findOrFail($id)->delete();
-        
-        return redirect()->route('categoriesIndex')->with('success', 'Categoria eliminada correctament');
+
+        return redirect()->route('categoriesIndex')->with('success', $msg);
     }
 }

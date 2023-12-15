@@ -2,9 +2,9 @@
 
 @section('content')
 
-@error('text_pregunta')
+@error('nom')
 <div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
-    L'enunciat es obligatori
+    El nom es obligatori
 </div>
 @enderror
 
