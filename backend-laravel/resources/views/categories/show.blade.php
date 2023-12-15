@@ -10,7 +10,7 @@
 
         <div class="mb-3 col">
 
-            <label for="text_categoria" class="form-label">Enunciat</label>
+            <label for="text_categoria" class="form-label">Nom</label>
             <input type="text" class="form-control mb-2" name="nom" id="text_categoria" value="{{ $categoria->nom }}">
 
             <input type="submit" value="Actualitzar categoria" class="btn btn-primary my-2" />

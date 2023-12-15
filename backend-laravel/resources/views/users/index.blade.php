@@ -52,7 +52,8 @@
         @else
         <p class="card-text">Es Admin: No</p>
         @endif
-
+        
+        <a href="{{ route('usersUpdateShowPassword', ['id' => $user->id]) }}" class="btn btn-primary">Editar contrasenya</a>
         <a href="{{ route('usersShow', ['id' => $user->id]) }}" class="btn btn-primary">Edita</a>
         <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal"
             data-bs-target="#exampleModal{{$user->id}}">

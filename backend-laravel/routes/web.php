@@ -45,4 +45,6 @@ Route::get('/users/{id}', [UsersController::class, 'showWeb'])->name('usersShow'
 Route::get('/crearUser', [UsersController::class,'storeShowWeb'])->name('usersStore');
 Route::post('/crearUser', [UsersController::class, 'storeWeb'])->name('usersStore');
 Route::put('/users/{id}', [UsersController::class, 'updateWeb'])->name('usersUpdate');
+Route::get('/users/password/{id}', [UsersController::class,'updatePasswordShowWeb'])->name('usersUpdateShowPassword');
+Route::put('/users/password/{id}', [UsersController::class,'updatePasswordWeb'])->name('usersUpdatePassword');
 Route::delete('/users/delete/{id}', [UsersController::class, 'destroyWeb'])->name('usersDestroy');

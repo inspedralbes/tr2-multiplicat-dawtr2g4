@@ -77,11 +77,30 @@ class UsersController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email,'.$id,
-            'password' => 'required|string|confirmed',
+            'esAdmin' => 'required',
+
         ]);
         $user = User::find($id);
         $user->name = $fields['name'];
         $user->email = $fields['email'];
+        $user->esAdmin = $fields['esAdmin'];
+        $user->save();
+
+        return redirect()->route('usersIndex');
+    }
+
+    public function updatePasswordShowWeb(string $id)
+    {
+        $user = User::find($id);
+        return view('users.updatePassword', ['user'=> $user]);
+    }
+
+    public function updatePasswordWeb(Request $request, string $id)
+    {
+        $fields = $request->validate([
+            'password' => 'required|string|confirmed',
+        ]);
+        $user = User::find($id);
         $user->password = bcrypt($fields['password']);
         $user->save();
 
