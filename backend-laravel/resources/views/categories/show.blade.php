@@ -2,6 +2,12 @@
 
 @section('content')
 
+@error('text_pregunta')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    L'enunciat es obligatori
+</div>
+@enderror
+
 <div class="container w-30 border p-4 mt-5">
     <div class="row mx-auto">
     <form  method="POST" action="{{ route('categoriesUpdate', ['id' => $categoria->id]) }}">

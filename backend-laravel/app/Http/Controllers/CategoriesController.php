@@ -81,7 +81,8 @@ class CategoriesController extends Controller
         $categoria = new Categoria();
         $categoria->nom = $request->nom;
         $categoria->save();
-        return redirect()->route('categoriesIndex');
+
+        return redirect()->route('categoriesIndex')->with('success', 'Categoria creada correctament');
     }
     public function updateWeb(Request $request, string $id)
     {
@@ -91,7 +92,8 @@ class CategoriesController extends Controller
         $categoria = Categoria::find($id);
         $categoria->nom = $request->nom;
         $categoria->save();
-        return redirect()->route('categoriesIndex');
+
+        return redirect()->route('categoriesIndex')->with('success', 'Categoria actualitzada correctament');
     }
     public function destroyWeb(Request $request, string $id)
     {
@@ -99,6 +101,7 @@ class CategoriesController extends Controller
             Pregunta::where('categoria_id', $id)->delete();
         }
         Categoria::findOrFail($id)->delete();
-        return redirect()->route('categoriesIndex');
+        
+        return redirect()->route('categoriesIndex')->with('success', 'Categoria eliminada correctament');
     }
 }

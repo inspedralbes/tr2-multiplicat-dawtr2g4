@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+
 @if (session('success'))
     <div class="alert alert-success position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
         {{ session('success') }}

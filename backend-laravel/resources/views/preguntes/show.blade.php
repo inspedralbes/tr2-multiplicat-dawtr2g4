@@ -8,14 +8,9 @@
 </div>
 @enderror
 
-@error('textResposta1')
+@error('textResposta4')
 <div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
-    S'ha d'omplir la resposta 1
-</div>
-@enderror
-@error('textResposta2')
-<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
-    S'ha d'omplir la resposta 2
+    S'ha d'omplir la resposta 4
 </div>
 @enderror
 @error('textResposta3')
@@ -23,9 +18,14 @@
     S'ha d'omplir la resposta 3
 </div>
 @enderror
-@error('textResposta4')
+@error('textResposta2')
 <div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
-    S'ha d'omplir la resposta 4
+    S'ha d'omplir la resposta 2
+</div>
+@enderror
+@error('textResposta1')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    S'ha d'omplir la resposta 1
 </div>
 @enderror
 

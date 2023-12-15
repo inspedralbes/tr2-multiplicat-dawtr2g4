@@ -1,6 +1,13 @@
 @extends('app')
 
 @section('content')
+
+@if (session('success'))
+    <div class="alert alert-success position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
