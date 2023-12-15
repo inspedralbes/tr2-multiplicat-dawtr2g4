@@ -8,14 +8,9 @@
 </div>
 @enderror
 
-@error('textResposta1')
+@error('textResposta4')
 <div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
-    S'ha d'omplir la resposta 1
-</div>
-@enderror
-@error('textResposta2')
-<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
-    S'ha d'omplir la resposta 2
+    S'ha d'omplir la resposta 4
 </div>
 @enderror
 @error('textResposta3')
@@ -23,9 +18,14 @@
     S'ha d'omplir la resposta 3
 </div>
 @enderror
-@error('textResposta4')
+@error('textResposta2')
 <div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
-    S'ha d'omplir la resposta 4
+    S'ha d'omplir la resposta 2
+</div>
+@enderror
+@error('textResposta1')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    S'ha d'omplir la resposta 1
 </div>
 @enderror
 
@@ -37,10 +37,10 @@
 
         <div class="mb-3 col">
 
-            <label for="text_pregunta" class="form-label">Enunciat</label>
+            <label for="text_preg" class="form-label">Enunciat</label>
             <input type="text" class="form-control mb-2" name="text_pregunta" id="text_preg" value="{{ $pregunta->text_pregunta }}">
 
-            <label for="dificultat" class="form-label">Dificultat</label>
+            <label for="dificultat_preg" class="form-label">Dificultat</label>
             <select name="dificultat" id="dificultat_preg" class="form-select" style="width: 5%;">
                 @for($i = 1; $i <= 3; $i++)
                 @if ($pregunta->dificultat == $i)
@@ -53,7 +53,7 @@
             </select><br>
 
             <label for="categoria_id" class="form-label">Categoria de la pregunta</label>
-            <select name="categoria_id" class="form-select">
+            <select id="categoria_id" name="categoria_id" class="form-select">
                 @foreach ($categories as $category)
                     @if ($category->id == $pregunta->categoria_id)
                         <option value="{{$category->id}}" selected>{{$category->nom}}</option>
@@ -72,7 +72,7 @@
                 @else
                     <input type="radio" id="resp{{ $loop->index + 1 }}" name="correcta" value="{{ $loop->index + 1 }}">
                 @endif
-                <input type="text" class="form-control mb-2" name="textResposta{{ $loop->index + 1 }}" id="resposta" value="{{ $resposta->text_resposta }}">
+                <input type="text" class="form-control mb-2" name="textResposta{{ $loop->index + 1 }}" id="textResposta{{ $loop->index + 1 }}" value="{{ $resposta->text_resposta }}">
             @endforeach
 
             <input type="submit" value="Actualitzar pregunta" class="btn btn-primary my-2" />
