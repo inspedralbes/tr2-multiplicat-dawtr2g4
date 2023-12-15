@@ -118,8 +118,8 @@ export default {
 
 .temporitzador {
     position: absolute;
-    top: -2px;
-    left: 30%;
+    top: 22px;
+    left: 22px;
 }
 
 .grid-container {
@@ -148,16 +148,6 @@ export default {
     margin: 0 5rem;
 }
 
-.cont {
-    position: relative;
-}
-
-.temp {
-    position: absolute;
-    top: 0;
-    left: 33%;
-}
-
 @keyframes rotacioInfinita {
     0% {
         transform: rotate(0deg);
@@ -175,6 +165,8 @@ export default {
 
 .temporitzador-container>img {
     animation: rotacioInfinita 8s linear infinite;
+    width: 70px;
+    height: 70px;
 }
 
 .jugador {

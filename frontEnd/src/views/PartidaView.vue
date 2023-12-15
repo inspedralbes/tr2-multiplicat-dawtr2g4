@@ -18,14 +18,17 @@
             </div>
             <div id="moviment-bases">
                 <button v-if="votacioBaseEnCurs == false && profe" @click="initVotacio">COMENÇAR VOTACIÓ</button>
-                <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70"
+                <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-4"><img src="/img/pilota-beisbol-cronometre.png" width="70"
                         height="70" alt="">
                     <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
                 </div>
                 <div v-if="votacioBaseEnCurs == true && equip == salaInfo.equipAtacant">
                     <p>Quantes bases us voleu moure?</p>
                     <div class="contenidor-dificultat-bases">
-                        <button :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(1)">{{ 1 }}</button>
+                        <button :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(1)">
+                            {{ 1 }}
+                            <img src="../components/icons/pilota-boto-fons.png" width="20" height="20" alt="">
+                        </button>
                         <button :class="[dificultatSeleccionada.isSelected_2 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(2)">{{ 2 }}</button>
                         <button :class="[dificultatSeleccionada.isSelected_3 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']" v-on:click="baseSeleccionada(3)">{{ 3 }}</button>
                     </div>
@@ -116,6 +119,7 @@ export default {
 #grid-container {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 2fr;
     grid-template-areas:
         ". camp-de-joc puntuacio"
         "banqueta camp-de-joc moviment-bases";
@@ -155,6 +159,8 @@ export default {
     background-repeat: no-repeat;
     justify-self: right;
     width: 80%;
+    height: 50%;
+    align-self: flex-end;
 }
 
 #puntuacio {
@@ -162,8 +168,8 @@ export default {
     border: 1px solid black;
     padding: 5px;
     justify-self: left;
-    margin-right: 50px;
-    width: 40%;
+    //margin-right: 50px;
+    width: 80%;
     background-color: white;
 }
 
@@ -173,7 +179,7 @@ export default {
     padding: 5px;
     justify-self: left;
     margin-right: 50px;
-    width: 40%;
+    width: 80%;
     background-color: #4caf50;
 }
 

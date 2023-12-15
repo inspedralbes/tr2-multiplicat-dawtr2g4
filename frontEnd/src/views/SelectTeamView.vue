@@ -5,7 +5,8 @@
         <button v-if="store.getProfe()" class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
-                <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
+                <button v-if="store.getProfe()" class="button e1">Equip 1</button>
+                <button v-else class="button e1" @click="escollirEquip(1)">Equip 1</button>
                 <div v-if="!equip1.length">
                 </div>
                 <ul v-else class="llistaUl el1">
@@ -15,7 +16,8 @@
                 </ul>
             </div>
             <div>
-                <button class="button e2" @click="escollirEquip(2)">Equip 2</button>
+                <button v-if="store.getProfe()" class="button e2">Equip 2</button>
+                <button v-else class="button e2" @click="escollirEquip(2)">Equip 2</button>
                 <div v-if="!equip2.length">
                 </div>
                 <ul v-else class="llistaUl el2">
