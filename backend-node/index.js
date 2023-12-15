@@ -268,7 +268,7 @@ io.on('connection', (socket) => {
     if (jugador) {
       jugador.votacioResposta = vot;
       sala.totalVots++;
-      io.to(sala.nomSala).emit('vot-resposta', sala.totalVots)
+      io.to(sala.nomSala).emit('vot-resposta', sala.totalVots, sala.preguntaActual.indexRespostaCorrecta)
     }
 
     if (totsHanVotat(sala, true)) {

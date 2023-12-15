@@ -30,6 +30,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
+            <a class="navbar-brand" href="http://127.0.0.1:5173/">Casa</a>
             <a class="navbar-brand" href="{{ route('landing-admin') }}">Landing Admin</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -40,7 +41,7 @@
                 <a class="nav-link" href="{{ route('preguntesIndex') }}">Preguntes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Categories</a>
+                    <a class="nav-link" href="{{ route('categoriesIndex') }}">Categories</a>
                 </li>
             </ul>
             </div>

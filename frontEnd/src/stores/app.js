@@ -3,6 +3,10 @@ import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
+
+    //ruta
+    url: '',
+
     //local
     userInfo: {
       username: '',
@@ -19,17 +23,12 @@ export const useAppStore = defineStore('app', {
     sales: [],
     indexSala: null,
 
-
-    //100%
     temporitzador: '', // utilitzat a Partida View
     torn: '',
     votacioBaseEnCurs: false, // utilitzat a Partida View
     votacioPreguntaEnCurs: false,
     tornarTaulell: false,
     base: '',
-
-    totalVotacions: 0,
-    totalJugadors: 0,
     jugadorEnCamp: {
       baseActual: 0,
       eliminat: false,
@@ -41,6 +40,9 @@ export const useAppStore = defineStore('app', {
     token: '',
     user: {},
     profe: false,
+    //Vista usuari si resposta correcta o incorrecta
+    respostaSeleccionada: '',
+    respostaCorrecta: '',
   }),
   actions: {
 
@@ -100,11 +102,15 @@ export const useAppStore = defineStore('app', {
 
     //grafics
     getTotalVotacions() {
-      return this.totalVotacions
+      // return this.totalVotacions
+      console.log(this.sales[this.indexSala].totalVots)
+      return this.sales[this.indexSala].totalVots;
     },
     getTotalJugadors() {
-      return this.totalJugadors
+      // return this.totalJugadors;
+      return this.sales[this.indexSala].jugadors.length;
     },
+
     getDificultatSeleccionada() {
       return this.dificultatSeleccionada
     },
@@ -126,6 +132,17 @@ export const useAppStore = defineStore('app', {
     },
     getProfe() {
       return this.profe
+    },
+    getUrl() {
+      return this.url
+    },
+
+    //Vista usuari si resposta correcta o incorrecta
+    getRespostaSeleccionada() {
+      return this.respostaSeleccionada
+    },
+    getRespostaCorrecta() {
+      return this.respostaCorrecta
     },
 
     //setters
@@ -232,14 +249,18 @@ export const useAppStore = defineStore('app', {
       }
       this.profe = profe
     },
-
+    //Vista usuari si resposta correcta o incorrecta
+    setRespostaSeleccionada(respostaSeleccionada) {
+      this.respostaSeleccionada = respostaSeleccionada
+    },
+    setRespostaCorrecta(respostaCorrecta) {
+      this.respostaCorrecta = respostaCorrecta
+    },
 
     //logout
-
     logout() {
       this.token = ''
       this.user = {}
     },
-
   },
 })

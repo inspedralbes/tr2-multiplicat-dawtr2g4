@@ -18,7 +18,7 @@
                 <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>
             </div>
             <div id="moviment-bases">
-                <button v-if="votacioBaseEnCurs == false" @click="initVotacio">COMENÇAR VOTACIÓ</button>
+                <button v-if="votacioBaseEnCurs == false && profe" @click="initVotacio">COMENÇAR VOTACIÓ</button>
                 <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70"
                         height="70" alt="">
                     <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
@@ -91,6 +91,9 @@ export default {
         },
         indexSala() {
             return this.pinia.getIndexSala();
+        },
+        profe() {
+            return this.pinia.getProfe();
         }
     },
     mounted() {

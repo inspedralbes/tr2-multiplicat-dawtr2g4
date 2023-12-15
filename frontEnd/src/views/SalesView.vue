@@ -43,17 +43,18 @@ export default {
         onMounted(async () => {
             loading.value = true;
 
-            let url;
-            if (window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
-                url = "http://tr2g4.daw.inspedralbes.cat:3378/api/salas";
-            } else if (window.location.hostname === 'mathball.daw.inspedralbes.cat') {
-                url = "http://mathball.daw.inspedralbes.cat:3378/api/salas";
-            } else {
-                url = "http://localhost:3378/api/salas";
-            }
+            // let url;
+            // if (window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
+            //     url = "http://tr2g4.daw.inspedralbes.cat:3378/api/salas";
+            // } else if (window.location.hostname === 'mathball.daw.inspedralbes.cat') {
+            //     url = "http://mathball.daw.inspedralbes.cat:3378/api/salas";
+            // } else {
+            //     url = "http://localhost:3378/api/salas";
+            // }
 
             try {
-                const response = await fetch(url);
+                // const response = await fetch(url);
+                const response = await fetch("http://"+pinia.getUrl() + ":3378/api/salas");
                 const data = await response.json();
 
                 pinia.setSales(data.sales);

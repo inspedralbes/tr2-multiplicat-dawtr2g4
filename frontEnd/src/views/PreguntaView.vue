@@ -44,6 +44,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -52,6 +53,7 @@ import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
 
 export default {
+    inheritAttrs: false,
     methods: {
         respostaSeleccionada(idPregunta, idResposta) {
             if (this.isPreguntaResposta[idPregunta] === -1) {
@@ -79,6 +81,9 @@ export default {
         },
         isPreguntaResposta() {
             return this.pinia.getIsPreguntaResposta();
+        },
+        profe() {
+            return this.pinia.getProfe();
         }
     },
     mounted() {
@@ -123,20 +128,56 @@ export default {
         top: -2px;
         left: 30%;
     }
+    
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 20px;
+}
 
-    @keyframes rotacioInfinita {
-      0% {
+.grid-container .resposta:nth-child(1) {
+    background-color: #f87979;
+}
+
+.grid-container .resposta:nth-child(2) {
+    background-color: #36a2eb;
+}
+
+.grid-container .resposta:nth-child(3) {
+    background-color: green;
+}
+
+.grid-container .resposta:nth-child(4) {
+    background-color: purple;
+}
+
+.pregunta-respostes {
+    margin: 0 5rem;
+}
+
+.cont {
+    position: relative;
+}
+
+.temp {
+    position: absolute;
+    top: 0;
+    left: 33%;
+}
+
+@keyframes rotacioInfinita {
+    0% {
         transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
     }
 
     .temporitzador-container {
         margin: 0 auto;
         position: relative;
+
+    100% {
+        transform: rotate(360deg);
     }
+}
 
     .temporitzador-container > img {
         animation: rotacioInfinita 8s linear infinite;
@@ -182,12 +223,25 @@ export default {
         }
     }
 
-    @media (min-width: 1400px) {
-        .pregunta-respostes {
-            margin: 0 30%;
-        }
-    }
+.temporitzador {
+    margin: 0 auto;
+}
 
+.temporitzador>img {
+    animation: rotacioInfinita 8s linear infinite;
+}
+
+@media (min-width: 992px) {
+    .pregunta-respostes {
+        margin: 0 20%;
+    }
+}
+
+@media (min-width: 1400px) {
+    .pregunta-respostes {
+        margin: 0 30%;
+    }
+}
 </style>
 
 

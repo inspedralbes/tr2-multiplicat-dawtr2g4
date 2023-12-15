@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categoria;
+use App\Models\Pregunta;
 
 class CategoriesController extends Controller
 {
@@ -45,5 +46,59 @@ class CategoriesController extends Controller
     public function destroy(string $id)
     {
         Categoria::destroy($id);
+    }
+
+    //CRUD
+    public function indexWeb()
+    {
+        $categories = Categoria::all();
+        return view('categories.index', ['categories' => $categories]);
+    }
+
+    public function searchCrudWeb(Request $request)
+    {
+        $search = $request->search;
+        $categories = Categoria::when(!empty($search), function ($query) use ($search) {
+                                    $query->where('nom', 'LIKE', "%{$search}%");
+                                })->get();
+        return view('categories.index', ['categories' => $categories]);
+    }
+
+    public function showWeb(string $id)
+    {
+        $categoria = Categoria::find($id);
+        return view('categories.show', ['categoria' => $categoria]);
+    }
+    public function storeShowWeb()
+    {
+        return view('categories.create');
+    }
+    public function storeWeb(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required',
+        ]);
+        $categoria = new Categoria();
+        $categoria->nom = $request->nom;
+        $categoria->save();
+        return redirect()->route('categoriesIndex');
+    }
+    public function updateWeb(Request $request, string $id)
+    {
+        $request->validate([
+            'nom' => 'required',
+        ]);
+        $categoria = Categoria::find($id);
+        $categoria->nom = $request->nom;
+        $categoria->save();
+        return redirect()->route('categoriesIndex');
+    }
+    public function destroyWeb(Request $request, string $id)
+    {
+        if($request->eliminar_preg){
+            Pregunta::where('categoria_id', $id)->delete();
+        }
+        Categoria::findOrFail($id)->delete();
+        return redirect()->route('categoriesIndex');
     }
 }

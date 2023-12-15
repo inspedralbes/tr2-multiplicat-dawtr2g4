@@ -2,14 +2,14 @@ import { io } from "socket.io-client";
 import { useAppStore } from "./stores/app";
 import router from "./router";
 
-let url;
-if(window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
-  url = "http://tr2g4.daw.inspedralbes.cat:3378";
-} else if(window.location.hostname === 'mathball.daw.inspedralbes.cat') {
-  url = "http://mathball.daw.inspedralbes.cat:3378";
-} else {
-  url = "http://localhost:3378";
-}
+let url = "http://" + window.location.hostname + ":3378";
+// if(window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
+//   url = "http://tr2g4.daw.inspedralbes.cat:3378";
+// } else if(window.location.hostname === 'mathball.daw.inspedralbes.cat') {
+//   url = "http://mathball.daw.inspedralbes.cat:3378";
+// } else {
+//   url = "http://localhost:3378";
+// }
 
 export const socket = io(url);
 
@@ -102,8 +102,9 @@ socket.on("connect", () => {
     console.log('Received vot-dificultat:', totalVots);
   });
 
-  socket.on('vot-resposta', (totalVots) => {
+  socket.on('vot-resposta', (totalVots, res) => {
     pinia.setTotalVots(totalVots);
+    pinia.setRespostaCorrecta(res);
     console.log('Received vot-resposta:', totalVots);
   });
 
