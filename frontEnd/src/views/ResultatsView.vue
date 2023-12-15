@@ -94,6 +94,17 @@ import PieChart from '../components/PieChart.vue';
 import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
 
+
+//canviar width
+
+
+
+
+
+
+
+
+
 export default {
 
     components: { PieChart },
@@ -234,7 +245,7 @@ h1 {
 
 .resum-pregunta {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     border-radius: 20px;
