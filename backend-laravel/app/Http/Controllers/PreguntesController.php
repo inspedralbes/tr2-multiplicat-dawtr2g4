@@ -120,7 +120,7 @@ class PreguntesController extends Controller
             $resposta->save();
         }
 
-        return redirect()->route('preguntesIndex');
+        return redirect()->route('preguntesIndex')->with('success', 'Pregunta creada correctament');
     }
 
     /**
@@ -171,7 +171,7 @@ class PreguntesController extends Controller
             $resposta->save();
         }
 
-        return redirect()->route('preguntesIndex');
+        return redirect()->route('preguntesIndex')->with('success', 'Pregunta actualitzada correctament');
     }
 
     /**
@@ -182,6 +182,6 @@ class PreguntesController extends Controller
         Pregunta::findOrFail($id)->delete();
         Resposta::where('pregunta_id', $id)->delete();
 
-        return redirect()->route('preguntesIndex');
+        return redirect()->route('preguntesIndex')->with('success', 'Pregunta eliminada correctament');
     }
 }

@@ -2,6 +2,33 @@
 
 @section('content')
 
+@error('text_pregunta')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    L'enunciat es obligatori
+</div>
+@enderror
+
+@error('textResposta1')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    S'ha d'omplir la resposta 1
+</div>
+@enderror
+@error('textResposta2')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    S'ha d'omplir la resposta 2
+</div>
+@enderror
+@error('textResposta3')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    S'ha d'omplir la resposta 3
+</div>
+@enderror
+@error('textResposta4')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    S'ha d'omplir la resposta 4
+</div>
+@enderror
+
 <div class="container w-30 border p-4 mt-5">
     <div class="row mx-auto">
     <form  method="POST" action="{{ route('preguntesUpdate', ['id' => $pregunta->id]) }}">
