@@ -18,46 +18,62 @@
     </div>
 </nav>
 @foreach ($categories as $categoria)
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal{{$categoria->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{$categoria->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Segur que vols eliminar la categoria {{ $categoria->id }}</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="{{ route('categoriesDestroy', ['id' => $categoria->id]) }}" method="POST">
-            @method('DELETE')
-            @csrf
-            <div class="modal-body">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="true" name="eliminar_preg" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Eliminar totes les preguntes d'aquesta categoria
-                    </label>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Segur que vols eliminar la categoria {{
+                    $categoria->id }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('categoriesDestroy', ['id' => $categoria->id]) }}" method="POST">
+                @method('DELETE')
+                @csrf
+                <div class="modal-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="true" name="eliminar_preg"
+                            id="flexCheckDefault{{$categoria->id}}">
+                        <label class="form-check-label" for="flexCheckDefault{{$categoria->id}}">
+                            Eliminar totes les preguntes d'aquesta categoria
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
-                
-                <button class="btn btn-danger btn-sm">Eliminar</button>
-                
-            </div>
-        </form>
-        </div>
-    </div>
-    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">ID: {{ $categoria->id }}</h5>
-            <p class="card-text">Nom: {{ $categoria->nom }}</p>
-            <a href="{{ route('categoriesShow', ['id' => $categoria->id]) }}" class="btn btn-primary">Edita</a>
-            <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$categoria->id}}">
-                Eliminar
-            </button>
+                    <button class="btn btn-danger btn-sm">Eliminar</button>
+
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">ID: {{ $categoria->id }}</h5>
+        <p class="card-text">Nom: {{ $categoria->nom }}</p>
+        <a href="{{ route('categoriesShow', ['id' => $categoria->id]) }}" class="btn btn-primary">Edita</a>
+        <button type="button" class="btn btn-primary btn-danger modalEliminar" data-bs-toggle="modal"
+            data-bs-target="#exampleModal{{$categoria->id}}" value="{{$categoria->id}}">
+            Eliminar
+        </button>
+    </div>
+</div>
 @endforeach
+<script>
+    // CODI PER A QUE QUAN OBRIM EL MODAL D'ELIMINAR CATEGORIA
+    // EL CHECKBOX DE ELIMINAR PREGUNTES ES DESMARQUI
+    const modalEliminar = document.querySelectorAll('.modalEliminar');
+
+    modalEliminar.forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.getElementById("flexCheckDefault" + btn.value).checked = false;
+        });
+    });
+
+</script>
 
 @endsection
