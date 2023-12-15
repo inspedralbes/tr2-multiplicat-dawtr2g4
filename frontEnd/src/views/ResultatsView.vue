@@ -47,31 +47,33 @@
         </div>
     </div>
     <div v-else class="contenidor">
-        <div v-if="resultat" class="correcte">
-            <div>
-                <h1>Resposta Correcta</h1>
+        <div v-for="(resposta, index) in isPreguntaResposta.length">
+            <div v-if="isPreguntaResposta[index] == respostaCorrecta[index]" class="correcte">
+                <div>
+                    <h1>Resposta Correcta</h1>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 12l5 5l10 -10" />
+                    </svg>
+                </div>
             </div>
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24"
-                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 12l5 5l10 -10" />
-                </svg>
-            </div>
-        </div>
-        <div v-else class="incorrecte">
-            <div>
-                <h1>Resposta Incorrecta</h1>
-            </div>
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24"
-                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                </svg>
+            <div v-else class="incorrecte">
+                <div>
+                    <h1>Resposta Incorrecta</h1>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </div>
             </div>
         </div>
     </div>
@@ -114,12 +116,11 @@ export default {
         profe() {
             return this.store.getProfe();
         },
-        resultat() {
-            if (this.store.getRespostaCorrecta() == this.store.getRespostaSeleccionada()) {
-                return true;
-            } else {
-                return false;
-            }
+        respostaCorrecta() {
+            return this.store.getRespostaCorrecta();
+        },
+        isPreguntaResposta() {
+            return this.store.getIsPreguntaResposta();
         }
     },
     methods: {
@@ -259,6 +260,7 @@ h1 {
     padding: 20px;
     height: fit-content;
 }
+
 .contenidor {
     height: 100%;
     display: flex;
@@ -276,7 +278,8 @@ h1 {
     align-items: center;
 }
 
-.correcte>div, .incorrecte>div {
+.correcte>div,
+.incorrecte>div {
     width: 100%;
     text-align: center;
 }

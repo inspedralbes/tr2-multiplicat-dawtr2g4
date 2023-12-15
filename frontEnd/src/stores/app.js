@@ -41,8 +41,8 @@ export const useAppStore = defineStore('app', {
     user: {},
     profe: false,
     //Vista usuari si resposta correcta o incorrecta
-    respostaSeleccionada: '',
-    respostaCorrecta: '',
+    respostaSeleccionada: [],
+    respostaCorrecta: [],
   }),
   actions: {
 

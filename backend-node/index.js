@@ -268,7 +268,7 @@ io.on('connection', (socket) => {
     if (jugador) {
       jugador.votacioResposta = vot;
       sala.totalVots++;
-      io.to(sala.nomSala).emit('vot-resposta', sala.totalVots, sala.preguntaActual.indexRespostaCorrecta)
+      io.to(sala.nomSala).emit('vot-resposta', sala.totalVots)
     }
 
     if (totsHanVotat(sala, true)) {
@@ -279,9 +279,11 @@ io.on('connection', (socket) => {
   function finalitzarVotacionsRespostes(sala) {
     clearInterval(intervalId);
     const resultats = calcularResultatsRespostes(sala)
+    let indexRespostesCorrectes = resultats.indexRespostesCorrectes;
+    delete resultats.indexRespostesCorrectes;
     sala.resultatsActuals = resultats
     resetejarVotacions(sala)
-    io.to(sala.nomSala).emit('finalitzar-votacions-respostes', resultats)
+    io.to(sala.nomSala).emit('finalitzar-votacions-respostes', resultats, indexRespostesCorrectes)
   }
 
   socket.on('tornar-taulell', (indexSala) => {
@@ -322,7 +324,6 @@ io.on('connection', (socket) => {
 
     // Si hi ha n outs o no hi ha ningú per batejar es canvia d'equip; si hi ha algún jugador a la banqueta salta al camp a batejar
     if (sala.outs === OUTS_ELIMINAR || sala.jugadorsBanqueta.length === 0) {
-      console.log("ENTRO CONDICIÓN")
       canviarEquips(sala);
     } else {
       nouJugadorAlCamp(sala);
@@ -437,7 +438,7 @@ function calcularResultatsRespostes(sala) {
     }
   }
 
-  return { votsEquip1, votsEquip2, equipAcertat }
+  return { votsEquip1, votsEquip2, equipAcertat, indexRespostesCorrectes }
 }
 
 function calcularResultatsDificultat(sala) {
