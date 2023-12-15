@@ -60,6 +60,10 @@
                         <path d="M5 12l5 5l10 -10" />
                     </svg>
                 </div>
+                <div class="resum-pregunta">
+                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+                    <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
+                </div>
             </div>
             <div v-else class="incorrecte">
                 <div>
@@ -73,6 +77,10 @@
                         <path d="M18 6l-12 12" />
                         <path d="M6 6l12 12" />
                     </svg>
+                </div>
+                <div class="resum-pregunta">
+                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+                    <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
                 </div>
             </div>
         </div>
@@ -127,7 +135,6 @@ export default {
         tornarTaulell() {
             //this.$router.push('/partida'); 
             socket.emit('tornar-taulell', this.indexSala);
-            socket.emit('calcular-efectes-pregunta', this.indexSala); // CREO QUE ESTO NO HACE NADA
         },
         mostrarGrafic(index) {
             this.resetejarMostrarGrafic(index);
