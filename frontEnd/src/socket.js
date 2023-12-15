@@ -87,9 +87,10 @@ socket.on("connect", () => {
     console.log('Received nova-pregunta:', pregunta);
   });
 
-  socket.on('finalitzar-votacions-respostes', async (resultats) => {
+  socket.on('finalitzar-votacions-respostes', async (resultats, respostesCorrectes) => {
     // Handle the 'votacions-bases-final' event here
     pinia.setVotacioPreguntaEnCurs(false);
+    pinia.setRespostaCorrecta(respostesCorrectes);
     pinia.setResultatsActuals(resultats);
     router.push("/resultats");
     console.log('Received finalitzar-votacions-respostes:', resultats);
@@ -107,9 +108,8 @@ socket.on("connect", () => {
     console.log('Received vot-dificultat:', totalVots);
   });
 
-  socket.on('vot-resposta', (totalVots, res) => {
+  socket.on('vot-resposta', (totalVots) => {
     pinia.setTotalVots(totalVots);
-    pinia.setRespostaCorrecta(res);
     console.log('Received vot-resposta:', totalVots);
   });
 

@@ -9,7 +9,6 @@
                 <img class="camp" src="/img/camp.jpg" alt="">
             </div>
             <div id="banqueta">
-                <p>BANQUETA</p>
                 <img class = jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '.png'" alt="">
             </div>
             <div id="puntuacio">
@@ -127,15 +126,17 @@ export default {
 #camp-de-joc {
     grid-area: camp-de-joc;
     position: relative;
-    width: 612px;
+    width: 100%;
     height: 535px;
     border: 1px solid black;
-    justify-self: center;
+    background-color: white;
+    display: flex;
+    justify-content: center;
 }
 
 .camp {
     width: 612px;
-    height: 535px;
+    height: 533px;
     position: absolute;
     object-fit: cover;
 }
@@ -149,9 +150,11 @@ export default {
 #banqueta {
     grid-area: banqueta;
     border: 1px solid black;
-    background-color: white;
+    background-image: url("/img/banqueta.PNG");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     justify-self: right;
-    width: 40%;
+    width: 80%;
 }
 
 #puntuacio {
