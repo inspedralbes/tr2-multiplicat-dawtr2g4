@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PreguntesController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,14 @@ Route::get('/crearCategoria', [CategoriesController::class,'storeShowWeb'])->nam
 Route::post('/crearCategoria', [CategoriesController::class, 'storeWeb'])->name('categoriesStore');
 Route::put('/categories/{id}', [CategoriesController::class, 'updateWeb'])->name('categoriesUpdate');
 Route::delete('/categories/delete/{id}', [CategoriesController::class, 'destroyWeb'])->name('categoriesDestroy');
+
+//USERS
+Route::get('/users', [UsersController::class, 'indexWeb'])->name('usersIndex');
+Route::get('/users/search', [UsersController::class, 'searchCrudWeb'])->name('usersIndexSearch');
+Route::get('/users/{id}', [UsersController::class, 'showWeb'])->name('usersShow');
+Route::get('/crearUser', [UsersController::class,'storeShowWeb'])->name('usersStore');
+Route::post('/crearUser', [UsersController::class, 'storeWeb'])->name('usersStore');
+Route::put('/users/{id}', [UsersController::class, 'updateWeb'])->name('usersUpdate');
+Route::get('/users/password/{id}', [UsersController::class,'updatePasswordShowWeb'])->name('usersUpdateShowPassword');
+Route::put('/users/password/{id}', [UsersController::class,'updatePasswordWeb'])->name('usersUpdatePassword');
+Route::delete('/users/delete/{id}', [UsersController::class, 'destroyWeb'])->name('usersDestroy');

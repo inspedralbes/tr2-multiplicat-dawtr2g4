@@ -16,38 +16,21 @@ const io = new Server(server, {
 });
 const port = 3378
 
-const sales = [{
-  jugadors: [],
-  equips: [
-    { nJugadors: 0, punts: 0 },
-    { nJugadors: 0, punts: 0 }
-  ],
-  rondes: [],
-  totalVots: 0,
-  equipAtacant: 0,
-  categoria: 1,
-  preguntaActual: [],
-  resultatsActuals: null,
-  nomSala: "Sala 1",
-  jugadorsTots: [],
-  jugadorsBanqueta: [],
-  jugadorsCamp: [],
-  outs: 0
-}];
+const sales = [];
 
 const JUGADORS_PER_EQUIP = 5;
-for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
-  let jugador = {
-    baseActual: null,
-    eliminat: false,
-    id: i
-  }
-  sales[0].jugadorsBanqueta.push(jugador);
-}
+const OUTS_ELIMINAR = 2;
+const CARRERES_GUANYAR = 3;
 
-// Executar funcio per a crear 10 sales
+const TEMPS_ESCOLLIR_BASE = 10;
+const TEMPS_VOTAR_RESPOSTA = 99;
+const socketRooms = {};
+let cronometre;
+let intervalId;
+
+// Executar funcio per a crear 6 sales
 (function () {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 6; i++) {
     let sala = {
       jugadors: [],
       equips: [
@@ -62,20 +45,12 @@ for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
       resultatsActuals: null,
       nomSala: "Sala " + (i + 1),
       jugadorsBanqueta: [],
-      jugadorsCamp: []
+      jugadorsCamp: [],
+      outs: 0
     }
     sales.push(sala)
   }
 })()
-
-const OUTS_ELIMINAR = 2;
-const CARRERES_GUANYAR = 3;
-
-const TEMPS_ESCOLLIR_BASE = 10;
-const TEMPS_VOTAR_RESPOSTA = 99;
-const socketRooms = {};
-let cronometre;
-let intervalId;
 
 app.get('/api/salas', (req, res) => {
   res.json({ sales: sales })
@@ -93,26 +68,29 @@ io.on('connection', (socket) => {
     if (room) {
       socket.leave(room);
       delete socketRooms[socket.id];
-      let jugador = sales.find(s => s.nomSala === room).jugadors.find(j => j.id === socket.id);
+      let indexSala = sales.findIndex(s => s.nomSala === room);
+      let sala = sales[indexSala]
+      let indexJugador = sala.jugadors.findIndex(j => j.id === socket.id)
+      let jugador = sala.jugadors[indexJugador];
       if (jugador) {
-        let indexSala = sales.findIndex(s => s.nomSala === room)
-        let indexJugador = sales[indexSala].jugadors.findIndex(j => j.id === socket.id)
-        sales[indexSala].jugadors.splice(indexJugador, 1)
-        sales[indexSala].equips[jugador.equip - 1].nJugadors--;
-        io.emit('equips-actualitzats', indexSala, sales[indexSala]);
+        sala.jugadors.splice(indexJugador, 1)
+        sala.equips[jugador.equip - 1].nJugadors--;
+        if(sala.jugadors.length === 0) {
+          natejarSala(sala)
+        }
       }
+      io.emit('equips-actualitzats', indexSala, sala);
     }
   });
 
-  socket.on('crear-sala', (Sala) => {
+  socket.on('crear-sala', (sala) => {
     // Comprovar si ja existeix una sala amb el mateix nom
-    if (sales.find(s => s.nomSala === Sala.nom)) {
-      socket.emit('sala-creada', false);
+    if (sales.find(s => s.nomSala === sala.nom)) {
       return;
     }
 
     // Crear nova sala
-    let sala = {
+    let novaSala = {
       jugadors: [],
       equips: [
         { nJugadors: 0, punts: 0 },
@@ -121,13 +99,15 @@ io.on('connection', (socket) => {
       rondes: [],
       totalVots: 0,
       equipAtacant: 0,
-      categoria: Sala.categoria,
+      categoria: sala.categoria,
       preguntaActual: null,
       resultatsActuals: null,
-      nomSala: Sala.nom
+      nomSala: sala.nom,
+      jugadorsBanqueta: [],
+      jugadorsCamp: []
     }
-    sales.push(sala);
-    socket.emit('sala-creada', true);
+    sales.push(novaSala);
+    io.emit('sala-creada', novaSala);
   });
 
   socket.on('sala-seleccionada', (indexSala) => {
@@ -183,6 +163,7 @@ io.on('connection', (socket) => {
       equipAtacant: equipAtacant,
       punts: 0
     })
+    emplenarJugadorsBanqueta(sala)
     nouJugadorAlCamp(sala);
     io.to(sala.nomSala).emit('partida-iniciada', sala)
   })
@@ -323,7 +304,7 @@ io.on('connection', (socket) => {
     sala.jugadorsCamp = camp;
 
     // Si hi ha n outs o no hi ha ningú per batejar es canvia d'equip; si hi ha algún jugador a la banqueta salta al camp a batejar
-    if (sala.outs === OUTS_ELIMINAR || sala.jugadorsBanqueta.length === 0) {
+    if (sala.outs >= OUTS_ELIMINAR || sala.jugadorsBanqueta.length === 0) {
       canviarEquips(sala);
     } else {
       nouJugadorAlCamp(sala);
@@ -477,6 +458,21 @@ function totsHanVotat(sala, sonVotsRespostes) {
   return sala.totalVots === (sala.equipAtacant === 1 ? sala.equips[0].nJugadors : sala.equips[1].nJugadors);
 }
 
+function natejarSala(sala) {
+  sala.jugadors = []
+  sala.equips = [
+    { nJugadors: 0, punts: 0 },
+    { nJugadors: 0, punts: 0 }
+  ]
+  sala.rondes = []
+  sala.totalVots = 0,
+  sala.equipAtacant = 0,
+  sala.preguntaActual = [],
+  sala.resultatsActuals = null,
+  sala.jugadorsBanqueta = [],
+  sala.jugadorsCamp = []
+}
+
 function resetejarTorn(sala) {
   sala.jugadors.forEach(jugador => {
     jugador.baseActual = 0
@@ -486,16 +482,9 @@ function resetejarTorn(sala) {
   sala.outs = 0;
   sala.jugadorsCamp = [];
   sala.jugadorsBanqueta = [];
-  for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
-    let jugador = {
-      baseActual: null,
-      eliminat: false,
-      id: i
-    }
-    sales[0].jugadorsBanqueta.push(jugador);
-  }
+  emplenarJugadorsBanqueta(sala)
   nouJugadorAlCamp(sala);
-
+  
   io.to(sala.nomSala).emit('resetejar-torn', sala)
 }
 
@@ -505,6 +494,17 @@ function resetejarVotacions(sala) {
     jugador.votacioResposta = null
   });
   sala.totalVots = 0;
+}
+
+function emplenarJugadorsBanqueta(sala) {
+  for (let i = 0; i < JUGADORS_PER_EQUIP; i++) {
+    let jugador = {
+      baseActual: null,
+      eliminat: false,
+      id: i
+    }
+    sala.jugadorsBanqueta.push(jugador);
+  }
 }
 
 function nouJugadorAlCamp(sala) {

@@ -17,6 +17,11 @@ socket.on("connect", () => {
   const pinia = useAppStore();
   console.log("connected");
 
+  socket.on("sala-creada", (sala) => {
+    console.log("From Socket: sala creada", sala)
+    pinia.addSala(sala)
+  })
+
   socket.on("sala-seleccionada", (msg) => {
     console.log("From socket.js: sala seleccionada ", msg);
     pinia.setSalaInfo(msg);

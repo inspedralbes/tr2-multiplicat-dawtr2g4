@@ -156,6 +156,9 @@ export const useAppStore = defineStore('app', {
       id = id === null ? this.indexSala : id;
       this.sales[id] = salaInfo
     },
+    addSala(sala) {
+      this.sales.push(sala)
+    },
     setPreguntaActual(preguntaActual) {
       this.sales[this.indexSala].preguntaActual = preguntaActual
     },

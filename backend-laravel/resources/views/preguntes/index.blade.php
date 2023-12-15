@@ -14,8 +14,8 @@
                     <label for="categoria_id" class="form-label">Categoria</label>
                     <select name="categoria_id" >
                         <option value="0" selected>Totes</option>
-                        @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->nom}}</option>
+                        @foreach ($categories as $categoria)
+                                <option value="{{$categoria->id}}">{{$categoria->nom}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -62,7 +62,11 @@
             <h5 class="card-title">ID: {{ $pregunta->id }}</h5>
             <p class="card-text">Enunciat: {{ $pregunta->text_pregunta }}</p>
             <p class="card-text">Dificultat: {{ $pregunta->dificultat }}</p>
-            <p class="card-text">Categoria: {{ $categories[$pregunta->categoria_id]->nom }}</p>
+            @foreach ($categories as $categoria)
+            @if($categoria->id === $pregunta->categoria_id )
+            <p class="card-text">Categoria: {{ $categoria->nom }}</p>
+            @endif
+            @endforeach
             <a href="{{ route('preguntesShow', ['id' => $pregunta->id]) }}" class="btn btn-primary">Edita</a>
             <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$pregunta->id}}">
                 Eliminar
