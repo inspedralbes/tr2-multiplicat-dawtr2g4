@@ -43,6 +43,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('categoriesIndex') }}">Categories</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('usersIndex') }}">Usuaris</a>
+                </li>
             </ul>
             </div>
         </div>
