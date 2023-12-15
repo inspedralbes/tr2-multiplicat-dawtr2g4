@@ -1,59 +1,31 @@
 <template>
     <div>
-        <div class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70" height="70" alt=""><p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p></div>
-        <div v-if="salaInfo.preguntaActual.length == 1">
+        <div class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70" height="70"
+                alt="">
+            <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
+        </div>
+        <div
+            :class="{ 'pregunta-respostes': salaInfo.preguntaActual.length == 1, 'contenidor-dos-preguntes': salaInfo.preguntaActual.length == 2, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 3, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 4 }">
             <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
                 <div class="contenidor-jugador-pregunta">
                     <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
-                    <h1 class="p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                    <h1 class="p-2 text-3xl text-center border-1 border-round-lg">
+                        {{ pregunta.text_pregunta }}
+                    </h1>
                 </div>
                 <div v-if="!profe" class="col-12 mt-4 p-0 contenidor-respostes">
-                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
+                        v-for="(resposta, indexResposta) in pregunta.respostes"
+                        :class="{ selected: selectedIndices[indexPregunta] === indexResposta }"
+                        @click="respostaSeleccionada(indexPregunta, indexResposta)">
+                        {{ resposta.text_resposta }}
+                    </button>
                 </div>
                 <div v-else class="col-12 mt-4 p-0 contenidor-respostes">
-                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
-                </div>
-            </div>
-        </div>
-        <div v-if="salaInfo.preguntaActual.length == 2" class="contenidor-dos-preguntes">
-            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="grid mt-6 mb-4">
-                <div class="contenidor-jugador-pregunta col-12" >
-                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
-                    <h1 class="w-full p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
-                </div>
-                <div v-if="!profe" class="col-12 mt-4 p-0 contenidor-respostes">
-                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
-                </div>
-                <div v-else class="col-12 mt-4 p-0 contenidor-respostes">
-                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
-                </div>
-            </div>
-        </div>
-        <div v-if="salaInfo.preguntaActual.length == 3" class="contenidor-tres-preguntes mt-4 mb-4">
-            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="contenidor-tres-preguntes__item">
-                <div class="contenidor-jugador-pregunta col-12">
-                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
-                    <h1 class="w-full p-2 text-lg text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
-                </div>
-                <div v-if="!profe" class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
-                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
-                </div>
-                <div v-else class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
-                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
-                </div>
-            </div>
-        </div>
-        <div v-if="salaInfo.preguntaActual.length == 4" class="contenidor-tres-preguntes mt-4 mb-4">
-            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="contenidor-quatre-preguntes__item">
-                <div class="contenidor-jugador-pregunta col-12">
-                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
-                    <h1 class="w-full p-2 text-lg text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
-                </div>
-                <div v-if="!profe" class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
-                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
-                </div>
-                <div v-else class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
-                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes">{{ resposta.text_resposta }}</button>
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
+                        v-for="(resposta, indexResposta) in pregunta.respostes">
+                        {{ resposta.text_resposta }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -67,13 +39,19 @@ import { socket } from '@/socket';
 
 export default {
     inheritAttrs: false,
+    data() {
+        return {
+            selectedIndices: {},
+        }
+    },
     methods: {
         respostaSeleccionada(idPregunta, idResposta) {
             if (this.isPreguntaResposta[idPregunta] === -1) {
-            console.log("Has seleccionat la resposta " + idResposta + " de la pregunta " + idPregunta);
-            this.isPreguntaResposta[idPregunta] = idResposta;
-            console.log("FRONT", this.isPreguntaResposta);
-            socket.emit('vot-resposta', this.indexSala, this.isPreguntaResposta);
+                console.log("Has seleccionat la resposta " + idResposta + " de la pregunta " + idPregunta);
+                this.isPreguntaResposta[idPregunta] = idResposta;
+                this.selectedIndices[idPregunta] = idResposta;
+                console.log("FRONT", this.isPreguntaResposta);
+                socket.emit('vot-resposta', this.indexSala, this.isPreguntaResposta);
             }
         }
     },
@@ -108,40 +86,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .contenidor-respostes {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px 20px;
-    }
+.contenidor-respostes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 20px;
+}
 
-    .contenidor-respostes--tres-preguntes {
-        gap: 10px 5px;
-    }
+.contenidor-respostes--tres-preguntes {
+    gap: 10px 5px;
+}
 
-    .contenidor-respostes .resposta:nth-child(1) {
-        background-color: #f87979;
-    }
+.contenidor-respostes .resposta:nth-child(1) {
+    background-color: #f87979;
+}
 
-    .contenidor-respostes .resposta:nth-child(2) {
-        background-color: #36a2eb;
-    }
+.contenidor-respostes .resposta:nth-child(2) {
+    background-color: #36a2eb;
+}
 
-    .contenidor-respostes .resposta:nth-child(3) {
-        background-color: green;
-    }
-    .contenidor-respostes .resposta:nth-child(4) {
-        background-color: purple;
-    }
-    .pregunta-respostes {
-        margin: 0 5rem;
-    }
+.contenidor-respostes .resposta:nth-child(3) {
+    background-color: green;
+}
 
-    .temporitzador {
-        position: absolute;
-        top: -2px;
-        left: 30%;
-    }
-    
+.contenidor-respostes .resposta:nth-child(4) {
+    background-color: purple;
+}
+
+.pregunta-respostes {
+    margin: 0 5rem;
+}
+
+.temporitzador {
+    position: absolute;
+    top: -2px;
+    left: 30%;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -182,60 +162,61 @@ export default {
     0% {
         transform: rotate(0deg);
     }
-    
+
     100% {
         transform: rotate(360deg);
     }
 }
 
-    .temporitzador-container {
-        margin: 0 auto;
-        position: relative;
-    }
+.temporitzador-container {
+    margin: 0 auto;
+    position: relative;
+}
 
-    .temporitzador-container > img {
-        animation: rotacioInfinita 8s linear infinite;
-    }
+.temporitzador-container>img {
+    animation: rotacioInfinita 8s linear infinite;
+}
 
-    .jugador {
-        width: 60px;
-        height: 60px;
-    }
+.jugador {
+    width: 60px;
+    height: 60px;
+}
 
-    .contenidor-jugador-pregunta {
-        display: flex;
-        align-items: center;
-        gap: 0px 10px;
-    }
+.contenidor-jugador-pregunta {
+    display: flex;
+    align-items: center;
+    gap: 0px 10px;
+}
 
-    .contenidor-dos-preguntes {
-        display: flex;
-        gap: 0px 80px;
-        margin: 0 80px;
-    }
+.contenidor-dos-preguntes {
+    display: flex;
+    gap: 0px 80px;
+    margin: 0 80px;
+}
 
-    .contenidor-tres-preguntes {
-        display: grid;
-        grid-template-columns: repeat(2,1fr);
-        gap: 40px 80px;
-        margin: 0 80px;
-    }
+.contenidor-tres-preguntes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 80px;
+    margin: 0 80px;
+}
 
-    .contenidor-tres-preguntes__item, .contenidor-quatre-preguntes__item {
-        display: grid;
-        grid-template-rows: 1fr 3fr;
-        max-height: 200px;
-    }
+.contenidor-tres-preguntes__item,
+.contenidor-quatre-preguntes__item {
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    max-height: 200px;
+}
 
-    .contenidor-tres-preguntes__item:nth-child(3) {
-        grid-column: 1/span 2;
-    }
+.contenidor-tres-preguntes__item:nth-child(3) {
+    grid-column: 1/span 2;
+}
 
-    @media (min-width: 992px) {
-        .pregunta-respostes {
-            margin: 0 20%;
-        }
+@media (min-width: 992px) {
+    .pregunta-respostes {
+        margin: 0 20%;
     }
+}
 
 .temporitzador {
     margin: 0 auto;
@@ -256,7 +237,8 @@ export default {
         margin: 0 30%;
     }
 }
+
+.selected {
+    filter: brightness(0.7) !important;
+}
 </style>
-
-
-
