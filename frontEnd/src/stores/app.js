@@ -18,6 +18,7 @@ export const useAppStore = defineStore('app', {
       isSelected_2: false,
       isSelected_3: false,
     },
+    isPreguntaResposta: [],
     //socket: io('http://localhost:3000'),
     sales: [],
     indexSala: null,
@@ -113,6 +114,9 @@ export const useAppStore = defineStore('app', {
     getDificultatSeleccionada() {
       return this.dificultatSeleccionada
     },
+    getIsPreguntaResposta() {
+      return this.isPreguntaResposta
+    },
 
     //Resultats Finals marcador
     getResultatsFinals() {
@@ -203,7 +207,10 @@ export const useAppStore = defineStore('app', {
       this.totalJugadors = totalJugadors
     },
     setDificultatSeleccionada(dificultatSeleccionada) {
-      return this.dificultatSeleccionada = dificultatSeleccionada
+      this.dificultatSeleccionada = dificultatSeleccionada
+    },
+    setIsPreguntaResposta(isPreguntaResposta) {
+      this.isPreguntaResposta = isPreguntaResposta
     },
 
     //Resultats Finals marcador

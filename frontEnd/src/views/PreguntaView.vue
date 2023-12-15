@@ -1,20 +1,48 @@
 <template>
-    <div class="temporitzador w-max cont mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="90" height="90" alt="">
-        <p class="temp text-align text-3xl font-semibold">{{ temporitzador }}</p>
-    </div>
-    <div class="pregunta-respostes grid mt-6">
-        <h1 class="col-12 text-3xl text-center border-1 border-round-lg">{{ salaInfo.preguntaActual.text_pregunta }}</h1>
-        <div v-if="!profe" class="col-12 mt-4 p-0 grid-container">
-            <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
-                v-for="(resposta, index ) in salaInfo.preguntaActual.respostes" v-on:click="respostaSeleccionada(index)">
-                {{ resposta.text_resposta }}
-            </button>
+        <div class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70" height="70" alt=""><p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p></div>
+        <div v-if="salaInfo.preguntaActual.length == 1">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
+                <div class="contenidor-jugador-pregunta">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <h1 class="p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                </div>
+                <div class="col-12 mt-4 p-0 contenidor-respostes">
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+            </div>
         </div>
-        <div v-else class="col-12 mt-4 p-0 grid-container">
-            <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
-                v-for="(resposta, index ) in salaInfo.preguntaActual.respostes">
-                {{ resposta.text_resposta }}
-            </button>
+        <div v-if="salaInfo.preguntaActual.length == 2" class="contenidor-dos-preguntes">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="grid mt-6 mb-4">
+                <div class="contenidor-jugador-pregunta col-12" >
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <h1 class="w-full p-2 text-3xl text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                </div>
+                <div class="col-12 mt-4 p-0 contenidor-respostes">
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+            </div>
+        </div>
+        <div v-if="salaInfo.preguntaActual.length == 3" class="contenidor-tres-preguntes mt-4 mb-4">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="contenidor-tres-preguntes__item">
+                <div class="contenidor-jugador-pregunta col-12">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <h1 class="w-full p-2 text-lg text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                </div>
+                <div class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
+                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+            </div>
+        </div>
+        <div v-if="salaInfo.preguntaActual.length == 4" class="contenidor-tres-preguntes mt-4 mb-4">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="contenidor-quatre-preguntes__item">
+                <div class="contenidor-jugador-pregunta col-12">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <h1 class="w-full p-2 text-lg text-center border-1 border-round-lg">{{ pregunta.text_pregunta }}</h1>
+                </div>
+                <div class="col-12 mt-2 p-0 contenidor-respostes contenidor-respostes--tres-preguntes">
+                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem" v-for="(resposta, indexResposta) in pregunta.respostes" v-on:click="respostaSeleccionada(indexPregunta, indexResposta)">{{ resposta.text_resposta }}</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -27,11 +55,13 @@ import { socket } from '@/socket';
 export default {
     inheritAttrs: false,
     methods: {
-        respostaSeleccionada(idResposta) {
-            console.log("Has seleccionat la resposta" + idResposta);
-            this.pinia.setRespostaSeleccionada(idResposta);
-            socket.emit('vot-resposta', this.indexSala, idResposta);
-            this.$router.push({ name: 'totalVotacions' });
+        respostaSeleccionada(idPregunta, idResposta) {
+            if (this.isPreguntaResposta[idPregunta] === -1) {
+            console.log("Has seleccionat la resposta " + idResposta + " de la pregunta " + idPregunta);
+            this.isPreguntaResposta[idPregunta] = idResposta;
+            console.log("FRONT", this.isPreguntaResposta);
+            socket.emit('vot-resposta', this.indexSala, this.isPreguntaResposta);
+            }
         }
     },
     setup() {
@@ -49,6 +79,9 @@ export default {
         indexSala() {
             return this.pinia.getIndexSala()
         },
+        isPreguntaResposta() {
+            return this.pinia.getIsPreguntaResposta();
+        },
         profe() {
             return this.pinia.getProfe();
         }
@@ -62,6 +95,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .contenidor-respostes {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px 20px;
+    }
+
+    .contenidor-respostes--tres-preguntes {
+        gap: 10px 5px;
+    }
+
+    .contenidor-respostes .resposta:nth-child(1) {
+        background-color: #f87979;
+    }
+
+    .contenidor-respostes .resposta:nth-child(2) {
+        background-color: #36a2eb;
+    }
+
+    .contenidor-respostes .resposta:nth-child(3) {
+        background-color: green;
+    }
+    .contenidor-respostes .resposta:nth-child(4) {
+        background-color: purple;
+    }
+    .pregunta-respostes {
+        margin: 0 5rem;
+    }
+
+    .temporitzador {
+        position: absolute;
+        top: -2px;
+        left: 30%;
+    }
+    
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -103,10 +170,58 @@ export default {
         transform: rotate(0deg);
     }
 
+    .temporitzador-container {
+        margin: 0 auto;
+        position: relative;
+
     100% {
         transform: rotate(360deg);
     }
 }
+
+    .temporitzador-container > img {
+        animation: rotacioInfinita 8s linear infinite;
+    }
+
+    .jugador {
+        width: 60px;
+        height: 60px;
+    }
+
+    .contenidor-jugador-pregunta {
+        display: flex;
+        align-items: center;
+        gap: 0px 10px;
+    }
+
+    .contenidor-dos-preguntes {
+        display: flex;
+        gap: 0px 80px;
+        margin: 0 80px;
+    }
+
+    .contenidor-tres-preguntes {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 40px 80px;
+        margin: 0 80px;
+    }
+
+    .contenidor-tres-preguntes__item, .contenidor-quatre-preguntes__item {
+        display: grid;
+        grid-template-rows: 1fr 3fr;
+        max-height: 200px;
+    }
+
+    .contenidor-tres-preguntes__item:nth-child(3) {
+        grid-column: 1/span 2;
+    }
+
+    @media (min-width: 992px) {
+        .pregunta-respostes {
+            margin: 0 20%;
+        }
+    }
 
 .temporitzador {
     margin: 0 auto;
