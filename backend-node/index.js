@@ -46,7 +46,8 @@ let intervalId;
       nomSala: "Sala " + (i + 1),
       jugadorsBanqueta: [],
       jugadorsCamp: [],
-      outs: 0
+      outs: 0,
+      preguntesAnteriors: []
     }
     sales.push(sala)
   }
@@ -209,23 +210,27 @@ io.on('connection', (socket) => {
     let dificultatVotada = calcularResultatsDificultat(sala)
     io.to(sala.nomSala).emit('finalitzar-votacio-dificultat', dificultatVotada, sala.jugadorsCamp.length);
     resetejarVotacions(sala)
-    await novaPregunta(sala, dificultatVotada, sala.categoria, [])
+    await novaPregunta(sala, dificultatVotada, sala.categoria, sala.preguntesAnteriors)
   }
 
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
     // Trucar la API de Laravel per demanar la pregunta
-    try {
-      sala.preguntaActual = [];
-      for (let i = 0; i < sala.jugadorsCamp.length; i++) {
+    
+    sala.preguntaActual = [];
+    for (let i = 0; i < sala.jugadorsCamp.length; i++) {
+      try {
         let pregunta = await getPregunta(dificultat, categoria, preguntesAnteriors);
         pregunta.jugadorId = sala.jugadorsCamp[i].id;
         sala.preguntaActual.push(pregunta);
+        sala.preguntesAnteriors.push(parseInt(pregunta.id))
+      } catch (error) {
+        console.error('Error:', error);
+        sala.preguntesAnteriors = []
+        preguntesAnteriors = []
+        i--
       }
-      io.to(sala.nomSala).emit('nova-pregunta', sala.preguntaActual);
-    } catch (error) {
-      console.error('Error en obtenir la pregunta:', error);
-      return;
     }
+    io.to(sala.nomSala).emit('nova-pregunta', sala.preguntaActual);
 
     // Creem el temporitzador i actualitzem cada segon per a notificar els clients
     cronometre = TEMPS_VOTAR_RESPOSTA;
@@ -470,7 +475,8 @@ function natejarSala(sala) {
   sala.preguntaActual = [],
   sala.resultatsActuals = null,
   sala.jugadorsBanqueta = [],
-  sala.jugadorsCamp = []
+  sala.jugadorsCamp = [],
+  sala.preguntesAnteriors = []
 }
 
 function resetejarTorn(sala) {

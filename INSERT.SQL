@@ -77,7 +77,7 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 ("Suma", false, 7), ("Divisió", true, 7), ("Potenciació", false, 7), ("Resta", false, 7),
 ("5", true, 8), ("1", false, 8), ("0", false, 8), ("25", false, 8),
 ("L'origen", false, 9), ("L'últim nombre", false, 9), ("El nombre que no pertany a aquesta escala", true, 9), ("Un nombre negatiu", false, 9),
-("-1", true, 10), ("-5", false, 10), ("1", false, 10), ("-1", true, 10),
+("-1", true, 10), ("-5", false, 10), ("1", false, 10), ("2", false, 10),
 ("2^10", false, 11), ("25^2", false, 11), ("10^2", true, 11), ("10^1/2", false, 11),
 ("100", false, 12), ("110", false, 12), ("20", true, 12), ("10.1", false, 12),
     -- Dificultat 2:
