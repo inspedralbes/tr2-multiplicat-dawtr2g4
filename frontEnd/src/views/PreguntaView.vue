@@ -8,7 +8,7 @@
             :class="{ 'pregunta-respostes': salaInfo.preguntaActual.length == 1, 'contenidor-dos-preguntes': salaInfo.preguntaActual.length == 2, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 3, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 4 }">
             <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
                 <div class="contenidor-jugador-pregunta">
-                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
                     <h1 class="p-2 text-3xl text-center border-1 border-round-lg">
                         {{ pregunta.text_pregunta }}
                     </h1>

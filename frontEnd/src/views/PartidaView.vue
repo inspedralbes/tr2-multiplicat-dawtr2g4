@@ -1,19 +1,35 @@
 <template>
     <div class="partida">
-        <div>
-            <h1 v-if="equip == salaInfo.equipAtacant" class="equip-batejador">EQUIP {{ equip }} ET TOCA BATEJAR</h1>
-            <h1 v-else-if="equip != salaInfo.equipAtacant && !profe" class="equip-batejador">EQUIP {{ equip }} ET TOCA DEFENSAR</h1>
-            <h1 v-else class="equip-batejador">EQUIP {{ salaInfo.equipAtacant }} ET TOCA BATEJAR<br>EQUIP {{ equipDefensor }} ET TOCA DEFENSAR</h1>
+        <div class="informacio-rols-equips">
+            <div v-if="equip == salaInfo.equipAtacant">
+                <div :class="['pointer', equip == 1 ? 'pointer--equip1' : 'pointer--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ equip }} ET TOCA BATEJAR</h1>
+                </div>
+                <div style="text-align: right">
+                <div :class="['pointer-altre', equip != 1 ? 'pointer--equip1' : 'pointer--equip2']">
+                    <h1 class="equip-batejador">L'EQUIP CONTRARI DEFENSA</h1>
+                </div>
+                </div>
+            </div>
+            <div v-else="equip != salaInfo.equipAtacant">
+                <div :class="['pointer', equip == 1 ? 'pointer--equip1' : 'pointer--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ equip }} ET TOCA DEFENSAR</h1>
+                </div>
+                <div :class="['pointer-altre', equip != 1 ? 'pointer--equip1' : 'pointer--equip2']">
+                    <h1 class="equip-batejador">L'EQUIP CONTRARI BATEJA</h1>
+                </div>
+            </div>
+            <!--<h1 v-else class="equip-batejador">EQUIP {{ salaInfo.equipAtacant }} ET TOCA BATEJAR<br>EQUIP {{ equipDefensor }} ET TOCA DEFENSAR</h1>-->
         </div>
         <div id="grid-container">
             <div id="camp-de-joc">
                 <img v-for="jugador in salaInfo.jugadorsCamp"
                     :class="[jugador.baseActual == 0 ? 'home-base' : jugador.baseActual == 1 ? 'primera-base' : jugador.baseActual == 2 ? 'segona-base' : jugador.baseActual == 3 ? 'tercera-base' : 'home-base', 'jugador']"
-                    :src="'/img/jugador-' + jugador.id + '.png'" alt="jugador">
+                    :src="'/img/jugador-' + jugador.id + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
                 <img class="camp" src="/img/camp.png" alt="">
             </div>
             <div id="banqueta">
-                <img class=jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '.png'"
+                <img class=jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '-eq-' + salaInfo.equipAtacant +'.png'"
                     alt="">
             </div>
             <div id="puntuacio">
@@ -217,10 +233,60 @@ export default {
     font-display: swap;
 }
 
+/* ESTILS INFORMACIÓ EQUIP BATEJANT */
+
+.pointer {
+  width: 90%;
+  height: 60px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.pointer:before {
+  content: "";
+  position: absolute;
+  right: -30px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+}
+
+.pointer--equip1 {
+  background: #ff4d4d;
+}
+
+.pointer--equip2 {
+  background: #4da6ff;
+}
+
+.pointer--equip1:before {
+  content: "";
+  border-left: 30px solid #ff4d4d;
+}
+
+.pointer--equip2:before {
+  content: "";
+  border-left: 30px solid #4da6ff;
+}
+
+.pointer-altre {
+  width: 90%;
+  height: 60px;
+  position: relative;
+  margin-top: 20px;
+  float: right;
+}
+
+
 .equip-batejador{
+    margin: 0;
+    padding: 10px;
     text-align: center;
     color: lightgray;
 }
+
 
 /*ESTILS MARCADOR PUNTUACIÓ*/
 .scoreboard {
@@ -349,13 +415,14 @@ h2 {
 }
 
 #grid-container {
+    clear: both;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
         "puntuacio camp-de-joc moviment-bases"
         "banqueta camp-de-joc moviment-bases";
-    margin-top: 50px;
+    margin-top: 120px;
     gap: 20px 20px;
     height: 535px;
 }

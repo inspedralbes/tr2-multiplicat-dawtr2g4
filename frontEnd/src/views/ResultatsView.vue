@@ -6,7 +6,7 @@
     <div v-if="profe" class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
         <div @click="mostrarGrafic(index)"
             :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
-            <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+            <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
             <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
             <p>EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}</p>
         </div>
@@ -61,7 +61,7 @@
                     </svg>
                 </div>
                 <div class="resum-pregunta">
-                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
                     <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                     </svg>
                 </div>
                 <div class="resum-pregunta">
-                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
                     <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
                 </div>
             </div>
