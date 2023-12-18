@@ -52,7 +52,14 @@ export default {
 
         login() {
             this.loading = true;
-            fetch('http://' + this.store.getUrl() + ':8000/api/login', {
+            let hostname = this.store.getUrl();
+            let url;
+            if(hostname === 'tr2g4.daw.inspedralbes.cat' || hostname === 'mathball.daw.inspedralbes.cat') {
+                url = 'http://'+ hostname +'/backend-laravel/public/api/login';
+            } else {
+                url = 'http://'+ hostname +':8000/api/login';
+            }
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

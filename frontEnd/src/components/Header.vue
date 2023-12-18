@@ -35,7 +35,7 @@ import Menubar from 'primevue/menubar';
                     <div v-if="profe" class="flex align-items-center gap-2">
                         <div>
                             <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg"
-                                class="icon icon-tabler icon-tabler-menu-2 menu" width="24" height="24" viewBox="0 0 24 24"
+                                class="icon icon-tabler icon-tabler-menu-2 menu" width="50" height="50" viewBox="0 0 24 24"
                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -83,15 +83,15 @@ export default {
             this.store.logout();
         },
         goPreg() {
-            this.href = 'http://' + this.store.getUrl() + ':8000/preguntes';
+            this.href = this.url + 'preguntes';
             return this.href;
         },
         goCat() {
-            this.href = 'http://' + this.store.getUrl() + ':8000/categories';
+            this.href = this.url + 'categories';
             return this.href;
         },
         goUsr() {
-            this.href = 'http://' + this.store.getUrl() + ':8000/usuaris';
+            this.href = this.url + 'usuaris';
             return this.href;
         },
     },
@@ -104,6 +104,16 @@ export default {
         },
         profe() {
             return this.store.getProfe();
+        },
+        url() {
+            let hostname = this.store.getUrl();
+            let url;
+            if (hostname === 'tr2g4.daw.inspedralbes.cat' || hostname === 'mathball.daw.inspedralbes.cat') {
+                url = 'http://' + hostname + '/backend-laravel/public/';
+            } else {
+                url = 'http://' + hostname + ':8000/';
+            }
+            return url;
         },
     },
 }
