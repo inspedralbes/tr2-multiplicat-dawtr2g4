@@ -1,6 +1,13 @@
 @extends('app')
 
 @section('content')
+
+@if (session('success'))
+    <div class="alert alert-success position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -10,6 +17,12 @@
             <form method="GET" action="{{ route('usersIndexSearch') }}" class="d-flex">
                 @method('GET')
                 @csrf
+
+                <select name="esAdmin" class="form-select" aria-label="Default select example">
+                    <option value="" selected>Admin / No admin</option>
+                    <option value="1">Admin</option>
+                    <option value="0">No admin</option>
+                </select>
 
                 <input class="form-control me-2" type="text" name="search" placeholder="Buscar usuari">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>

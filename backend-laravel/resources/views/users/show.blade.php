@@ -1,7 +1,25 @@
 @extends('app')
 
 @section('content')
-showUser
+
+@error('name')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    El nom no pot estar buit
+</div>
+@enderror
+
+@error('email')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    El email no pot estar buit
+</div>
+@enderror
+
+@error('esAdmin')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    Has d'indicar si l'usuari es admin o no
+</div>
+@enderror
+
 <div class="container w-30 border p-4 mt-5">
     <div class="row mx-auto">
         <form method="POST" action="{{ route('usersUpdate', ['id' => $user->id]) }}">
@@ -10,7 +28,7 @@ showUser
 
             <div class="mb-3 col">
 
-                <label for="text_name" class="form-label">Enunciat</label>
+                <label for="text_name" class="form-label">Nom</label>
                 <input type="text" class="form-control mb-2" name="name" id="text_name" value="{{ $user->name }}">
 
                 <label for="text_email" class="form-label">Email</label>
