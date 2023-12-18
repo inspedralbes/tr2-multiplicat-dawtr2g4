@@ -1,14 +1,16 @@
 <template>
     <div class="partida">
         <div>
-            <h1 class="equip-batejador">Ara mateix batejant EQUIP {{ salaInfo.equipAtacant }}</h1>
+            <h1 v-if="equip == salaInfo.equipAtacant" class="equip-batejador">EQUIP {{ equip }} ET TOCA BATEJAR</h1>
+            <h1 v-else-if="equip != salaInfo.equipAtacant && !profe" class="equip-batejador">EQUIP {{ equip }} ET TOCA DEFENSAR</h1>
+            <h1 v-else class="equip-batejador">EQUIP {{ salaInfo.equipAtacant }} ET TOCA BATEJAR<br>EQUIP {{ equipDefensor }} ET TOCA DEFENSAR</h1>
         </div>
         <div id="grid-container">
             <div id="camp-de-joc">
                 <img v-for="jugador in salaInfo.jugadorsCamp"
                     :class="[jugador.baseActual == 0 ? 'home-base' : jugador.baseActual == 1 ? 'primera-base' : jugador.baseActual == 2 ? 'segona-base' : jugador.baseActual == 3 ? 'tercera-base' : 'home-base', 'jugador']"
                     :src="'/img/jugador-' + jugador.id + '.png'" alt="jugador">
-                <img class="camp" src="/img/camp.jpg" alt="">
+                <img class="camp" src="/img/camp.png" alt="">
             </div>
             <div id="banqueta">
                 <img class=jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '.png'"
@@ -19,15 +21,13 @@
                     <div class="team-container">
                         <h2>EQUIP 1</h2>
                         <div class="one">
-                            <p class="pts" id="home-pts">{{ salaInfo.equips[0].punts }}</p>
-                            <p class="pts-shadow">00</p>
+                            <p class="pts" id="home-pts">{{ puntuacioEquip1 }}</p>
                         </div>
                     </div>
                     <div class="team-container">
                         <h2>EQUIP 2</h2>
                         <div class="one">
-                            <p class="pts" id="home-pts"> {{salaInfo.equips[1].punts }}</p>
-                            <p class="pts-shadow">00</p>
+                            <p class="pts" id="home-pts"> {{ puntuacioEquip2 }}</p>
                         </div>
                     </div>
                     <div class="linia"></div>
@@ -44,16 +44,16 @@
                 <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>-->
             </div>
             <div id="moviment-bases">
-                <button v-if="votacioBaseEnCurs == false && profe" @click="initVotacio">COMENÇAR VOTACIÓ</button>
+                <button v-if="votacioBaseEnCurs == false && profe" @click="initVotacio" class="votar_button">COMENÇAR VOTACIÓ</button>
                 <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-4"><img
                         src="/img/pilota-beisbol-cronometre.png" width="70" height="70" alt="">
                     <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
                 </div>
-                <div class="contenidor-dificultat-bases" v-if="votacioBaseEnCurs == true && equip == salaInfo.equipAtacant">
+                <div class="contenidor-dificultat-bases" v-if="votacioBaseEnCurs == true && (equip == salaInfo.equipAtacant || profe)">
                     <p>Quantes bases us voleu moure?</p>
                     <div>
                         <button
-                            :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
+                            v-if="!profe" :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
                             v-on:click="baseSeleccionada(1)">
                             <p>{{ 1 }}</p>
                             <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
@@ -63,7 +63,16 @@
                             </div>
                         </button>
                         <button
-                            :class="[dificultatSeleccionada.isSelected_2 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
+                            v-else :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']">
+                            <p>{{ 1 }}</p>
+                            <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
+                                <div class="contenidor-rotar-imatge-pilota">
+                                    <img src="../components/icons/pilota-boto-fons.png" width="25" height="25" alt="">
+                                </div>
+                            </div>
+                        </button>
+                        <button
+                            v-if="!profe" :class="[dificultatSeleccionada.isSelected_2 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
                             v-on:click="baseSeleccionada(2)">
                             <p>{{ 2 }}</p>
                             <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
@@ -73,8 +82,26 @@
                             </div>
                         </button>
                         <button
-                            :class="[dificultatSeleccionada.isSelected_3 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
+                            v-else :class="[dificultatSeleccionada.isSelected_2 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']">
+                            <p>{{ 2 }}</p>
+                            <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
+                                <div class="contenidor-rotar-imatge-pilota">
+                                    <img src="../components/icons/pilota-boto-fons.png" width="25" height="25" alt="">
+                                </div>
+                            </div>
+                        </button>
+                        <button
+                            v-if="!profe" :class="[dificultatSeleccionada.isSelected_3 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
                             v-on:click="baseSeleccionada(3)">
+                            <p>{{ 3 }}</p>
+                            <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
+                                <div class="contenidor-rotar-imatge-pilota">
+                                    <img src="../components/icons/pilota-boto-fons.png" width="25" height="25" alt="">
+                                </div>
+                            </div>
+                        </button>
+                        <button
+                            v-else :class="[dificultatSeleccionada.isSelected_3 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']">
                             <p>{{ 3 }}</p>
                             <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
                                 <div class="contenidor-rotar-imatge-pilota">
@@ -149,6 +176,24 @@ export default {
         },
         profe() {
             return this.pinia.getProfe();
+        },
+        puntuacioEquip1() {
+            let number = this.pinia.getSalaInfo().equips[0].punts;
+            return number.toString().padStart(2, '0');
+        },
+        puntuacioEquip2() {
+            let number = this.pinia.getSalaInfo().equips[1].punts;
+            return number.toString().padStart(2, '0');
+        },
+        equipDefensor() {
+            let atacant = this.pinia.getSalaInfo().equipAtacant;
+            let defensor = 0;
+            if (atacant == 1) {
+                defensor = 2;
+            } else {
+                defensor = 1;
+            }
+            return defensor;
         }
     },
     mounted() {
@@ -197,7 +242,8 @@ export default {
     border-radius: 8px;
     background-color: #1e4620;
     border: 7px solid white;
-    outline: 10px solid #1e4620;;
+    outline: 10px solid #1e4620;
+    margin-top: 5px;
 }
 
 .scoreboard:nth-child(1) {
@@ -238,7 +284,7 @@ export default {
 .bola-item {
   height: 20px;
   width: 20px;
-  background-color: #bbb;
+  background-color: black;
   border-radius: 50%;
 }
 
@@ -268,7 +314,7 @@ h2 {
     background-color: #0c0c0c ;
 }
 
-.pts-shadow {
+.pts {
     font-family: 'Digital Display',monospace;
     font-size: 4em;
     text-align: center;
@@ -280,26 +326,20 @@ h2 {
     transform: translate(-50%, -50%);
 
     margin: 0;
-    color: gray;
-}
-
-.pts {
-    font-family: 'Digital Display',monospace;
-    font-size: 4em;
-    text-align: end;
-
-    position: relative;
-    z-index: 2;
-    top: 50%;
-    left: 52.5%;
-    transform: translate(-50%, -50%);
-
-    margin: 0;
-    margin-right: 25px;
     color: rgb(255, 217, 0);
 }
 
-/**/
+/*ESTILS ESCOLLIR BASE DIFICULTAT*/
+
+.votar_button {
+    border: 1px solid black;
+    background-color: white;
+    font-size: 1rem;
+    color: #000000;
+    padding: 10px;
+}
+
+/* */
 
 .partida {
     background-image: url('/img/landing.png');
@@ -326,16 +366,17 @@ h2 {
     width: 100%;
     height: 535px;
     border: 1px solid black;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.6);;
     display: flex;
     justify-content: center;
 }
 
 .camp {
-    width: 612px;
-    height: 532px;
+    width: 100%;
+    height: 100%;
+    padding: 2.5%;
     position: absolute;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .jugador {
@@ -356,14 +397,15 @@ h2 {
     height: 80%;
     align-self: flex-end;
     background-color: white;
-    padding: 0px 40px;
+    padding: 0px 20px;
 
 
     display: flex;
     flex-direction: row;
-    justify-content: left;
-    align-items: center;
-    column-gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 10px 10px;
 }
 
 #puntuacio {
@@ -372,7 +414,6 @@ h2 {
     justify-self: right;
     //margin-right: 50px;
     width: 80%;
-    background-color: white;
 }
 
 #moviment-bases {
@@ -399,26 +440,26 @@ h2 {
 
 .home-base {
     position: absolute;
-    bottom: 8%;
-    left: 45%;
+    bottom: 1%;
+    left: 46.75%;
 }
 
 .primera-base {
     position: absolute;
-    bottom: 34%;
-    left: 64%;
+    bottom: 45%;
+    left: 69%;
 }
 
 .segona-base {
     position: absolute;
-    bottom: 55%;
-    left: 45%;
+    bottom: 83%;
+    left: 46.75%;
 }
 
 .tercera-base {
     position: absolute;
-    bottom: 34%;
-    left: 26%;
+    bottom: 45%;
+    left: 25%;
 }
 
 .temporitzador {
