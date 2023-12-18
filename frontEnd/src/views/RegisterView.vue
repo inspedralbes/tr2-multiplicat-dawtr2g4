@@ -18,10 +18,10 @@
                     <label for="email1" class="block text-900 font-medium mb-2">Email</label>
                     <InputText v-model="email" id="email1" type="email" required class="w-full mb-3" />
 
-                    <label for="password1" class="block text-900 font-medium mb-2">Contrassenya</label>
+                    <label for="password1" class="block text-900 font-medium mb-2">Contrasenya</label>
                     <InputText v-model="password" id="password1" type="password" required class="w-full mb-3" />
 
-                    <label for="password2" class="block text-900 font-medium mb-2">Repeteix la contrassenya</label>
+                    <label for="password2" class="block text-900 font-medium mb-2">Repeteix la contrasenya</label>
                     <InputText v-model="password1" id="password2" type="password" required class="w-full mb-3" />
 
                     <Button label="Sign In" type="submit" icon="pi pi-user" class="w-full"></Button>
@@ -60,7 +60,7 @@ export default {
 
         register() {
             if (this.password === this.password1) {
-                fetch('http://'+this.store.getUrl()+':8000/api/register', {
+                fetch('http://'+ this.store.getUrl()+':8000/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -77,15 +77,21 @@ export default {
                         if (data.errors) {
                             alert(data.errors);
                         } else {
-                            this.store.setToken(data.token);
-                            this.store.setUser(data.user.name);
+                            this.store.setUser({
+                                id: data.user.id,
+                                name: data.user.name,
+                                email: data.user.email,
+                                esAdmin: false,
+                                token: data.token,
+                            })
+                            localStorage.setItem('user', JSON.stringify(this.store.getUser()));
                             router.push('/');
                         }
                     })
                     .catch(err => console.log(err));
 
             } else {
-                alert('Les contrassenyes no coincideixen');
+                alert('Les contrasenyes no coincideixen');
             }
         }
 

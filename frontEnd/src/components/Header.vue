@@ -100,7 +100,7 @@ export default {
             return this.store.getToken();
         },
         nom() {
-            return this.store.getUser();
+            return this.store.getUserName();
         },
         profe() {
             return this.store.getProfe();
