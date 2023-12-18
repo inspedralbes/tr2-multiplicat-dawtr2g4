@@ -3,13 +3,6 @@ import { useAppStore } from "./stores/app";
 import router from "./router";
 
 let url = "http://" + window.location.hostname + ":3378";
-// if(window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
-//   url = "http://tr2g4.daw.inspedralbes.cat:3378";
-// } else if(window.location.hostname === 'mathball.daw.inspedralbes.cat') {
-//   url = "http://mathball.daw.inspedralbes.cat:3378";
-// } else {
-//   url = "http://localhost:3378";
-// }
 
 export const socket = io(url);
 

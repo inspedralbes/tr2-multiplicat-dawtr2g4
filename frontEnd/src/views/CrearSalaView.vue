@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
 import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
 
@@ -35,14 +34,19 @@ export default {
         enviarPartida() {
             console.log(this.sala);
             socket.emit('crear-sala', this.sala);
+            this.$router.push('/');
         },
-    },
-    computed: {
-
     },
     created() {
         const store = useAppStore();
-        fetch("http://"+store.getUrl()+":8000/api/getCategories")
+        let hostname = store.getUrl();
+        let url;
+        if(hostname === 'tr2g4.daw.inspedralbes.cat' || hostname === 'mathball.daw.inspedralbes.cat') {
+            url = 'http://'+ hostname +'/backend-laravel/public/api/getCategories';
+        } else {
+            url = 'http://'+ hostname +':8000/api/getCategories';
+        }
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 this.categories = data;
