@@ -16,7 +16,7 @@
                 <form @submit.prevent="login">
                     <label for="email1" class="block text-900 font-medium mb-2">Email</label>
                     <InputText v-model="email" id="email1" type="email" class="w-full mb-3" />
-                    <label for="password1" class="block text-900 font-medium mb-2">Contrassenya</label>
+                    <label for="password1" class="block text-900 font-medium mb-2">Contrasenya</label>
                     <InputText v-model="password" id="password1" type="password" class="w-full mb-3" />
                     <Button label="Sign In" type="submit" icon="pi pi-user" class="w-full"></Button>
                 </form>
@@ -32,7 +32,6 @@ import { useAppStore } from '../stores/app';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
-import { socket } from '@/socket';
 import router from '../router';
 
 export default {
@@ -81,9 +80,14 @@ export default {
             alert(errorMessage);
         },
         logCorrecte(data) {
-            this.store.setToken(data.token);
-            this.store.setUser(data.user.name);
-            this.store.setProfe(data.user.esAdmin);
+            this.store.setUser({
+                id: data.user.id,
+                name: data.user.name,
+                email: data.user.email,
+                esAdmin: data.user.esAdmin === 1 ? true : false,
+                token: data.token,
+            });
+            localStorage.setItem('user', JSON.stringify(this.store.getUser()));
             router.push('/');
         }
     }

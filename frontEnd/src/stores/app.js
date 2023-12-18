@@ -8,9 +8,12 @@ export const useAppStore = defineStore('app', {
     url: '',
 
     //local
-    userInfo: {
-      username: '',
-      password: '',
+    user: {
+      id: null,
+      name: null,
+      email: null,
+      esAdmin: false,
+      token: null
     },
     team: '',
     dificultatSeleccionada: {
@@ -19,7 +22,6 @@ export const useAppStore = defineStore('app', {
       isSelected_3: false,
     },
     isPreguntaResposta: [],
-    //socket: io('http://localhost:3000'),
     sales: [],
     indexSala: null,
 
@@ -37,9 +39,7 @@ export const useAppStore = defineStore('app', {
     },
     //Resultats Finals marcador
     resultatsFinals: [],
-    token: '',
-    user: {},
-    profe: false,
+
     //Vista usuari si resposta correcta o incorrecta
     respostaSeleccionada: [],
     respostaCorrecta: [],
@@ -49,9 +49,6 @@ export const useAppStore = defineStore('app', {
     //getters
     getSales() {
       return this.sales
-    },
-    getUserInfo() {
-      return this.userInfo
     },
     getTeam() {
       return this.team
@@ -124,14 +121,17 @@ export const useAppStore = defineStore('app', {
     },
 
     //token i user
-    getToken() {
-      return this.token
-    },
     getUser() {
       return this.user
     },
+    getToken() {
+      return this.user.token
+    },
+    getUserName() {
+      return this.user.name
+    },
     getProfe() {
-      return this.profe
+      return this.user.esAdmin
     },
     getUrl() {
       return this.url
@@ -146,9 +146,6 @@ export const useAppStore = defineStore('app', {
     },
 
     //setters
-    setUserInfo(userInfo) {
-      this.userInfo = userInfo
-    },
     setTeam(team) {
       this.team = team
     },
@@ -236,21 +233,9 @@ export const useAppStore = defineStore('app', {
       this.socket.emit('enviarResposta', resposta_id)
     },
 
-
     //token i user
-    setToken(token) {
-      this.token = token
-    },
     setUser(user) {
       this.user = user
-    },
-    setProfe(profe) {
-      if (profe === 1) {
-        profe = true
-      } else {
-        profe = false
-      }
-      this.profe = profe
     },
     //Vista usuari si resposta correcta o incorrecta
     setRespostaSeleccionada(respostaSeleccionada) {
@@ -262,8 +247,14 @@ export const useAppStore = defineStore('app', {
 
     //logout
     logout() {
-      this.token = ''
-      this.user = {}
+      this.user = {
+        id: null,
+        name: null,
+        email: null,
+        token: null,
+        esAdmin: false
+      }
+      localStorage.removeItem('user');
     },
   },
 })
