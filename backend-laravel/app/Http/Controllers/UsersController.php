@@ -19,8 +19,17 @@ class UsersController extends Controller
 
     public function searchCrudWeb(Request $request)
     {
+
+        $esAdmin = $request->get('esAdmin');
         $search = $request->get('search');
-        $users = User::where('name', 'like', '%'.$search.'%')->orWhere('email', 'like', '%'.$search.'%')->get();
+
+        $users = User::where('esAdmin', 'LIKE', $esAdmin)
+                        ->where(function ($query) use ($search) {
+                            $query->where('name', 'like', '%' . $search . '%')
+                                  ->orWhere('email', 'like', '%' . $search . '%');
+                        })
+                        ->get();
+
         return view("users.index", ["users"=> $users]);
     }
 
@@ -41,15 +50,17 @@ class UsersController extends Controller
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
+            'esAdmin' => 'required',
         ]);
 
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password']),
-        ]);
+        $user = new User;
+        $user->name = $fields['name'];
+        $user->email = $fields['email'];
+        $user->password = bcrypt($fields['password']);
+        $user->esAdmin = $fields['esAdmin'];
+        $user->save();
         
-        return redirect()->route('usersIndex');
+        return redirect()->route('usersIndex')->with('success', 'Usuari creat correctament correctament');
     }
 
     /**
@@ -86,7 +97,7 @@ class UsersController extends Controller
         $user->esAdmin = $fields['esAdmin'];
         $user->save();
 
-        return redirect()->route('usersIndex');
+        return redirect()->route('usersIndex')->with('success', 'Usuari actualitzat correctament');
     }
 
     public function updatePasswordShowWeb(string $id)
@@ -104,7 +115,7 @@ class UsersController extends Controller
         $user->password = bcrypt($fields['password']);
         $user->save();
 
-        return redirect()->route('usersIndex');
+        return redirect()->route('usersIndex')->with('success', 'Contrasenya actualitzada correctament');
     }
 
     /**
@@ -114,6 +125,6 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect()->route('usersIndex');
+        return redirect()->route('usersIndex')->with('success', 'Usuari eliminat correctament');
     }
 }
