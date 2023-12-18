@@ -4,8 +4,8 @@
                 alt="">
             <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
         </div>
-        <div
-            :class="{ 'pregunta-respostes': salaInfo.preguntaActual.length == 1, 'contenidor-dos-preguntes': salaInfo.preguntaActual.length == 2, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 3, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 4 }">
+        <!-- :class="{ 'pregunta-respostes': salaInfo.preguntaActual.length == 1, 'contenidor-dos-preguntes': salaInfo.preguntaActual.length == 2, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 3, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 4 }" -->
+        <div class="preguntes">
             <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
                 <div class="contenidor-jugador-pregunta">
                     <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
@@ -112,9 +112,6 @@ export default {
     background-color: purple;
 }
 
-.pregunta-respostes {
-    margin: 0 5rem;
-}
 
 .temporitzador {
     position: absolute;
@@ -174,24 +171,42 @@ export default {
     height: 60px;
 }
 
+.preguntes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/*
 .contenidor-jugador-pregunta {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0px 80px;
+    margin: 0 80px;
     align-items: center;
-    gap: 0px 10px;
+    justify-content: center;
 }
 
 .contenidor-dos-preguntes {
     display: flex;
+    flex-direction: column;
+    width: 100%;
     gap: 0px 80px;
     margin: 0 80px;
+    align-self: center;
+    justify-content: center;
 }
 
 .contenidor-tres-preguntes {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px 80px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 0px 80px;
     margin: 0 80px;
-}
+    align-self: center;
+    justify-content: center;
+}*/
 
 .contenidor-tres-preguntes__item,
 .contenidor-quatre-preguntes__item {
