@@ -366,7 +366,7 @@ h2 {
     width: 100%;
     height: 535px;
     border: 1px solid black;
-    background-color: rgba(255, 255, 255, 0.6);;
+    background-color: rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: center;
 }
@@ -380,9 +380,10 @@ h2 {
 }
 
 .jugador {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     z-index: 1;
+    border-radius: 50%;
 }
 
 #banqueta {
