@@ -1,7 +1,7 @@
 <template>
     <div class="partida">
         <div>
-            <h1>Ara mateix batejant EQUIP {{ salaInfo.equipAtacant }}</h1>
+            <h1 class="equip-batejador">Ara mateix batejant EQUIP {{ salaInfo.equipAtacant }}</h1>
         </div>
         <div id="grid-container">
             <div id="camp-de-joc">
@@ -19,24 +19,23 @@
                     <div class="team-container">
                         <h2>EQUIP 1</h2>
                         <div class="one">
-                            <p class="pts" id="home-pts">0</p>
+                            <p class="pts" id="home-pts">{{ salaInfo.equips[0].punts }}</p>
                             <p class="pts-shadow">00</p>
                         </div>
                     </div>
                     <div class="team-container">
                         <h2>EQUIP 2</h2>
                         <div class="one">
-                            <p class="pts" id="home-pts">0</p>
+                            <p class="pts" id="home-pts"> {{salaInfo.equips[1].punts }}</p>
                             <p class="pts-shadow">00</p>
                         </div>
                     </div>
                     <div class="linia"></div>
                     <div class="bola">
-                        <h2>BOLA</h2>
+                        <h2>OUTS</h2>
                         <div class="contenidor-bola">
-                            <div class="bola-item"></div>
-                            <div class="bola-item"></div>
-                            <div class="bola-item"></div>
+                            <div v-for="actual in salaInfo.outs" class="bola-item bola-item--marcat"></div>
+                            <div v-for="actual in (3 - salaInfo.outs)" class="bola-item"></div>
                         </div>
                     </div>
                 </div>
@@ -173,6 +172,11 @@ export default {
     font-display: swap;
 }
 
+.equip-batejador{
+    text-align: center;
+    color: lightgray;
+}
+
 /*ESTILS MARCADOR PUNTUACIÓ*/
 .scoreboard {
     /*display: flex;
@@ -191,9 +195,9 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 8px;
-    background-color:  rgb(6, 42, 139);
+    background-color: #1e4620;
     border: 7px solid white;
-    outline: 10px solid  rgb(6, 42, 139);
+    outline: 10px solid #1e4620;;
 }
 
 .scoreboard:nth-child(1) {
@@ -208,7 +212,7 @@ export default {
     position: absolute;
     height: 7px;
     width: 100%;
-    bottom: 25%;
+    bottom: 30%;
     background-color: white;
 }
 
@@ -236,6 +240,10 @@ export default {
   width: 20px;
   background-color: #bbb;
   border-radius: 50%;
+}
+
+.bola-item--marcat {
+  background-color: rgb(255, 217, 0);
 }
 
 .team-container {
@@ -302,12 +310,13 @@ h2 {
 #grid-container {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:
-        ". camp-de-joc puntuacio"
+        "puntuacio camp-de-joc moviment-bases"
         "banqueta camp-de-joc moviment-bases";
     margin-top: 50px;
     gap: 20px 20px;
+    height: 535px;
 }
 
 #camp-de-joc {
@@ -323,7 +332,7 @@ h2 {
 
 .camp {
     width: 612px;
-    height: 533px;
+    height: 532px;
     position: absolute;
     object-fit: cover;
 }
@@ -338,19 +347,28 @@ h2 {
     grid-area: banqueta;
     border: 1px solid black;
     background-image: url("/img/banqueta.PNG");
-    background-size: 100% 100%;
+    background-size: 70% 70%;
     background-repeat: no-repeat;
+    background-position: center;
     justify-self: right;
     width: 80%;
-    height: 50%;
+    height: 80%;
     align-self: flex-end;
+    background-color: white;
+    padding: 0px 40px;
+
+
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    column-gap: 20px;
 }
 
 #puntuacio {
     grid-area: puntuacio;
-    border: 1px solid black;
     padding: 5px;
-    justify-self: left;
+    justify-self: right;
     //margin-right: 50px;
     width: 80%;
     background-color: white;
@@ -363,11 +381,15 @@ h2 {
     justify-self: left;
     margin-right: 50px;
     width: 80%;
+    height: 100%;
     background-color: white;
 }
 
 .contenidor-dificultat-bases > p {
+    margin-top: 50px;
  text-align: center;
+ font-size: 1.5em;
+ font-weight: bolder;
 }
 .moviment {
     transition: all var(--timeMov) ease;
@@ -425,13 +447,13 @@ h2 {
 
 .base-item {
     width: 100%;
-    height: 30px;
+    height: 50px;
     border: none;
-    padding: 20px 30px;
+    padding: 30px 30px;
     text-align: center;
     line-height: 0;
     font-weight: bolder;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -439,6 +461,7 @@ h2 {
 }
 
 .base-item > p {
+    font-size: 1.5em;
     animation: mostrarNumeroBase 4s infinite linear;
 }
 
