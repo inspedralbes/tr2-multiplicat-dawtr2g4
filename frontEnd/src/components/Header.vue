@@ -32,7 +32,7 @@ import Menubar from 'primevue/menubar';
                     </RouterLink>
                 </div>
                 <div v-else class="flex1">
-                    <div v-if="profe" class="flex align-items-center gap-2">
+                    <div class="flex align-items-center gap-2">
                         <div>
                             <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg"
                                 class="icon icon-tabler icon-tabler-menu-2 menu" width="50" height="50" viewBox="0 0 24 24"
@@ -45,16 +45,16 @@ import Menubar from 'primevue/menubar';
                             </svg>
                             <transition name="slide">
                                 <div v-show="show" class="accordion-content">
-                                    <button @click="goPreg"><a :href="goPreg()">preguntes</a></button>
-                                    <button @click="goCat"><a :href="goCat()">categoria</a></button>
-                                    <button @click="goUsr"><a :href="goUsr()">usuaris</a></button>
+                                    <button v-if="profe" @click="goPreg"><a :href="goPreg()">preguntes</a></button>
+                                    <button v-if="profe" @click="goCat"><a :href="goCat()">categoria</a></button>
+                                    <button v-if="profe" @click="goUsr"><a :href="goUsr()">usuaris</a></button>
+                                    <RouterLink to="/perfil">
+                                        <Button severity="primary" raised rounded size="large" label="Perfil" />
+                                    </RouterLink>
+                                    <button @click="logout">Logout</button>
                                 </div>
                             </transition>
                         </div>
-                    </div>
-                    <div class="flex align-items-center gap-2">
-                        <p class="mr-3 font-bold">Benvingut {{ nom }}!</p>
-                        <img @click="logout" class="logout" src="/img/logout.png" alt="logout" height="50" width="50">
                     </div>
                 </div>
             </template>
@@ -175,6 +175,10 @@ export default {
     font-size: medium;
 }
 
+.accordion-content a {
+    width: 100%;
+}
+
 .slide-enter-active,
 .slide-leave-active {
     transition: all 0.3s ease;
@@ -191,6 +195,7 @@ export default {
     transform: translateY(0);
     opacity: 1;
 }
+
 a {
     color: white;
     text-decoration: none;
