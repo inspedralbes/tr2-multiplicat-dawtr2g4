@@ -12,6 +12,7 @@ import ResultatsFinalsView from '../views/ResultatsFinalsView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import PolitiquesPrivacitatView from '../views/PolitiquesPrivView.vue'
 import NormesView from '../views/NormesView.vue'
+import PerfilView from '../views/PerfilView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: PerfilView
     },
     {
       path: '/crearSala',
