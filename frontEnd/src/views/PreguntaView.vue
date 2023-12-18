@@ -14,7 +14,7 @@
                     </h1>
                 </div>
                 <div v-if="!profe" class="col-12 mt-4 p-0 contenidor-respostes">
-                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem sel"
                         v-for="(resposta, indexResposta) in pregunta.respostes"
                         :class="{ selected: selectedIndices[indexPregunta] === indexResposta }"
                         @click="respostaSeleccionada(indexPregunta, indexResposta)">
@@ -85,7 +85,11 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+.sel {
+    cursor: pointer;
+}
 .contenidor-respostes {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

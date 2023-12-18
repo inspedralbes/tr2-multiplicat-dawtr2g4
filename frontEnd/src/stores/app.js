@@ -58,6 +58,7 @@ export const useAppStore = defineStore('app', {
       return this.sales[this.indexSala]
     },
     getLlistaJugadors() {
+      console.log(this.getSalaInfo)
       return this.getSalaInfo().jugadors
     },
     getPreguntaActual() {

@@ -1,10 +1,10 @@
 <template>
     <div>
         <div v-if="profe" class="mx-8 mt-4">
-            <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR
+            <button class="continuar_button mb-4 p-3 border-900 border-1" @click="tornarTaulell()">CONTINUAR
                 PARTIDA</button>
         </div>
-        <div v-if="profe" class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+        <div v-if="profe" class="cont" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
             <div @click="mostrarGrafic(index)"
                 :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
                 <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
@@ -48,6 +48,12 @@
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
                         </svg>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown coronaNo"
+                            width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                            fill="transparent" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+                        </svg>
                         <PieChart :chart-data="{
                             //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
                             datasets: [{
@@ -63,6 +69,12 @@
                             class="icon icon-tabler icon-tabler-crown corona" width="40" height="40" viewBox="0 0 24 24"
                             stroke-width="2" stroke="currentColor" fill="#ffd700" stroke-linecap="round"
                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+                        </svg>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown coronaNo"
+                            width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                            fill="transparent" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
                         </svg>
@@ -190,6 +202,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 h1 {
     width: fit-content;
     margin-left: auto;
@@ -399,13 +413,22 @@ h1 {
     color: #ffd700;
 }
 
+.coronaNo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: transparent;
+}
+
 .noDesplegat {
     transform: scaleY(0);
     transform-origin: top;
+    max-height: 0;
 }
 
 .desplegat {
     transform: scaleY(1);
     transform-origin: top;
+    max-height: 1000px;
 }
 </style>

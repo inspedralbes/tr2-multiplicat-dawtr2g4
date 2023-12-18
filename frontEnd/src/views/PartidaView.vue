@@ -54,7 +54,8 @@
                     <div>
                         <button
                             v-if="!profe" :class="[dificultatSeleccionada.isSelected_1 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
-                            v-on:click="baseSeleccionada(1)">
+                            v-on:click="baseSeleccionada(1)"
+                            class="sel">
                             <p>{{ 1 }}</p>
                             <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
                                 <div class="contenidor-rotar-imatge-pilota">
@@ -73,7 +74,8 @@
                         </button>
                         <button
                             v-if="!profe" :class="[dificultatSeleccionada.isSelected_2 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
-                            v-on:click="baseSeleccionada(2)">
+                            v-on:click="baseSeleccionada(2)"
+                            class="sel">
                             <p>{{ 2 }}</p>
                             <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
                                 <div class="contenidor-rotar-imatge-pilota">
@@ -92,7 +94,8 @@
                         </button>
                         <button
                             v-if="!profe" :class="[dificultatSeleccionada.isSelected_3 ? 'base-item--selected' : 'base-item--not-selected', 'base-item']"
-                            v-on:click="baseSeleccionada(3)">
+                            v-on:click="baseSeleccionada(3)"
+                            class="sel">
                             <p>{{ 3 }}</p>
                             <div v-if="!this.dificultatSeleccionada.isSelected_1 && !this.dificultatSeleccionada.isSelected_2 && !this.dificultatSeleccionada.isSelected_3" class="contenidor-moure-imatge-pilota">
                                 <div class="contenidor-rotar-imatge-pilota">
@@ -203,6 +206,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.sel {
+    cursor: pointer;
+}
 
 :root {
     --timeMov: 0.75s;
@@ -337,6 +344,11 @@ h2 {
     font-size: 1rem;
     color: #000000;
     padding: 10px;
+    cursor: pointer;
+}
+.votar_button:hover {
+    background-color: #000000;
+    color: #ffffff;
 }
 
 /* */
