@@ -243,7 +243,8 @@ export default {
 }
 
 .bola-item--marcat {
-  background-color: rgb(255, 217, 0);
+    background-color: #fff;
+    box-shadow: 0 0 5px #fff, 0 0 10px red, 0 0 15px red, 0 0 20px red, 0 0 35px red, 0 0 40px red;
 }
 
 .team-container {
@@ -294,7 +295,7 @@ h2 {
     transform: translate(-50%, -50%);
 
     margin: 0;
-    margin-right: 32px;
+    margin-right: 25px;
     color: rgb(255, 217, 0);
 }
 
