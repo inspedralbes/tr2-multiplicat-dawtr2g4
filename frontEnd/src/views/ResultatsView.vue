@@ -1,86 +1,121 @@
 <template>
-    <div v-if="profe" class="mx-8 mt-4">
-        <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR
-            PARTIDA</button>
-    </div>
-    <div v-if="profe" class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
-        <div @click="mostrarGrafic(index)"
-            :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
-            <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
-            <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
-            <p>EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}</p>
+    <div>
+        <div v-if="profe" class="mx-8 mt-4">
+            <button class="continuar_button mb-4 p-3 border-900 border-1 bg-white" @click="tornarTaulell()">CONTINUAR
+                PARTIDA</button>
         </div>
-        <div v-if="isGraficDesplegat[index]"
-            :class="['grafics-respostes', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-grafics' : 'equip2-grafics']">
-            <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }} S'EMPORTA
-                AQUESTA PREGUNTA</h1>
+        <div v-if="profe" class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+            <div @click="mostrarGrafic(index)"
+                :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
+                <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
+                <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
+                <p class="equipTxt">EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}</p>
+            </div>
+            <div :key="index"
+                :class="['grafics-respostes', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-grafics' : 'equip2-grafics', isGraficDesplegat[index] ? 'desplegat' : 'noDesplegat']">
+                <!-- <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}
+                    S'EMPORTA
+                    AQUESTA PREGUNTA</h1> -->
 
-            <div class="col-12 p-0 respostes_contenidor">
-                <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
-                    v-for="(resposta, indexResposta ) in salaInfo.preguntaActual[index].respostes">{{
-                        resposta.text_resposta }}</button>
-            </div>
-            <div class="flex mt-4">
-                <div class="grafic">
-                    <h2>EQUIP 1</h2>
-                    <PieChart :chart-data="{
-                        //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
-                        datasets: [{
-                            data: res1[index],
-                            label: 'Respostes',
-                            backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
-                        }]
-                    }" />
+                <div class="col-12 p-0 respostes_contenidor">
+                    <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
+                        v-for="(resposta, indexResposta ) in salaInfo.preguntaActual[index].respostes " :key="indexResposta"
+                        :class="[indexResposta === 0 ? 'resposta1' : '', indexResposta === 1 ? 'resposta2' : '', indexResposta === 2 ? 'resposta3' : '', indexResposta === 3 ? 'resposta4' : '', indexResposta == respostaCorrecta[index] ? 'resC' : '']">
+                        {{ resposta.text_resposta }}
+                        <svg v-if="indexResposta == respostaCorrecta[index]" xmlns="http://www.w3.org/2000/svg"
+                            class="icon icon-tabler icon-tabler-check Bcorr" width="24" height="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x Bincorr"
+                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M18 6l-12 12" />
+                            <path d="M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="grafic">
-                    <h2>EQUIP 2</h2>
-                    <PieChart :chart-data="{
-                        datasets: [{
+                <div class="flex mt-4">
+                    <div class="grafic">
+                        <h2>EQUIP 1</h2>
+                        <svg v-if="salaInfo.resultatsActuals.equipAcertat[index] == 1" xmlns="http://www.w3.org/2000/svg"
+                            class="icon icon-tabler icon-tabler-crown corona" width="40" height="40" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="#ffd700" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+                        </svg>
+                        <PieChart :chart-data="{
                             //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
-                            data: res2[index],
-                            label: 'Respostes',
-                            backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
-                        }]
-                    }" />
+                            datasets: [{
+                                data: res1[index],
+                                label: 'Respostes',
+                                backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
+                            }]
+                        }" />
+                    </div>
+                    <div class="grafic">
+                        <h2>EQUIP 2</h2>
+                        <svg v-if="salaInfo.resultatsActuals.equipAcertat[index] == 2" xmlns="http://www.w3.org/2000/svg"
+                            class="icon icon-tabler icon-tabler-crown corona" width="40" height="40" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="#ffd700" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+                        </svg>
+                        <PieChart :chart-data="{
+                            datasets: [{
+                                //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
+                                data: res2[index],
+                                label: 'Respostes',
+                                backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
+                            }]
+                        }" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div v-else class="contenidor">
-        <div v-for="(resposta, index) in isPreguntaResposta.length">
-            <div v-if="isPreguntaResposta[index] == respostaCorrecta[index]" class="correcte">
-                <div>
-                    <h1>Resposta Correcta</h1>
+        <div v-else class="contenidor">
+            <div v-for="(resposta, index) in isPreguntaResposta.length">
+                <div v-if="isPreguntaResposta[index] == respostaCorrecta[index]" class="correcte">
+                    <div>
+                        <h1>Resposta Correcta</h1>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                    </div>
+                    <div class="resum-pregunta">
+                        <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'"
+                            alt="">
+                        <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
+                    </div>
                 </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24"
-                        height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                    </svg>
-                </div>
-                <div class="resum-pregunta">
-                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
-                    <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
-                </div>
-            </div>
-            <div v-else class="incorrecte">
-                <div>
-                    <h1>Resposta Incorrecta</h1>
-                </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
-                </div>
-                <div class="resum-pregunta">
-                    <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'" alt="">
-                    <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
+                <div v-else class="incorrecte">
+                    <div>
+                        <h1>Resposta Incorrecta</h1>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M18 6l-12 12" />
+                            <path d="M6 6l12 12" />
+                        </svg>
+                    </div>
+                    <div class="resum-pregunta">
+                        <img class=jugador :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '.png'"
+                            alt="">
+                        <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -93,17 +128,6 @@ import PieChart from '../components/PieChart.vue';
 
 import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
-
-
-//canviar width
-
-
-
-
-
-
-
-
 
 export default {
 
@@ -194,24 +218,60 @@ h1 {
 }
 
 .respostes_contenidor {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
     gap: 10px;
 }
 
-.respostes_contenidor .resposta:nth-child(1) {
+.resC {
+    order: 4;
+}
+
+.respostes_contenidor button {
+    width: 32%;
+    height: 200px;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+}
+
+.respostes_contenidor button>svg {
+    position: absolute;
+    right: 10px;
+}
+
+.Bincorr {
+    color: #ff0000;
+}
+
+.Bcorr {
+    color: #00ff00;
+}
+
+.resposta1 {
     background-color: #f87979;
 }
 
-.respostes_contenidor .resposta:nth-child(2) {
+.resposta2 {
     background-color: #36a2eb;
 }
 
-.respostes_contenidor .resposta:nth-child(3) {
+.resposta3 {
     background-color: green;
 }
 
-.respostes_contenidor .resposta:nth-child(4) {
+.resposta4 {
     background-color: purple;
 }
 
@@ -247,9 +307,17 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 95%;
     border-radius: 20px;
     padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.resum-pregunta>p {
+    user-select: none;
 }
 
 .equip1-resum {
@@ -273,10 +341,13 @@ h1 {
 }
 
 .grafics-respostes {
-    width: 100%;
+    width: 95%;
     border-radius: 0px 0px 20px 20px;
     padding: 20px;
     height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.2s ease-in-out;
 }
 
 .contenidor {
@@ -314,5 +385,27 @@ h1 {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.equipTxt {
+    font-size: 1.2rem;
+    margin-right: 20px;
+}
+
+.corona {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: #ffd700;
+}
+
+.noDesplegat {
+    transform: scaleY(0);
+    transform-origin: top;
+}
+
+.desplegat {
+    transform: scaleY(1);
+    transform-origin: top;
 }
 </style>
