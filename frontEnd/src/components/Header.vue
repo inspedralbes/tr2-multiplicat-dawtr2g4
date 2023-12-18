@@ -45,9 +45,9 @@ import Menubar from 'primevue/menubar';
                             </svg>
                             <transition name="slide">
                                 <div v-show="show" class="accordion-content">
-                                    <button v-if="profe" @click="goPreg"><a :href="goPreg()">preguntes</a></button>
-                                    <button v-if="profe" @click="goCat"><a :href="goCat()">categoria</a></button>
-                                    <button v-if="profe" @click="goUsr"><a :href="goUsr()">usuaris</a></button>
+                                    <button v-if="profe" @click="goPreg"><a :href="goPreg()">Preguntes</a></button>
+                                    <button v-if="profe" @click="goCat"><a :href="goCat()">Categoria</a></button>
+                                    <button v-if="profe" @click="goUsr"><a :href="goUsr()">Usuaris</a></button>
                                     <RouterLink to="/perfil">
                                         <Button severity="primary" raised rounded size="large" label="Perfil" />
                                     </RouterLink>
@@ -150,6 +150,7 @@ export default {
 }
 
 .accordion-content {
+    right: 8px;
     position: absolute;
     background-color: #f1f1f1;
     width: fit-content;
@@ -186,12 +187,14 @@ export default {
 
 .slide-enter-from,
 .slide-leave-to {
+    transform: translateX(10px);
     transform: translateY(-10px);
     opacity: 0;
 }
 
 .slide-enter-to,
 .slide-leave-from {
+    transform: translateX(0);
     transform: translateY(0);
     opacity: 1;
 }

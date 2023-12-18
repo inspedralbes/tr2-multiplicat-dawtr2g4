@@ -15,7 +15,6 @@
                 </form>
             </div>
         </div>
-        <button @click="mostrarInfoUser()">asd</button>
     </div>
 </template>
 
