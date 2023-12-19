@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div v-if="profe" class="mx-8 mt-4">
+        <div v-if="profe" class="mx-6 mt-6 flex justify-content-end">
             <button class="continuar_button mb-4 p-3 border-900 border-1" @click="tornarTaulell()">CONTINUAR
                 PARTIDA</button>
         </div>
-        <div class="mb-2">
-            <div v-if="profe" class="contenidor" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+        <div class="mb-2 mx-6">
+            <div v-if="profe" class="contenidor-profe" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
                 <div @click="mostrarGrafic(index)"
                     :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
                     <img class=jugador
@@ -96,21 +96,11 @@
                     </div>
                 </div>
             </div>
-            <div v-else class="contenidor">
+            <div v-else class="mt-6 flex flex-column gap-4">
                 <div v-for="(resposta, index) in isPreguntaResposta.length">
                     <div v-if="isPreguntaResposta[index] == respostaCorrecta[index]" class="correcte">
-                        <div>
-                            <h1>Resposta Correcta</h1>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M5 12l5 5l10 -10" />
-                            </svg>
-                        </div>
-                        <div class="resum-pregunta">
+                        <div><h1>Resposta Correcta</h1></div>
+                        <div class="resum-pregunta flex-column p-0">
                             <img class=jugador
                                 :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '-eq-' + salaInfo.equipAtacant + '.png'"
                                 alt="jugador">
@@ -121,16 +111,7 @@
                         <div>
                             <h1>Resposta Incorrecta</h1>
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M18 6l-12 12" />
-                                <path d="M6 6l12 12" />
-                            </svg>
-                        </div>
-                        <div class="resum-pregunta">
+                        <div class="resum-pregunta flex-column p-0">
                             <img class=jugador
                                 :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '-eq-' + salaInfo.equipAtacant + '.png'"
                                 alt="jugador">
@@ -297,26 +278,19 @@ h1 {
 }
 
 .continuar_button {
-    float: right;
-    margin-right: -8px;
-    margin-top: -8px;
     margin-bottom: 8px;
-    margin-left: 8px;
     border: 1px solid black;
     background-color: white;
     font-size: 1rem;
     color: #000000;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    border-radius: 15px;
 }
 
 .continuar_button:hover {
     background-color: black;
     color: #ffffff;
-}
-
-.informacio_encert {
-    clear: both;
 }
 
 .jugador {
@@ -328,11 +302,9 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 95%;
+    width: 100%;
     border-radius: 20px;
-    padding: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 15px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
@@ -362,7 +334,7 @@ h1 {
 }
 
 .grafics-respostes {
-    width: 95%;
+    width: 100%;
     border-radius: 0px 0px 20px 20px;
     padding: 20px;
     height: fit-content;
@@ -371,16 +343,15 @@ h1 {
     transition: all 0.2s ease-in-out;
 }
 
-.contenidor {
-    clear: both;
+.contenidor-profe {
     height: 100%;
     display: flex;
+    align-items: center;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-.correcte,
-.incorrecte {
+.correcte, .incorrecte {
     flex-grow: 1;
     height: 100%;
     width: 100%;
@@ -388,6 +359,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 15px;
 }
 
 .correcte>div,
@@ -397,14 +369,14 @@ h1 {
 }
 
 .correcte {
-    background-color: rgb(0, 255, 0);
+    background-color: #4ade80;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 .incorrecte {
-    background-color: rgb(255, 17, 0);
+    background-color: #f87171;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

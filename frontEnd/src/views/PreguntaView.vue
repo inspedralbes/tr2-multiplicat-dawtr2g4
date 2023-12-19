@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="flex-grow: 1;">
         <div class="temporitzador-container w-max mt-6"><img src="/img/pilota-beisbol-cronometre.png" width="70" height="70"
                 alt="">
             <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
