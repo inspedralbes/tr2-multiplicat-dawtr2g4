@@ -4,8 +4,8 @@
             <button class="continuar_button mb-4 p-3 border-900 border-1" @click="tornarTaulell()">CONTINUAR
                 PARTIDA</button>
         </div>
-        <div v-if="profe" class="mb-2" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
-            <div v-if="profe" class="cont" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
+        <div class="mb-2">
+            <div v-if="profe" class="contenidor" v-for="(pregunta, index) in salaInfo.preguntaActual.length">
                 <div @click="mostrarGrafic(index)"
                     :class="['resum-pregunta', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-resum' : 'equip2-resum', isGraficDesplegat[index] ? 'resum-pregunta--seleccionat' : '']">
                     <img class=jugador
@@ -372,9 +372,11 @@ h1 {
 }
 
 .contenidor {
+    clear: both;
     height: 100%;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .correcte,
@@ -431,6 +433,7 @@ h1 {
     transform: scaleY(0);
     transform-origin: top;
     max-height: 0;
+    padding: 0;
 }
 
 .desplegat {
