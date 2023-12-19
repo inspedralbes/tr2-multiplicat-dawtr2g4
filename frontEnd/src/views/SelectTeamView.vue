@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1 class="tit">ESCULL EQUIP</h1>
-        <button></button>
         <button v-if="store.getProfe()" class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
@@ -48,7 +47,7 @@ export default {
                 console.log("Has ecollit equip " + idEquip);
                 this.isEquipEscollit = true;
                 this.store.setTeam(idEquip);
-                socket.emit('equip-seleccionat', this.indexSala, idEquip, this.store.user);
+                socket.emit('equip-seleccionat', this.indexSala, idEquip, this.store.getUserName());
             }
         },
         començarPartida() {
@@ -59,6 +58,8 @@ export default {
     computed: {
 
         llistaJugadors() {
+            console.log("salaInfo" + this.store.getSalaInfo());
+            console.log("llista Jugadors" + this.store.getLlistaJugadors());
             return this.store.getLlistaJugadors();
         },
         equip1() {

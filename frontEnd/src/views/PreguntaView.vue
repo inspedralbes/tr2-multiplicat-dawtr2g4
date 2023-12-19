@@ -8,13 +8,13 @@
         <div class="preguntes">
             <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
                 <div class="contenidor-jugador-pregunta">
-                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '.png'" alt="">
+                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
                     <h1 class="p-2 text-3xl text-center border-1 border-round-lg">
                         {{ pregunta.text_pregunta }}
                     </h1>
                 </div>
                 <div v-if="!profe" class="col-12 mt-4 p-0 contenidor-respostes">
-                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem"
+                    <button class="resposta text-2xl font-medium text-white border-round-lg border-none h-10rem sel"
                         v-for="(resposta, indexResposta) in pregunta.respostes"
                         :class="{ selected: selectedIndices[indexPregunta] === indexResposta }"
                         @click="respostaSeleccionada(indexPregunta, indexResposta)">
@@ -85,7 +85,11 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+.sel {
+    cursor: pointer;
+}
 .contenidor-respostes {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

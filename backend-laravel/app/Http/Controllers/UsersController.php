@@ -127,4 +127,20 @@ class UsersController extends Controller
         $user->delete();
         return redirect()->route('usersIndex')->with('success', 'Usuari eliminat correctament');
     }
+
+
+    //API
+    public function update(Request $request){
+
+        $fields = $request->validate([
+            'id' => 'required',
+            'name' => 'required|string',
+        ]);
+
+        $user = User::find($fields['id']);
+        $user->name = $fields['name'];
+        $user->save();
+
+        return $user;
+    }
 }

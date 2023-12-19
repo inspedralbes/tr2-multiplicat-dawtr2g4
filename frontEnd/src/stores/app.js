@@ -58,6 +58,7 @@ export const useAppStore = defineStore('app', {
       return this.sales[this.indexSala]
     },
     getLlistaJugadors() {
+      console.log(this.getSalaInfo)
       return this.getSalaInfo().jugadors
     },
     getPreguntaActual() {
@@ -236,6 +237,9 @@ export const useAppStore = defineStore('app', {
     //token i user
     setUser(user) {
       this.user = user
+    },
+    setUserName(name){
+      this.user.name = name
     },
     //Vista usuari si resposta correcta o incorrecta
     setRespostaSeleccionada(respostaSeleccionada) {
