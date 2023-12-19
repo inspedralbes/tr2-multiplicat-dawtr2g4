@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <h2>Equip 1</h2>
+            <h2>ESPERANT A ALTRES JUGADORS QUE FALTEN PER RESPONDRE...</h2>
             <div class="grafic">
                 <PieChart :chart-data="{
                     labels: ['Han votat', 'Falten per votar'],

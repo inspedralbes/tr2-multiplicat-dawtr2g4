@@ -250,11 +250,13 @@ io.on('connection', (socket) => {
     let sala = sales[indexSala];
     let jugador = sala.jugadors.find(j => j.id === socket.id);
 
-    //if (jugador && !jugador.votacioResposta) { //SEGURETAT QUE JA VEUREM COM ARREGLEM
     if (jugador) {
       jugador.votacioResposta = vot;
-      sala.totalVots++;
-      io.to(sala.nomSala).emit('vot-resposta', sala.totalVots)
+      if (!vot.some(comprovarTotesPreguntesRespostes)) {
+        sala.totalVots++;
+        io.to(sala.nomSala).emit('total-votacions', sala.totalVots, sala.jugadors.length)
+        socket.emit('vot-resposta', sala.totalVots)
+      }
     }
 
     if (totsHanVotat(sala, true)) {
@@ -525,6 +527,10 @@ function checkBaseHome(jugador) {
 
 function checkContinuaJugant(jugador) {
   return jugador.baseActual <= 3;
+}
+
+function comprovarTotesPreguntesRespostes(resposta) {
+  return resposta == -1;
 }
 
 server.listen(port, () => {

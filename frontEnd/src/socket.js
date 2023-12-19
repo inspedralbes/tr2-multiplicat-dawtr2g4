@@ -44,7 +44,7 @@ socket.on("connect", () => {
 
   socket.on('actualitzar-comptador', (cronometre) => {
     pinia.setTemporitzador(cronometre);
-    console.log('Received actualitzar-comptador:', cronometre);
+    //console.log('Received actualitzar-comptador:', cronometre);
   });
 
   socket.on('finalitzar-votacio-dificultat', (dificultat, numPreguntes) => {
@@ -103,6 +103,7 @@ socket.on("connect", () => {
 
   socket.on('vot-resposta', (totalVots) => {
     pinia.setTotalVots(totalVots);
+    router.push("/totalVotacions");
     console.log('Received vot-resposta:', totalVots);
   });
 

@@ -202,7 +202,7 @@ export const useAppStore = defineStore('app', {
 
     //grafics
     setTotalVotacions(totalVotacions) {
-      this.totalVotacions = totalVotacions
+      this.sales[this.indexSala].totalVots = totalVotacions
     },
     setTotalJugadors(totalJugadors) {
       this.totalJugadors = totalJugadors
