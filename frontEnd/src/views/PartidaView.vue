@@ -1,47 +1,65 @@
 <template>
     <div class="partida">
-        <div>
-            <h1 v-if="equip == salaInfo.equipAtacant" class="equip-batejador">EQUIP {{ equip }} ET TOCA BATEJAR</h1>
-            <h1 v-else-if="equip != salaInfo.equipAtacant && !profe" class="equip-batejador">EQUIP {{ equip }} ET TOCA DEFENSAR</h1>
-            <h1 v-else class="equip-batejador">EQUIP {{ salaInfo.equipAtacant }} ET TOCA BATEJAR<br>EQUIP {{ equipDefensor }} ET TOCA DEFENSAR</h1>
+        <div class="informacio-rols-equips">
+            <div v-if="equip == salaInfo.equipAtacant">
+                <div :class="['informacio-rols-esquerra', equip == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ equip }} ET TOCA BATEJAR</h1>
+                </div>
+                <div :class="['informacio-rols-dreta', equip != 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">L'EQUIP CONTRARI DEFENSA</h1>
+                </div>
+            </div>
+            <div v-else-if="equip != salaInfo.equipAtacant && !profe">
+                <div :class="['informacio-rols-esquerra', equip == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ equip }} ET TOCA DEFENSAR</h1>
+                </div>
+                <div :class="['informacio-rols-dreta', equip != 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">L'EQUIP CONTRARI BATEJA</h1>
+                </div>
+            </div>
+            <div v-else>
+                <div :class="['informacio-rols-esquerra', salaInfo.equipAtacant == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ salaInfo.equipAtacant }} ET TOCA BATEJAR</h1>
+                </div>
+                <div :class="['informacio-rols-dreta', equipDefensor == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ equipDefensor }} ET TOCA DEFENSAR</h1>
+                </div>
+            </div>
         </div>
         <div id="grid-container">
             <div id="camp-de-joc">
                 <img v-for="jugador in salaInfo.jugadorsCamp"
                     :class="[jugador.baseActual == 0 ? 'home-base' : jugador.baseActual == 1 ? 'primera-base' : jugador.baseActual == 2 ? 'segona-base' : jugador.baseActual == 3 ? 'tercera-base' : 'home-base', 'jugador']"
-                    :src="'/img/jugador-' + jugador.id + '.png'" alt="jugador">
+                    :src="'/img/jugador-' + jugador.id + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
                 <img class="camp" src="/img/camp.png" alt="">
             </div>
             <div id="banqueta">
-                <img class=jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '.png'"
+                <img class=jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '-eq-' + salaInfo.equipAtacant +'.png'"
                     alt="">
             </div>
-            <div id="puntuacio">
-                <div class="scoreboard">
-                    <div class="team-container">
+            <div id="contenidor-marcador-puntuacio">
+                <div class="marcador">
+                    <div class="contenidor-equip">
                         <h2>EQUIP 1</h2>
-                        <div class="one">
-                            <p class="pts" id="home-pts">{{ puntuacioEquip1 }}</p>
+                        <div class="contenidor-punts">
+                            <p class="punts">{{ puntuacioEquip1 }}</p>
                         </div>
                     </div>
-                    <div class="team-container">
+                    <div class="contenidor-equip">
                         <h2>EQUIP 2</h2>
-                        <div class="one">
-                            <p class="pts" id="home-pts"> {{ puntuacioEquip2 }}</p>
+                        <div class="contenidor-punts">
+                            <p class="punts"> {{ puntuacioEquip2 }}</p>
                         </div>
                     </div>
                     <div class="linia"></div>
-                    <div class="bola">
-                        <h2>OUTS</h2>
-                        <div class="contenidor-bola">
-                            <div v-for="actual in salaInfo.outs" class="bola-item bola-item--marcat"></div>
-                            <div v-for="actual in (3 - salaInfo.outs)" class="bola-item"></div>
+                    <div class="contenidor-outs">
+                        <h2 class="outs-titol">OUTS</h2>
+                        <div class="contenidor-llums">
+                            <div v-for="actual in salaInfo.outs" class="llum-item llum-item--encesa"></div>
+                            <div v-for="actual in (3 - salaInfo.outs)" class="llum-item"></div>
                         </div>
                     </div>
                 </div>
-                <!--<p>OUTS: {{ salaInfo.outs }}</p>
-                <p>EQUIP 1: {{ salaInfo.equips[0].punts }}</p>
-                <p>EQUIP 2: {{ salaInfo.equips[1].punts }}</p>-->
             </div>
             <div id="moviment-bases">
                 <button v-if="votacioBaseEnCurs == false && profe" @click="initVotacio" class="votar_button">COMENÇAR VOTACIÓ</button>
@@ -213,6 +231,9 @@ export default {
 
 :root {
     --timeMov: 0.75s;
+    --equip1: #ff4d4d;
+    --equip2: #4da6ff;
+    --text-fons-fosc: #fff;
 }
 
 @font-face {
@@ -224,24 +245,109 @@ export default {
     font-display: swap;
 }
 
+/* ESTILS GENERALS */
+
+.partida {
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#grid-container {
+    clear: both;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "puntuacio camp-de-joc moviment-bases"
+        "banqueta camp-de-joc moviment-bases";
+    gap: 20px 20px;
+    margin-top: 100px;
+    height: 535px;
+}
+
+/* ESTILS INFORMACIÓ ROLS EQUIP */
+
+.informacio-rols-esquerra {
+  width: 90%;
+  height: 60px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.informacio-rols-esquerra:before {
+  content: "";
+  position: absolute;
+  right: -30px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+}
+
+.informacio-rols-dreta {
+  width: 90%;
+  height: 60px;
+  position: relative;
+  margin-top: 5px;
+  float: right;
+}
+
+.informacio-rols-dreta:before {
+  content: "";
+  position: absolute;
+  left: -30px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  transform: rotate(180deg);
+}
+
+.informacio-rols--equip1 {
+  background: #ff4d4d;
+}
+
+.informacio-rols--equip2 {
+  background: #4da6ff;
+}
+
+.informacio-rols--equip1:before {
+  content: "";
+  border-left: 30px solid #ff4d4d;
+}
+
+.informacio-rols--equip2:before {
+  content: "";
+  border-left: 30px solid #4da6ff;
+}
+
 .equip-batejador{
+    margin: 0;
+    padding: 12px;
     text-align: center;
-    color: lightgray;
+    color: white;
 }
 
 /*ESTILS MARCADOR PUNTUACIÓ*/
-.scoreboard {
-    /*display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;*/
 
+#contenidor-marcador-puntuacio {
+    grid-area: puntuacio;
+    padding: 3px;
+    justify-self: right;
+    width: 80%;
+}
+
+.marcador {
     display: grid;
     justify-content: space-around;
     align-items: center;
     grid-template-areas:
     "eq1 eq2"
-    "bola bola";
+    "outs outs";
     position: relative;
 
     width: 100%;
@@ -253,11 +359,11 @@ export default {
     margin-top: 5px;
 }
 
-.scoreboard:nth-child(1) {
+.marcador:nth-child(1) {
     grid-area: eq1;
 }
 
-.scoreboard:nth-child(2) {
+.marcador:nth-child(2) {
     grid-area: eq2;
 }
 
@@ -269,14 +375,14 @@ export default {
     background-color: white;
 }
 
-.bola{
-    grid-area: bola;
+.contenidor-outs{
+    grid-area: outs;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: end;
 }
 
-.contenidor-bola {
+.contenidor-llums {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -285,34 +391,42 @@ export default {
     width: fit-content;
     height: 30px;
     background-color: gray;
-    margin: 20px 0px 10px 10px;
+    margin: 20px 0px 10px 20px;
 }
 
-.bola-item {
+.llum-item {
   height: 20px;
   width: 20px;
   background-color: black;
   border-radius: 50%;
 }
 
-.bola-item--marcat {
+.llum-item--encesa {
     background-color: #fff;
     box-shadow: 0 0 5px #fff, 0 0 10px red, 0 0 15px red, 0 0 20px red, 0 0 35px red, 0 0 40px red;
 }
 
-.team-container {
+.contenidor-equip {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-h2 {
+.contenidor-equip h2 {
     font-size: 1.25em;
     margin-top: 20px;
     margin-bottom: 10px;
+    color: white;
 }
 
-.one {
+.outs-titol {
+    font-size: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.contenidor-punts {
     position: relative;
     width: 100%;
     height: 4em;
@@ -321,7 +435,7 @@ h2 {
     background-color: #0c0c0c ;
 }
 
-.pts {
+.punts {
     font-family: 'Digital Display',monospace;
     font-size: 4em;
     text-align: center;
@@ -338,6 +452,18 @@ h2 {
 
 /*ESTILS ESCOLLIR BASE DIFICULTAT*/
 
+#moviment-bases {
+    grid-area: moviment-bases;
+    border: 1px solid black;
+    padding: 10px 20px;
+    justify-self: left;
+    margin-right: 50px;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    border-radius: 8px;
+}
+
 .votar_button {
     border: 1px solid black;
     background-color: white;
@@ -351,36 +477,94 @@ h2 {
     color: #ffffff;
 }
 
-/* */
-
-.partida {
-    background-image: url('/img/landing.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+.temporitzador-container {
+    margin: 0 auto;
+    position: relative;
 }
 
-#grid-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-        "puntuacio camp-de-joc moviment-bases"
-        "banqueta camp-de-joc moviment-bases";
+.temporitzador-container > img {
+    animation: rotacioInfinita 8s linear infinite;
+}
+
+.temporitzador {
+    position: absolute;
+    top: 0;
+    left: 31%;
+}
+
+.contenidor-dificultat-bases > p {
     margin-top: 50px;
-    gap: 20px 20px;
-    height: 535px;
+ text-align: center;
+ font-size: 1.5em;
+ font-weight: bolder;
 }
 
+.base-item {
+    width: 100%;
+    height: 50px;
+    border: none;
+    padding: 30px 30px;
+    text-align: center;
+    line-height: 0;
+    font-weight: bolder;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.base-item > p {
+    font-size: 1.5em;
+    animation: mostrarNumeroBase 4s infinite linear;
+}
+
+.contenidor-moure-imatge-pilota {
+    position: absolute;
+    left: 0px;
+}
+
+.base-item:nth-child(1) .contenidor-moure-imatge-pilota {
+    animation: mourePilotaFacil 4s infinite linear;
+}
+
+.base-item:nth-child(2) .contenidor-moure-imatge-pilota {
+    animation: mourePilotaNormal 4s infinite linear;
+}
+
+.base-item:nth-child(3) .contenidor-moure-imatge-pilota {
+    animation: mourePilotaDificil 4s infinite linear;
+}
+
+.contenidor-rotar-imatge-pilota {
+    animation: rotacioInfinita 2s infinite linear;
+}
+
+.contenidor-rotar-imatge-pilota > img {
+    animation: mostrarPilota 4s infinite linear;
+}
+
+.base-item--selected {
+    background-color: #555555;
+    color: #f1f1f1;
+}
+
+.base-item--not-selected {
+    background-color: #f1f1f1;
+    color: #555555;
+}
+
+/*ESTILS CAMP DE JOC */
 #camp-de-joc {
     grid-area: camp-de-joc;
     position: relative;
     width: 100%;
     height: 535px;
     border: 1px solid black;
-    background-color: rgba(255, 255, 255, 0.6);;
+    background-color: rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: center;
+    border-radius: 8px;
 }
 
 .camp {
@@ -391,11 +575,15 @@ h2 {
     object-fit: contain;
 }
 
+/* ESTILS AVATAR JUGADOR */
 .jugador {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     z-index: 1;
+    border-radius: 50%;
 }
+
+/* ESTILS BANQUETA */
 
 #banqueta {
     grid-area: banqueta;
@@ -410,6 +598,7 @@ h2 {
     align-self: flex-end;
     background-color: white;
     padding: 0px 20px;
+    border-radius: 8px;
 
 
     display: flex;
@@ -420,36 +609,12 @@ h2 {
     gap: 10px 10px;
 }
 
-#puntuacio {
-    grid-area: puntuacio;
-    padding: 5px;
-    justify-self: right;
-    //margin-right: 50px;
-    width: 80%;
-}
-
-#moviment-bases {
-    grid-area: moviment-bases;
-    border: 1px solid black;
-    padding: 10px 20px;
-    justify-self: left;
-    margin-right: 50px;
-    width: 80%;
-    height: 100%;
-    background-color: white;
-}
-
-.contenidor-dificultat-bases > p {
-    margin-top: 50px;
- text-align: center;
- font-size: 1.5em;
- font-weight: bolder;
-}
 .moviment {
     transition: all var(--timeMov) ease;
     /* Puedes ajustar la duración y la función de temporización según tus necesidades */
 }
 
+/* ESTILS POSICIONS JUGADORS EN EL CAMP */
 .home-base {
     position: absolute;
     bottom: 1%;
@@ -474,11 +639,7 @@ h2 {
     left: 25%;
 }
 
-.temporitzador {
-    position: absolute;
-    top: 0;
-    left: 31%;
-}
+/* ANIMACIONS DIFICULTAT VOTACIONS*/
 
 @keyframes rotacioInfinita {
     0% {
@@ -488,35 +649,6 @@ h2 {
     100% {
         transform: rotate(360deg);
     }
-}
-
-.temporitzador-container {
-    margin: 0 auto;
-    position: relative;
-}
-
-.temporitzador-container>img {
-    animation: rotacioInfinita 8s linear infinite;
-}
-
-.base-item {
-    width: 100%;
-    height: 50px;
-    border: none;
-    padding: 30px 30px;
-    text-align: center;
-    line-height: 0;
-    font-weight: bolder;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.base-item > p {
-    font-size: 1.5em;
-    animation: mostrarNumeroBase 4s infinite linear;
 }
 
 @keyframes mostrarNumeroBase {
@@ -539,20 +671,6 @@ h2 {
     100% {
         opacity: 1;
     }
-}
-
-.base-item:nth-child(1) .contenidor-moure-imatge-pilota {
-    animation: mourePilotaFacil 4s infinite linear;
-}
-.base-item:nth-child(2) .contenidor-moure-imatge-pilota {
-    animation: mourePilotaNormal 4s infinite linear;
-}
-.base-item:nth-child(3) .contenidor-moure-imatge-pilota {
-    animation: mourePilotaDificil 4s infinite linear;
-}
-.contenidor-moure-imatge-pilota {
-    position: absolute;
-    left: 0px;
 }
 
 @keyframes mourePilotaFacil {
@@ -609,14 +727,6 @@ h2 {
     }
 }
 
-.contenidor-rotar-imatge-pilota {
-    animation: rotacioInfinita 2s infinite linear;
-}
-
-.contenidor-rotar-imatge-pilota > img {
-    animation: mostrarPilota 4s infinite linear;
-}
-
 @keyframes mostrarPilota {
     0% {
         opacity: 0;
@@ -638,14 +748,4 @@ h2 {
         opacity: 0;
     }
 }
-
-
-.base-item--selected {
-    background-color: #555555;
-    color: #f1f1f1;
-}
-
-.base-item--not-selected {
-    background-color: #f1f1f1;
-    color: #555555;
-}</style>
+</style>
