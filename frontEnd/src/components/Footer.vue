@@ -71,7 +71,6 @@ export default {
     border-top: 1px solid #e3e3e3;
     padding: 1rem;
     width: 100%;
-    margin-top: 50px;
 }
 
 .icon {
