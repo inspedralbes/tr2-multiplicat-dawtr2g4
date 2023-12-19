@@ -7,10 +7,10 @@ const cors = require('cors');
 const app = express();
 app.use(cors())
 
-const server = createServer(app); 
+const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://mathball.daw.inspedralbes.cat","http://tr2g4.daw.inspedralbes.cat","http://localhost:5173", "http://127.0.0.1:5173"], 
+    origin: ["http://mathball.daw.inspedralbes.cat", "http://tr2g4.daw.inspedralbes.cat", "http://localhost:5173", "http://127.0.0.1:5173"],
     methods: ["GET", "POST"]
   }
 });
@@ -27,6 +27,8 @@ const TEMPS_VOTAR_RESPOSTA = 99;
 const socketRooms = {};
 let cronometre;
 let intervalId;
+let calcularEfectes = true;
+let efectesCalculats = false;
 
 // Executar funcio per a crear 6 sales
 (function () {
@@ -76,7 +78,7 @@ io.on('connection', (socket) => {
       if (jugador) {
         sala.jugadors.splice(indexJugador, 1)
         sala.equips[jugador.equip - 1].nJugadors--;
-        if(sala.jugadors.length === 0) {
+        if (sala.jugadors.length === 0) {
           natejarSala(sala)
         }
       }
@@ -105,7 +107,9 @@ io.on('connection', (socket) => {
       resultatsActuals: null,
       nomSala: sala.nom,
       jugadorsBanqueta: [],
-      jugadorsCamp: []
+      jugadorsCamp: [],
+      outs: 0,
+      preguntesAnteriors: []
     }
     sales.push(novaSala);
     io.emit('sala-creada', novaSala);
@@ -147,7 +151,6 @@ io.on('connection', (socket) => {
         baseActual: 0,
         votacioBase: null,
         votacioResposta: null,
-        eliminat: false
       });
 
       // Notifica als clients de la sala sobre l'actualització dels equips
@@ -215,7 +218,7 @@ io.on('connection', (socket) => {
 
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
     // Trucar la API de Laravel per demanar la pregunta
-    
+
     sala.preguntaActual = [];
     for (let i = 0; i < sala.jugadorsCamp.length; i++) {
       try {
@@ -276,69 +279,104 @@ io.on('connection', (socket) => {
     let sala = sales[indexSala]
     io.to(sala.nomSala).emit('tornar-taulell');
 
-    // Per cada pregunta...
-    for (let i = 0; i < sala.resultatsActuals.equipAcertat.length; i++) {
-      if (sala.equipAtacant === sala.resultatsActuals.equipAcertat[i]) {
-        // Si l'equip atacant ha acertat la pregunta, el jugador associat a la pregunta avança bases,
-        let jugador = moureJugador(sala, sala.preguntaActual[i].dificultat, sala.preguntaActual[i].jugadorId, false);
-      } else {
-        // Si l'equip atacant ha fallat la pregunta, el jugador associat a la pregunta és eliminat...
-        let jugador = moureJugador(sala, sala.preguntaActual[i].dificultat, sala.preguntaActual[i].jugadorId, true);
-        // ...i sumem un out
-        sala.outs++;
+    calcularEfectes = true;
+    efectesCalculats = false;
+
+    // Esperar un segon per a moure jugadors
+    setTimeout(() => {
+      // Per cada pregunta...
+      for (let i = 0; i < sala.resultatsActuals.equipAcertat.length; i++) {
+        let esUltimJugador = i === sala.resultatsActuals.equipAcertat.length - 1 ? true : false;
+        if (sala.equipAtacant === sala.resultatsActuals.equipAcertat[i]) {
+          // Si l'equip atacant ha acertat la pregunta, el jugador associat a la pregunta avança bases,
+          moureJugador(sala, sala.preguntaActual[i].dificultat, sala.preguntaActual[i].jugadorId, false, esUltimJugador);
+        } else {
+          // Si l'equip atacant ha fallat la pregunta, el jugador associat a la pregunta és eliminat...
+          moureJugador(sala, sala.preguntaActual[i].dificultat, sala.preguntaActual[i].jugadorId, true, esUltimJugador);
+        }
       }
-    }
+    }, 1000);
 
-    // Comprovem quins jugadors han arribat a la base casa
-    let banqueta = sala.jugadorsCamp.filter(checkBaseHome);
-    // Comprovem quins jugadors encara no han arribat a la base casa
-    let camp = sala.jugadorsCamp.filter(checkContinuaJugant);
-
-    // Sumem tants punts com jugadors han arribat a la base casa
-    let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
-    if (banqueta.length > 0) {
-      sala.equips[indexAtacant].punts += banqueta.length;
-      sala.rondes[sala.rondes.length - 1].punts += banqueta.length;
-      io.to(sala.nomSala).emit('sumar-punt', sala);
-    }
-
-    // Afegim els jugadors que han arribat a la base casa a la banqueta
-    sala.jugadorsBanqueta.push(...banqueta);
-
-    // Actualitzem els jugadors que queden al camp
-    sala.jugadorsCamp = camp;
-
-    // Si hi ha n outs o no hi ha ningú per batejar es canvia d'equip; si hi ha algún jugador a la banqueta salta al camp a batejar
-    if (sala.outs >= OUTS_ELIMINAR || sala.jugadorsBanqueta.length === 0) {
-      canviarEquips(sala);
-    } else {
-      nouJugadorAlCamp(sala);
-      io.to(sala.nomSala).emit('moure-jugador', sala, null)
-    }
-
-    //Si un equip fa n carreres guanya el joc
-    if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
-      io.to(sala.nomSala).emit('finalitzar-partida');
-    }
 
   })
 
-  function moureJugador(sala, moviments, jugadorId, isEliminat) {
+  function moureJugador(sala, moviments, jugadorId, isEliminat, esUltimJugador) {
     let jugador = sala.jugadors.find(j => j.equip === sala.equipAtacant)
     jugador.baseActual += moviments
 
     for (let i = 0; i < sala.jugadorsCamp.length; i++) {
       if (sala.jugadorsCamp[i].id === jugadorId) {
         if (!isEliminat) {
-          sala.jugadorsCamp[i].baseActual += moviments;
+          if (moviments > 1) {
+            calcularEfectes = false;
+            iniciarComptadorBases(sala, sala.jugadorsCamp[i], moviments)
+          } else {
+            sala.jugadorsCamp[i].baseActual += moviments;
+            io.to(sala.nomSala).emit('moure-jugador', sala);
+          }
         } else {
           sala.jugadorsCamp.splice(i, 1);
+          sala.outs++;
+          io.to(sala.nomSala).emit('jugador-eliminat', sala);
         }
+
+        if (esUltimJugador && calcularEfectes) {
+          calcularEfectes = false;
+          calcularEfectesRonda(sala)
+        }
+
       }
     }
+  }
 
-    io.to(sala.nomSala).emit('moure-jugador', sala, jugador)
-    return jugador
+  function calcularEfectesRonda(sala) {
+
+    if (efectesCalculats) return;
+    efectesCalculats = true;
+
+    // Esperar un segon per a calcular els efectes de la ronda
+    setTimeout(() => {
+
+      let indexAtacant = sala.equipAtacant === 1 ? 0 : 1;
+
+      for (let i = sala.jugadorsCamp.length - 1; i >= 0; i--) {
+        let jugador = sala.jugadorsCamp[i];
+        if (jugador.baseActual > 3) {
+          sala.equips[indexAtacant].punts++;
+          sala.rondes[sala.rondes.length - 1].punts++;
+          sala.jugadorsCamp.splice(i, 1);
+          sala.jugadorsBanqueta.push(jugador);
+        }
+      }
+
+      // Si hi ha n outs o no hi ha ningú per batejar es canvia d'equip; si hi ha algún jugador a la banqueta salta al camp a batejar
+      if (sala.outs >= OUTS_ELIMINAR || sala.jugadorsBanqueta.length === 0) {
+        canviarEquips(sala);
+      } else {
+        nouJugadorAlCamp(sala);
+      }
+
+      io.to(sala.nomSala).emit('moure-jugador', sala)
+
+      //Si un equip fa n carreres guanya el joc
+      if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
+        io.to(sala.nomSala).emit('finalitzar-partida');
+      }
+
+    }, 1000);
+  }
+
+  function iniciarComptadorBases(sala, jugador, moviments) {
+    let intervalId = setInterval(() => {
+      jugador.baseActual++;
+      moviments--;
+      io.to(sala.nomSala).emit('moure-jugador', sala);
+      if (moviments === 0) {
+        clearInterval(intervalId)
+        // Esperar un segon per a calcular els efectes de la ronda
+        calcularEfectesRonda(sala)
+      }
+    }, 1000);
   }
 
   function canviarEquips(sala) {
@@ -471,18 +509,19 @@ function natejarSala(sala) {
   ]
   sala.rondes = []
   sala.totalVots = 0,
-  sala.equipAtacant = 0,
-  sala.preguntaActual = [],
-  sala.resultatsActuals = null,
-  sala.jugadorsBanqueta = [],
-  sala.jugadorsCamp = [],
-  sala.preguntesAnteriors = []
+    sala.equipAtacant = 0,
+    sala.preguntaActual = [],
+    sala.resultatsActuals = null,
+    sala.jugadorsBanqueta = [],
+    sala.jugadorsCamp = [],
+    sala.preguntesAnteriors = [],
+    sala.outs = 0,
+    sala.preguntesAnteriors = []
 }
 
 function resetejarTorn(sala) {
   sala.jugadors.forEach(jugador => {
     jugador.baseActual = 0
-    jugador.eliminat = false
   })
 
   sala.outs = 0;
@@ -490,7 +529,7 @@ function resetejarTorn(sala) {
   sala.jugadorsBanqueta = [];
   emplenarJugadorsBanqueta(sala)
   nouJugadorAlCamp(sala);
-  
+
   io.to(sala.nomSala).emit('resetejar-torn', sala)
 }
 
@@ -517,14 +556,6 @@ function nouJugadorAlCamp(sala) {
   let jugadorBatejant = sala.jugadorsBanqueta.shift(); // Treiem el primer jugador de l'array banqueta
   jugadorBatejant.baseActual = 0;
   sala.jugadorsCamp.push(jugadorBatejant); // I el col·loquem al camp
-}
-
-function checkBaseHome(jugador) {
-  return jugador.baseActual > 3;
-}
-
-function checkContinuaJugant(jugador) {
-  return jugador.baseActual <= 3;
 }
 
 server.listen(port, () => {

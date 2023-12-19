@@ -183,9 +183,6 @@ export default {
         votacioBaseEnCurs() {
             return this.pinia.getVotacioBaseEnCurs();
         },
-        jugadorEnCamp() {
-            return this.pinia.getJugadorEnCamp();
-        },
         salaInfo() {
             return this.pinia.getSalaInfo();
         },
@@ -580,6 +577,7 @@ export default {
     width: 80px;
     height: 80px;
     z-index: 1;
+    // transition: all 1.5s ease;
     border-radius: 50%;
 }
 
@@ -609,9 +607,30 @@ export default {
     gap: 10px 10px;
 }
 
-.moviment {
-    transition: all var(--timeMov) ease;
-    /* Puedes ajustar la duración y la función de temporización según tus necesidades */
+#puntuacio {
+    grid-area: puntuacio;
+    padding: 5px;
+    justify-self: right;
+    //margin-right: 50px;
+    width: 80%;
+}
+
+#moviment-bases {
+    grid-area: moviment-bases;
+    border: 1px solid black;
+    padding: 10px 20px;
+    justify-self: left;
+    margin-right: 50px;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+}
+
+.contenidor-dificultat-bases > p {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bolder;
 }
 
 /* ESTILS POSICIONS JUGADORS EN EL CAMP */
