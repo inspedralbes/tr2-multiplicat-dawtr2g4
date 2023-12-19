@@ -19,11 +19,11 @@ const port = 3378
 const sales = [];
 
 const JUGADORS_PER_EQUIP = 5;
-const OUTS_ELIMINAR = 2;
+const OUTS_ELIMINAR = 3;
 const CARRERES_GUANYAR = 3;
 
 const TEMPS_ESCOLLIR_BASE = 10;
-const TEMPS_VOTAR_RESPOSTA = 99;
+const TEMPS_VOTAR_RESPOSTA = 60;
 const socketRooms = {};
 let cronometre;
 let intervalId;
@@ -257,8 +257,8 @@ io.on('connection', (socket) => {
       jugador.votacioResposta = vot;
       if (!vot.some(comprovarTotesPreguntesRespostes)) {
         sala.totalVots++;
-        io.to(sala.nomSala).emit('total-votacions', sala.totalVots, sala.jugadors.length)
         socket.emit('vot-resposta', sala.totalVots)
+        io.to(sala.nomSala).emit('total-votacions', sala.totalVots, sala.jugadors.length)
       }
     }
 
@@ -498,7 +498,7 @@ function esVotValid(vot, sonVotsRespostes) {
 function totsHanVotat(sala, sonVotsRespostes) {
   // Si els vots són de les respostes, tots han de votar. Sino, només un equip ha de votar
   if (sonVotsRespostes) {
-    return sala.totalVots === ((sala.equips[0].nJugadors * sala.jugadorsCamp.length) + (sala.equips[1].nJugadors * sala.jugadorsCamp.length))
+    return sala.totalVots === ((sala.equips[0].nJugadors) + (sala.equips[1].nJugadors))
   }
   return sala.totalVots === (sala.equipAtacant === 1 ? sala.equips[0].nJugadors : sala.equips[1].nJugadors);
 }

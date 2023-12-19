@@ -461,7 +461,7 @@ export default {
     height: 100%;
     background-color: white;
     background-color: rgba(255, 255, 255, 0.8);
-
+    box-shadow: 10px 8px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 15px;
 }
 
@@ -512,13 +512,16 @@ export default {
     font-weight: bolder;
     margin-bottom: 15px;
     display: flex;
+    border-radius: 15px;
     justify-content: center;
     align-items: center;
     position: relative;
+    box-shadow: 10px 8px 8px 0 rgba(0, 0, 0, 0.5);
 }
 
 .base-item > p {
     font-size: 1.5em;
+    color:black;
     animation: mostrarNumeroBase 4s infinite linear;
 }
 
@@ -576,6 +579,8 @@ export default {
     padding: 2.5%;
     position: absolute;
     object-fit: contain;
+    box-shadow: 10px 8px 8px 0 rgba(0, 0, 0, 0.5);
+
 }
 
 /* ESTILS AVATAR JUGADOR */
@@ -602,8 +607,7 @@ export default {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 0px 20px;
     border-radius: 15px;
-
-
+    box-shadow: 10px 8px 8px 0 rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
