@@ -62,7 +62,9 @@
                 </div>
             </div>
             <div id="moviment-bases">
-                <button v-if="votacioBaseEnCurs == false && profe" @click="initVotacio" class="votar_button">COMENÇAR VOTACIÓ</button>
+                <div v-if="votacioBaseEnCurs == false && profe" @click="initVotacio" class="flex justify-content-center h-auto">
+                    <button class="votar_button">COMENÇAR VOTACIÓ DIFICULTAT</button>
+                </div>
                 <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-4"><img
                         src="/img/pilota-beisbol-cronometre.png" width="70" height="70" alt="">
                     <p class="temporitzador text-align text-2xl font-semibold">{{ temporitzador }}</p>
@@ -451,14 +453,16 @@ export default {
 
 #moviment-bases {
     grid-area: moviment-bases;
-    border: 1px solid black;
+    // border: 1px solid black;
     padding: 10px 20px;
     justify-self: left;
     margin-right: 50px;
     width: 80%;
     height: 100%;
     background-color: white;
-    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    border-radius: 15px;
 }
 
 .votar_button {
@@ -466,8 +470,10 @@ export default {
     background-color: white;
     font-size: 1rem;
     color: #000000;
-    padding: 10px;
+    padding: 10px 20px;
     cursor: pointer;
+    margin: auto;
+    border-radius: 15px;
 }
 .votar_button:hover {
     background-color: #000000;
@@ -547,7 +553,7 @@ export default {
 }
 
 .base-item--not-selected {
-    background-color: #f1f1f1;
+    background-color: white;
     color: #555555;
 }
 
@@ -557,11 +563,11 @@ export default {
     position: relative;
     width: 100%;
     height: 535px;
-    border: 1px solid black;
+    // border: 1px solid black;
     background-color: rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 15px;
 }
 
 .camp {
@@ -585,7 +591,6 @@ export default {
 
 #banqueta {
     grid-area: banqueta;
-    border: 1px solid black;
     background-image: url("/img/banqueta.PNG");
     background-size: 70% 70%;
     background-repeat: no-repeat;
@@ -594,9 +599,9 @@ export default {
     width: 80%;
     height: 80%;
     align-self: flex-end;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 0px 20px;
-    border-radius: 8px;
+    border-radius: 15px;
 
 
     display: flex;
@@ -613,17 +618,6 @@ export default {
     justify-self: right;
     //margin-right: 50px;
     width: 80%;
-}
-
-#moviment-bases {
-    grid-area: moviment-bases;
-    border: 1px solid black;
-    padding: 10px 20px;
-    justify-self: left;
-    margin-right: 50px;
-    width: 80%;
-    height: 100%;
-    background-color: white;
 }
 
 .contenidor-dificultat-bases > p {
