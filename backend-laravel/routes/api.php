@@ -24,7 +24,9 @@ Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 
 Route::get('/getCategories', [CategoriesController::class, 'index']);
+
 Route::put('/updateUser', [UsersController::class,'update']);
+Route::put('/updatePassword', [UsersController::class,'updatePassword']);
 
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

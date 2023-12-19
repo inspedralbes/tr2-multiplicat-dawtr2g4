@@ -143,4 +143,18 @@ class UsersController extends Controller
 
         return $user;
     }
+
+    public function updatePassword(Request $request){
+
+        $fields = $request->validate([
+            'id' => 'required',
+            'password' => 'required|string|confirmed',
+        ]);
+
+        $user = User::find($fields['id']);
+        $user->password = bcrypt($fields['password']);
+        $user->save();
+
+        return true;
+    }
 }
