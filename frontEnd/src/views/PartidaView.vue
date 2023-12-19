@@ -162,9 +162,6 @@ export default {
         votacioBaseEnCurs() {
             return this.pinia.getVotacioBaseEnCurs();
         },
-        jugadorEnCamp() {
-            return this.pinia.getJugadorEnCamp();
-        },
         salaInfo() {
             return this.pinia.getSalaInfo();
         },
@@ -203,10 +200,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-:root {
-    --timeMov: 0.75s;
-}
 
 @font-face {
     font-family: 'Digital Display';
@@ -383,6 +376,7 @@ h2 {
     width: 60px;
     height: 60px;
     z-index: 1;
+    // transition: all 1.5s ease;
 }
 
 #banqueta {
@@ -432,10 +426,6 @@ h2 {
  text-align: center;
  font-size: 1.5em;
  font-weight: bolder;
-}
-.moviment {
-    transition: all var(--timeMov) ease;
-    /* Puedes ajustar la duración y la función de temporización según tus necesidades */
 }
 
 .home-base {
