@@ -435,7 +435,7 @@ export default {
 }
 
 .punts {
-    font-family: 'Digital Display',monospace;
+    font-family: 'Digital Display', monospace;
     font-size: 4em;
     text-align: center;
 

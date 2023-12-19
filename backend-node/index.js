@@ -20,7 +20,7 @@ const sales = [];
 
 const JUGADORS_PER_EQUIP = 5;
 const OUTS_ELIMINAR = 3;
-const CARRERES_GUANYAR = 1;
+const CARRERES_GUANYAR = 3;
 
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 20;
