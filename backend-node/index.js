@@ -20,10 +20,10 @@ const sales = [];
 
 const JUGADORS_PER_EQUIP = 5;
 const OUTS_ELIMINAR = 3;
-const CARRERES_GUANYAR = 3;
+const CARRERES_GUANYAR = 1;
 
 const TEMPS_ESCOLLIR_BASE = 10;
-const TEMPS_VOTAR_RESPOSTA = 60;
+const TEMPS_VOTAR_RESPOSTA = 20;
 const socketRooms = {};
 let cronometre;
 let intervalId;
@@ -413,7 +413,7 @@ function calcularResultatsRespostes(sala) {
   // Guarda els vots en els arrays votsEquip1 i votsEquip2
   for (let i = 0; i < sala.preguntaActual.length; i++) {
     sala.jugadors.forEach(jugador => {
-      if (jugador.votacioResposta != -1) {
+      if (jugador.votacioResposta != null) {
         //console.log("----VOT JUGADOR---- " + jugador.votacioResposta )
         if (jugador.equip === 1) {
           votsEquip1[i][jugador.votacioResposta[i]]++;
