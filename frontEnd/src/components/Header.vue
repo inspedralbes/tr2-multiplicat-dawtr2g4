@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, routerKey } from 'vue-router'
 import Menubar from 'primevue/menubar';
 </script>
 <template>
@@ -48,9 +48,7 @@ import Menubar from 'primevue/menubar';
                                     <button v-if="profe" @click="goPreg"><a :href="goPreg()">Preguntes</a></button>
                                     <button v-if="profe" @click="goCat"><a :href="goCat()">Categoria</a></button>
                                     <button v-if="profe" @click="goUsr"><a :href="goUsr()">Usuaris</a></button>
-                                    <RouterLink to="/perfil">
-                                        <Button severity="primary" raised rounded size="large" label="Perfil" />
-                                    </RouterLink>
+                                    <Button @click="perfil" severity="primary" raised rounded size="large" label="Perfil" />
                                     <button @click="logout">Logout</button>
                                 </div>
                             </transition>
@@ -65,6 +63,7 @@ import Menubar from 'primevue/menubar';
 <script>
 
 import { useAppStore } from '../stores/app';
+import router from '../router';
 
 export default {
     components: {
@@ -80,6 +79,7 @@ export default {
     },
     methods: {
         logout() {
+            router.push('/');
             this.store.logout();
         },
         goPreg() {
@@ -93,6 +93,15 @@ export default {
         goUsr() {
             this.href = this.url + 'usuaris';
             return this.href;
+        },
+        perfil() {
+            router.push('/perfil');
+            this.show = false;
+        },
+        closeMenu(event) {
+            if (!this.$el.contains(event.target)) {
+                this.show = false; // Oculta el menú si se hace clic fuera de él
+            }
         },
     },
     computed: {
@@ -116,7 +125,14 @@ export default {
             return url;
         },
     },
-}
+    mounted() {
+        document.addEventListener('click', this.closeMenu);
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('click', this.closeMenu); // Remueve el listener al destruir el componente
+    },
+};
 </script>
 
 <style  scoped>
