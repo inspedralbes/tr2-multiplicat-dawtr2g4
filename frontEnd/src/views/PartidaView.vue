@@ -2,24 +2,29 @@
     <div class="partida">
         <div class="informacio-rols-equips">
             <div v-if="equip == salaInfo.equipAtacant">
-                <div :class="['pointer', equip == 1 ? 'pointer--equip1' : 'pointer--equip2']">
+                <div :class="['informacio-rols-esquerra', equip == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
                     <h1 class="equip-batejador">EQUIP {{ equip }} ET TOCA BATEJAR</h1>
                 </div>
-                <div style="text-align: right">
-                <div :class="['pointer-altre', equip != 1 ? 'pointer--equip1' : 'pointer--equip2']">
+                <div :class="['informacio-rols-dreta', equip != 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
                     <h1 class="equip-batejador">L'EQUIP CONTRARI DEFENSA</h1>
                 </div>
-                </div>
             </div>
-            <div v-else="equip != salaInfo.equipAtacant">
-                <div :class="['pointer', equip == 1 ? 'pointer--equip1' : 'pointer--equip2']">
+            <div v-else-if="equip != salaInfo.equipAtacant && !profe">
+                <div :class="['informacio-rols-esquerra', equip == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
                     <h1 class="equip-batejador">EQUIP {{ equip }} ET TOCA DEFENSAR</h1>
                 </div>
-                <div :class="['pointer-altre', equip != 1 ? 'pointer--equip1' : 'pointer--equip2']">
+                <div :class="['informacio-rols-dreta', equip != 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
                     <h1 class="equip-batejador">L'EQUIP CONTRARI BATEJA</h1>
                 </div>
             </div>
-            <!--<h1 v-else class="equip-batejador">EQUIP {{ salaInfo.equipAtacant }} ET TOCA BATEJAR<br>EQUIP {{ equipDefensor }} ET TOCA DEFENSAR</h1>-->
+            <div v-else>
+                <div :class="['informacio-rols-esquerra', salaInfo.equipAtacant == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ salaInfo.equipAtacant }} ET TOCA BATEJAR</h1>
+                </div>
+                <div :class="['informacio-rols-dreta', equipDefensor == 1 ? 'informacio-rols--equip1' : 'informacio-rols--equip2']">
+                    <h1 class="equip-batejador">EQUIP {{ equipDefensor }} ET TOCA DEFENSAR</h1>
+                </div>
+            </div>
         </div>
         <div id="grid-container">
             <div id="camp-de-joc">
@@ -32,8 +37,8 @@
                 <img class=jugador v-for="jugador in salaInfo.jugadorsBanqueta" :src="'/img/jugador-' + jugador.id + '-eq-' + salaInfo.equipAtacant +'.png'"
                     alt="">
             </div>
-            <div id="puntuacio">
-                <div class="scoreboard">
+            <div id="contenidor-marcador-puntuacio">
+                <div class="marcador">
                     <div class="team-container">
                         <h2>EQUIP 1</h2>
                         <div class="one">
@@ -222,6 +227,9 @@ export default {
 
 :root {
     --timeMov: 0.75s;
+    --equip1: #ff4d4d;
+    --equip2: #4da6ff;
+    --text-fons-fosc: #fff;
 }
 
 @font-face {
@@ -233,16 +241,38 @@ export default {
     font-display: swap;
 }
 
-/* ESTILS INFORMACIÓ EQUIP BATEJANT */
+/* ESTILS GENERALS */
 
-.pointer {
+.partida {
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#grid-container {
+    clear: both;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "puntuacio camp-de-joc moviment-bases"
+        "banqueta camp-de-joc moviment-bases";
+    gap: 20px 20px;
+    margin-top: 100px;
+    height: 535px;
+}
+
+/* ESTILS INFORMACIÓ ROLS EQUIP */
+
+.informacio-rols-esquerra {
   width: 90%;
   height: 60px;
   position: relative;
   margin-top: 20px;
 }
 
-.pointer:before {
+.informacio-rols-esquerra:before {
   content: "";
   position: absolute;
   right: -30px;
@@ -253,48 +283,60 @@ export default {
   border-bottom: 30px solid transparent;
 }
 
-.pointer--equip1 {
+.informacio-rols-dreta {
+  width: 90%;
+  height: 60px;
+  position: relative;
+  margin-top: 5px;
+  float: right;
+}
+
+.informacio-rols-dreta:before {
+  content: "";
+  position: absolute;
+  left: -30px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  transform: rotate(180deg);
+}
+
+.informacio-rols--equip1 {
   background: #ff4d4d;
 }
 
-.pointer--equip2 {
+.informacio-rols--equip2 {
   background: #4da6ff;
 }
 
-.pointer--equip1:before {
+.informacio-rols--equip1:before {
   content: "";
   border-left: 30px solid #ff4d4d;
 }
 
-.pointer--equip2:before {
+.informacio-rols--equip2:before {
   content: "";
   border-left: 30px solid #4da6ff;
 }
 
-.pointer-altre {
-  width: 90%;
-  height: 60px;
-  position: relative;
-  margin-top: 20px;
-  float: right;
-}
-
-
 .equip-batejador{
     margin: 0;
-    padding: 10px;
+    padding: 12px;
     text-align: center;
-    color: lightgray;
+    color: white;
 }
 
-
 /*ESTILS MARCADOR PUNTUACIÓ*/
-.scoreboard {
-    /*display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;*/
+#contenidor-marcador-puntuacio {
+    grid-area: puntuacio;
+    padding: 3px;
+    justify-self: right;
+    width: 80%;
+}
 
+.marcador {
     display: grid;
     justify-content: space-around;
     align-items: center;
@@ -406,27 +448,6 @@ h2 {
 }
 
 /* */
-
-.partida {
-    background-image: url('/img/landing.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-#grid-container {
-    clear: both;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-        "puntuacio camp-de-joc moviment-bases"
-        "banqueta camp-de-joc moviment-bases";
-    margin-top: 120px;
-    gap: 20px 20px;
-    height: 535px;
-}
-
 #camp-de-joc {
     grid-area: camp-de-joc;
     position: relative;
@@ -436,6 +457,7 @@ h2 {
     background-color: rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: center;
+    border-radius: 8px;
 }
 
 .camp {
@@ -466,6 +488,7 @@ h2 {
     align-self: flex-end;
     background-color: white;
     padding: 0px 20px;
+    border-radius: 8px;
 
 
     display: flex;
@@ -474,14 +497,6 @@ h2 {
     justify-content: center;
     align-content: center;
     gap: 10px 10px;
-}
-
-#puntuacio {
-    grid-area: puntuacio;
-    padding: 5px;
-    justify-self: right;
-    //margin-right: 50px;
-    width: 80%;
 }
 
 #moviment-bases {
@@ -493,6 +508,7 @@ h2 {
     width: 80%;
     height: 100%;
     background-color: white;
+    border-radius: 8px;
 }
 
 .contenidor-dificultat-bases > p {
