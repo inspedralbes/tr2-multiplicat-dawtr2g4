@@ -70,6 +70,9 @@
             </table>-->
             </div>
         </div>
+        <div class="flex justify-content-center mt-5">
+            <button class="tornar_landing_button" @click="initVotacio">TORNAR A LA PANTALLA PRINCIPAL</button>
+        </div>
     </div>
 </template>
 
@@ -206,5 +209,21 @@ export default {
 .scoreboard td {
     border: 1px solid #000;
     padding: 10px;
+}
+
+.tornar_landing_button {
+    border: 1px solid black;
+    background-color: white;
+    font-size: 1rem;
+    color: #000000;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: auto;
+    border-radius: 15px;
+}
+
+.tornar_landing_button:hover {
+    background-color: #000000;
+    color: #ffffff;
 }
 </style>
