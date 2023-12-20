@@ -20,10 +20,10 @@ const sales = [];
 
 const JUGADORS_PER_EQUIP = 5;
 const OUTS_ELIMINAR = 3;
-const CARRERES_GUANYAR = 3;
+const CARRERES_GUANYAR = 5;
 
 const TEMPS_ESCOLLIR_BASE = 10;
-const TEMPS_VOTAR_RESPOSTA = 20;
+const TEMPS_VOTAR_RESPOSTA = 50;
 const socketRooms = {};
 let cronometre;
 let intervalId;
