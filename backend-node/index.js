@@ -14,7 +14,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"]
   }
 });
-const port = 3378
+const port = 3379;
 
 const sales = [];
 
@@ -424,9 +424,6 @@ function calcularResultatsRespostes(sala) {
     });
   }
 
-  /*console.log("ARRAY VOTACIONS")
-  console.log(votsEquip1);
-  console.log(votsEquip2);*/
 
   // Calcular total de vots per equip i percentatge d'encerts
   const totalVotsEquip1 = [];
@@ -436,9 +433,6 @@ function calcularResultatsRespostes(sala) {
     totalVotsEquip2.push(votsEquip2[i].reduce((acc, cur) => acc + cur, 0))
   }
 
-  /*console.log("TOTAL VOTS EQUIPS")
-  console.log(totalVotsEquip1);
-  console.log(totalVotsEquip2);*/
 
   const percentatgeCorrecteEquip1 = [];
   const percentatgeCorrecteEquip2 = [];
@@ -446,10 +440,6 @@ function calcularResultatsRespostes(sala) {
     percentatgeCorrecteEquip1.push(totalVotsEquip1[i] === 0 ? 0 : votsEquip1[i][indexRespostesCorrectes[i]] / totalVotsEquip1[i]);
     percentatgeCorrecteEquip2.push(totalVotsEquip2[i] === 0 ? 0 : votsEquip2[i][indexRespostesCorrectes[i]] / totalVotsEquip2[i]);
   }
-
-  /*console.log("PERCENTATGES EQUIPS")
-  console.log(percentatgeCorrecteEquip1);
-  console.log(percentatgeCorrecteEquip2);*/
 
   let equipAcertat = [];
   for (let i = 0; i < sala.preguntaActual.length; i++) {

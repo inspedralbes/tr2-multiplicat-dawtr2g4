@@ -30,7 +30,7 @@
 </template>
 
 <script>
-//import io from 'socket.io-client';
+
 import { useAppStore } from '../stores/app'
 import { socket } from '@/socket';
 
@@ -44,7 +44,6 @@ export default {
     methods: {
         escollirEquip(idEquip) {
             if (this.isEquipEscollit == false && (idEquip == 1 || idEquip == 2)) {
-                console.log("Has ecollit equip " + idEquip);
                 this.isEquipEscollit = true;
                 this.store.setTeam(idEquip);
                 socket.emit('equip-seleccionat', this.indexSala, idEquip, this.store.getUserName());
@@ -58,8 +57,6 @@ export default {
     computed: {
 
         llistaJugadors() {
-            console.log("salaInfo" + this.store.getSalaInfo());
-            console.log("llista Jugadors" + this.store.getLlistaJugadors());
             return this.store.getLlistaJugadors();
         },
         equip1() {

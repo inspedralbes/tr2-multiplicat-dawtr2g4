@@ -45,9 +45,9 @@ import Menubar from 'primevue/menubar';
                             </svg>
                             <transition name="slide">
                                 <div v-show="show" class="accordion-content">
-                                    <button v-if="profe" @click="goPreg"><a :href="goPreg()">Preguntes</a></button>
-                                    <button v-if="profe" @click="goCat"><a :href="goCat()">Categoria</a></button>
-                                    <button v-if="profe" @click="goUsr"><a :href="goUsr()">Usuaris</a></button>
+                                    <button v-if="profe" @click="goPreg">Preguntes</button>
+                                    <button v-if="profe" @click="goCat">Categories</button>
+                                    <button v-if="profe" @click="goUsr">Usuaris</button>
                                     <Button @click="perfil" severity="primary" raised rounded size="large" label="Perfil" />
                                     <button @click="logout">Logout</button>
                                 </div>
@@ -74,7 +74,6 @@ export default {
         return {
             store: useAppStore(),
             show: false,
-            href: '',
         }
     },
     methods: {
@@ -83,16 +82,13 @@ export default {
             this.store.logout();
         },
         goPreg() {
-            this.href = this.url + 'preguntes';
-            return this.href;
+            window.location.href = this.url + 'preguntes';
         },
         goCat() {
-            this.href = this.url + 'categories';
-            return this.href;
+            window.location.href = this.url + 'categories';
         },
         goUsr() {
-            this.href = this.url + 'usuaris';
-            return this.href;
+            window.location.href = this.url + 'users';
         },
         perfil() {
             router.push('/perfil');

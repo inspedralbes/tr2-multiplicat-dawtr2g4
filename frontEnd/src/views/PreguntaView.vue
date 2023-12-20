@@ -47,10 +47,8 @@ export default {
     methods: {
         respostaSeleccionada(idPregunta, idResposta) {
             if (this.isPreguntaResposta[idPregunta] === -1) {
-                console.log("Has seleccionat la resposta " + idResposta + " de la pregunta " + idPregunta);
                 this.isPreguntaResposta[idPregunta] = idResposta;
                 this.selectedIndices[idPregunta] = idResposta;
-                console.log("FRONT", this.isPreguntaResposta);
                 socket.emit('vot-resposta', this.indexSala, this.isPreguntaResposta);
             }
         }
@@ -181,36 +179,6 @@ export default {
     align-items: center;
     justify-content: center;
 }
-/*
-.contenidor-jugador-pregunta {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0px 80px;
-    margin: 0 80px;
-    align-items: center;
-    justify-content: center;
-}
-
-.contenidor-dos-preguntes {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0px 80px;
-    margin: 0 80px;
-    align-self: center;
-    justify-content: center;
-}
-
-.contenidor-tres-preguntes {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    gap: 0px 80px;
-    margin: 0 80px;
-    align-self: center;
-    justify-content: center;
-}*/
 
 .contenidor-tres-preguntes__item,
 .contenidor-quatre-preguntes__item {
