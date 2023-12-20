@@ -1,0 +1,131 @@
+<template>
+    <div class="contenidor">
+        <h1>Creació de sala</h1>
+        <div class="contingut">
+            <label for="nom">Nom de la sala</label>
+            <input type="text" id="nom" v-model="sala.nom" required>
+
+            <label for="categoria">Categoria</label>
+            <select id="categoria" v-model="sala.categoria" required>
+                <option v-for="(actual, index) in categories" :value="actual.id">{{ actual.nom }}</option>
+            </select>
+
+            <button @click="enviarPartida()">Crear sala</button>
+        </div>
+
+    </div>
+</template>
+
+<script>
+import { useAppStore } from '../stores/app';
+import { socket } from '@/socket';
+
+export default {
+    data() {
+        return {
+            categories: [],
+            sala: {
+                nom: '',
+                categoria: '',
+            }
+        }
+    },
+    methods: {
+        enviarPartida() {
+            console.log(this.sala);
+            socket.emit('crear-sala', this.sala);
+            this.$router.push('/');
+        },
+    },
+    created() {
+        const store = useAppStore();
+        let hostname = store.getUrl();
+        let url;
+        if(hostname === 'tr2g4.daw.inspedralbes.cat' || hostname === 'mathball.daw.inspedralbes.cat') {
+            url = 'http://'+ hostname +'/backend-laravel/public/api/getCategories';
+        } else {
+            url = 'http://'+ hostname +':8000/api/getCategories';
+        }
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.categories = data;
+            });
+    },
+}
+
+</script>
+
+<style scoped>
+.contenidor h1 {
+    margin-top: 200px;
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+}
+
+/* .contenidor {
+    position: absolute;
+    width: fit-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: auto;
+    margin-right: auto;
+} */
+
+.contingut {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contingut label {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.contingut button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contingut select {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contingut input {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.contingut button:hover {
+    background-color: #0056b3;
+}</style>

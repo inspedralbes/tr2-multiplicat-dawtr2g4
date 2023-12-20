@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PreguntesController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -23,6 +24,9 @@ Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 
 Route::get('/getCategories', [CategoriesController::class, 'index']);
+
+Route::put('/updateUser', [UsersController::class,'update']);
+Route::put('/updatePassword', [UsersController::class,'updatePassword']);
 
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

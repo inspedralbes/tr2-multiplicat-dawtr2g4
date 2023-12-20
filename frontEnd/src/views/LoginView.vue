@@ -1,6 +1,9 @@
 <template>
     <div class="body">
-        <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6 form">
+        <div v-if="loading" class="loading-message">
+            <h1>Loading</h1>
+        </div>
+        <div v-else class="surface-card p-4 shadow-2 border-round w-full lg:w-6 form">
             <div class="text-center mb-5">
                 <div class="text-900 text-3xl font-medium mb-3">Benvingut</div>
                 <span class="text-600 font-medium line-height-3">No tens un compte?</span>
@@ -13,10 +16,8 @@
                 <form @submit.prevent="login">
                     <label for="email1" class="block text-900 font-medium mb-2">Email</label>
                     <InputText v-model="email" id="email1" type="email" class="w-full mb-3" />
-
-                    <label for="password1" class="block text-900 font-medium mb-2">Contrassenya</label>
+                    <label for="password1" class="block text-900 font-medium mb-2">Contrasenya</label>
                     <InputText v-model="password" id="password1" type="password" class="w-full mb-3" />
-
                     <Button label="Sign In" type="submit" icon="pi pi-user" class="w-full"></Button>
                 </form>
             </div>
@@ -31,30 +32,34 @@ import { useAppStore } from '../stores/app';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
-import { socket } from '@/socket';
 import router from '../router';
 
 export default {
     components: {
         InputText,
         Button,
-        Checkbox
+        Checkbox,
     },
     data() {
         return {
             store: useAppStore(),
             email: '',
             password: '',
+            loading: false,
         }
     },
     methods: {
 
-
-
-        // const socket = socket();
-
         login() {
-            fetch('http://localhost:8000/api/login', {
+            this.loading = true;
+            let hostname = this.store.getUrl();
+            let url;
+            if(hostname === 'tr2g4.daw.inspedralbes.cat' || hostname === 'mathball.daw.inspedralbes.cat') {
+                url = 'http://'+ hostname +'/backend-laravel/public/api/login';
+            } else {
+                url = 'http://'+ hostname +':8000/api/login';
+            }
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -66,15 +71,31 @@ export default {
             })
                 .then(res => res.json())
                 .then(data => {
+                    this.loading = false;
                     if (data.error) {
-                        alert(data.error);
+                        this.logIncorrecte(data.error);
                     } else {
-                        this.store.setToken(data.token);
-                        this.store.setUser(data.user.name);
-                        router.push('/');
+                        this.logCorrecte(data);
                     }
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    this.loading = false;
+                    console.log(err)
+                });
+        },
+        logIncorrecte(errorMessage) {
+            alert(errorMessage);
+        },
+        logCorrecte(data) {
+            this.store.setUser({
+                id: data.user.id,
+                name: data.user.name,
+                email: data.user.email,
+                esAdmin: data.user.esAdmin === 1 ? true : false,
+                token: data.token,
+            });
+            localStorage.setItem('user', JSON.stringify(this.store.getUser()));
+            router.push('/');
         }
     }
 }
@@ -91,5 +112,15 @@ export default {
 
 .body {
     height: fit-content;
+}
+
+.loading-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
 }
 </style>

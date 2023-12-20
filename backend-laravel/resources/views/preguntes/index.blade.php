@@ -1,6 +1,13 @@
 @extends('app')
 
 @section('content')
+
+@if (session('success'))
+    <div class="alert alert-success position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -14,8 +21,8 @@
                     <label for="categoria_id" class="form-label">Categoria</label>
                     <select name="categoria_id" >
                         <option value="0" selected>Totes</option>
-                        @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->nom}}</option>
+                        @foreach ($categories as $categoria)
+                                <option value="{{$categoria->id}}">{{$categoria->nom}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -62,7 +69,11 @@
             <h5 class="card-title">ID: {{ $pregunta->id }}</h5>
             <p class="card-text">Enunciat: {{ $pregunta->text_pregunta }}</p>
             <p class="card-text">Dificultat: {{ $pregunta->dificultat }}</p>
-            <p class="card-text">Categoria: {{ $pregunta->categoria_id }}</p>
+            @foreach ($categories as $categoria)
+            @if($categoria->id === $pregunta->categoria_id )
+            <p class="card-text">Categoria: {{ $categoria->nom }}</p>
+            @endif
+            @endforeach
             <a href="{{ route('preguntesShow', ['id' => $pregunta->id]) }}" class="btn btn-primary">Edita</a>
             <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$pregunta->id}}">
                 Eliminar

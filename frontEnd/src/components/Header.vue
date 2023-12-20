@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, routerKey } from 'vue-router'
 import Menubar from 'primevue/menubar';
 </script>
 <template>
@@ -31,10 +31,28 @@ import Menubar from 'primevue/menubar';
                         </div>
                     </RouterLink>
                 </div>
-                <div v-else>
+                <div v-else class="flex1">
                     <div class="flex align-items-center gap-2">
-                        <p class="mr-3 font-bold">Benvingut {{ nom }}!</p>
-                        <img @click="logout" class="logout" src="/img/logout.png" alt="logout" height="50" width="50">
+                        <div>
+                            <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-menu-2 menu" width="50" height="50" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 6l16 0" />
+                                <path d="M4 12l16 0" />
+                                <path d="M4 18l16 0" />
+                            </svg>
+                            <transition name="slide">
+                                <div v-show="show" class="accordion-content">
+                                    <button v-if="profe" @click="goPreg"><a :href="goPreg()">Preguntes</a></button>
+                                    <button v-if="profe" @click="goCat"><a :href="goCat()">Categoria</a></button>
+                                    <button v-if="profe" @click="goUsr"><a :href="goUsr()">Usuaris</a></button>
+                                    <Button @click="perfil" severity="primary" raised rounded size="large" label="Perfil" />
+                                    <button @click="logout">Logout</button>
+                                </div>
+                            </transition>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -45,6 +63,7 @@ import Menubar from 'primevue/menubar';
 <script>
 
 import { useAppStore } from '../stores/app';
+import router from '../router';
 
 export default {
     components: {
@@ -54,22 +73,66 @@ export default {
     data() {
         return {
             store: useAppStore(),
+            show: false,
+            href: '',
         }
     },
     methods: {
         logout() {
+            router.push('/');
             this.store.logout();
-        }
+        },
+        goPreg() {
+            this.href = this.url + 'preguntes';
+            return this.href;
+        },
+        goCat() {
+            this.href = this.url + 'categories';
+            return this.href;
+        },
+        goUsr() {
+            this.href = this.url + 'usuaris';
+            return this.href;
+        },
+        perfil() {
+            router.push('/perfil');
+            this.show = false;
+        },
+        closeMenu(event) {
+            if (!this.$el.contains(event.target)) {
+                this.show = false; // Oculta el menú si se hace clic fuera de él
+            }
+        },
     },
     computed: {
         token() {
             return this.store.getToken();
         },
         nom() {
-            return this.store.getUser();
-        }
+            return this.store.getUserName();
+        },
+        profe() {
+            return this.store.getProfe();
+        },
+        url() {
+            let hostname = this.store.getUrl();
+            let url;
+            if (hostname === 'tr2g4.daw.inspedralbes.cat' || hostname === 'mathball.daw.inspedralbes.cat') {
+                url = 'http://' + hostname + '/backend-laravel/public/';
+            } else {
+                url = 'http://' + hostname + ':8000/';
+            }
+            return url;
+        },
     },
-}
+    mounted() {
+        document.addEventListener('click', this.closeMenu);
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('click', this.closeMenu); // Remueve el listener al destruir el componente
+    },
+};
 </script>
 
 <style  scoped>
@@ -83,7 +146,77 @@ export default {
 .icon {
     color: #2196F3;
 }
+
 .logout {
     cursor: pointer;
+}
+
+.flex1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex1> :first-child {
+    margin-right: 1rem;
+}
+
+.menu {
+    cursor: pointer;
+}
+
+.accordion-content {
+    right: 8px;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: fit-content;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.accordion-content button {
+    background-color: #2196F3;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: medium;
+}
+
+.accordion-content a {
+    width: 100%;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    transform: translateX(10px);
+    transform: translateY(-10px);
+    opacity: 0;
+}
+
+.slide-enter-to,
+.slide-leave-from {
+    transform: translateX(0);
+    transform: translateY(0);
+    opacity: 1;
+}
+
+a {
+    color: white;
+    text-decoration: none;
 }
 </style>

@@ -3,10 +3,17 @@ import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
+
+    //ruta
+    url: '',
+
     //local
-    userInfo: {
-      username: '',
-      password: '',
+    user: {
+      id: null,
+      name: null,
+      email: null,
+      esAdmin: false,
+      token: null
     },
     team: '',
     dificultatSeleccionada: {
@@ -14,21 +21,16 @@ export const useAppStore = defineStore('app', {
       isSelected_2: false,
       isSelected_3: false,
     },
-    //socket: io('http://localhost:3000'),
+    isPreguntaResposta: [],
     sales: [],
     indexSala: null,
 
-
-    //100%
     temporitzador: '', // utilitzat a Partida View
     torn: '',
     votacioBaseEnCurs: false, // utilitzat a Partida View
     votacioPreguntaEnCurs: false,
     tornarTaulell: false,
     base: '',
-
-    totalVotacions: 0,
-    totalJugadors: 0,
     jugadorEnCamp: {
       baseActual: 0,
       eliminat: false,
@@ -37,18 +39,16 @@ export const useAppStore = defineStore('app', {
     },
     //Resultats Finals marcador
     resultatsFinals: [],
-    token: '',
-    user: {},
 
+    //Vista usuari si resposta correcta o incorrecta
+    respostaSeleccionada: [],
+    respostaCorrecta: [],
   }),
   actions: {
 
     //getters
     getSales() {
       return this.sales
-    },
-    getUserInfo() {
-      return this.userInfo
     },
     getTeam() {
       return this.team
@@ -58,6 +58,7 @@ export const useAppStore = defineStore('app', {
       return this.sales[this.indexSala]
     },
     getLlistaJugadors() {
+      console.log(this.getSalaInfo)
       return this.getSalaInfo().jugadors
     },
     getPreguntaActual() {
@@ -93,19 +94,26 @@ export const useAppStore = defineStore('app', {
     getRondes() {
       return this.sales[this.indexSala].rondes
     },
-    getIndexSala() { 
+    getIndexSala() {
       return this.indexSala;
     },
 
     //grafics
     getTotalVotacions() {
-      return this.totalVotacions
+      // return this.totalVotacions
+      console.log(this.sales[this.indexSala].totalVots)
+      return this.sales[this.indexSala].totalVots;
     },
     getTotalJugadors() {
-      return this.totalJugadors
+      // return this.totalJugadors;
+      return this.sales[this.indexSala].jugadors.length;
     },
+
     getDificultatSeleccionada() {
       return this.dificultatSeleccionada
+    },
+    getIsPreguntaResposta() {
+      return this.isPreguntaResposta
     },
 
     //Resultats Finals marcador
@@ -114,23 +122,40 @@ export const useAppStore = defineStore('app', {
     },
 
     //token i user
-    getToken() {
-      return this.token
-    },
     getUser() {
       return this.user
     },
+    getToken() {
+      return this.user.token
+    },
+    getUserName() {
+      return this.user.name
+    },
+    getProfe() {
+      return this.user.esAdmin
+    },
+    getUrl() {
+      return this.url
+    },
+
+    //Vista usuari si resposta correcta o incorrecta
+    getRespostaSeleccionada() {
+      return this.respostaSeleccionada
+    },
+    getRespostaCorrecta() {
+      return this.respostaCorrecta
+    },
 
     //setters
-    setUserInfo(userInfo) {
-      this.userInfo = userInfo
-    },
     setTeam(team) {
       this.team = team
     },
     setSalaInfo(id, salaInfo) {
       id = id === null ? this.indexSala : id;
       this.sales[id] = salaInfo
+    },
+    addSala(sala) {
+      this.sales.push(sala)
     },
     setPreguntaActual(preguntaActual) {
       this.sales[this.indexSala].preguntaActual = preguntaActual
@@ -177,13 +202,16 @@ export const useAppStore = defineStore('app', {
 
     //grafics
     setTotalVotacions(totalVotacions) {
-      this.totalVotacions = totalVotacions
+      this.sales[this.indexSala].totalVots = totalVotacions
     },
     setTotalJugadors(totalJugadors) {
       this.totalJugadors = totalJugadors
     },
     setDificultatSeleccionada(dificultatSeleccionada) {
-      return this.dificultatSeleccionada = dificultatSeleccionada
+      this.dificultatSeleccionada = dificultatSeleccionada
+    },
+    setIsPreguntaResposta(isPreguntaResposta) {
+      this.isPreguntaResposta = isPreguntaResposta
     },
 
     //Resultats Finals marcador
@@ -206,22 +234,31 @@ export const useAppStore = defineStore('app', {
       this.socket.emit('enviarResposta', resposta_id)
     },
 
-
     //token i user
-    setToken(token) {
-      this.token = token
-    },
     setUser(user) {
       this.user = user
     },
-
-
-    //logout
-
-    logout() {
-      this.token = ''
-      this.user = {}
+    setUserName(name){
+      this.user.name = name
+    },
+    //Vista usuari si resposta correcta o incorrecta
+    setRespostaSeleccionada(respostaSeleccionada) {
+      this.respostaSeleccionada = respostaSeleccionada
+    },
+    setRespostaCorrecta(respostaCorrecta) {
+      this.respostaCorrecta = respostaCorrecta
     },
 
+    //logout
+    logout() {
+      this.user = {
+        id: null,
+        name: null,
+        email: null,
+        token: null,
+        esAdmin: false
+      }
+      localStorage.removeItem('user');
+    },
   },
 })

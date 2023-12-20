@@ -2,20 +2,18 @@ import { io } from "socket.io-client";
 import { useAppStore } from "./stores/app";
 import router from "./router";
 
-let url;
-if(window.location.hostname === 'tr2g4.daw.inspedralbes.cat') {
-  url = "http://tr2g4.daw.inspedralbes.cat:3378";
-} else if(window.location.hostname === 'mathball.daw.inspedralbes.cat') {
-  url = "http://mathball.daw.inspedralbes.cat:3378";
-} else {
-  url = "http://localhost:3378";
-}
+let url = "http://" + window.location.hostname + ":3378";
 
 export const socket = io(url);
 
 socket.on("connect", () => {
   const pinia = useAppStore();
   console.log("connected");
+
+  socket.on("sala-creada", (sala) => {
+    console.log("From Socket: sala creada", sala)
+    pinia.addSala(sala)
+  })
 
   socket.on("sala-seleccionada", (msg) => {
     console.log("From socket.js: sala seleccionada ", msg);
@@ -46,10 +44,10 @@ socket.on("connect", () => {
 
   socket.on('actualitzar-comptador', (cronometre) => {
     pinia.setTemporitzador(cronometre);
-    console.log('Received actualitzar-comptador:', cronometre);
+    //console.log('Received actualitzar-comptador:', cronometre);
   });
 
-  socket.on('finalitzar-votacio-dificultat', (dificultat) => {
+  socket.on('finalitzar-votacio-dificultat', (dificultat, numPreguntes) => {
     // Handle the 'finalitzar-votacio' event here
     let dificultatSeleccionada = {
       isSelected_1: false,
@@ -57,8 +55,14 @@ socket.on("connect", () => {
       isSelected_3: false,
     };
 
+    let isPreguntaResposta = [];
+    for (let i = 0; i < numPreguntes; i++) {
+      isPreguntaResposta.push(-1);
+    }
+
     pinia.setVotacioBaseEnCurs(false);
     pinia.setDificultatSeleccionada(dificultatSeleccionada);
+    pinia.setIsPreguntaResposta(isPreguntaResposta);
     pinia.setVotacioPreguntaEnCurs(true);
     router.push("/pregunta");
     console.log('Received finalitzar-votacio:', dificultat);
@@ -76,9 +80,10 @@ socket.on("connect", () => {
     console.log('Received nova-pregunta:', pregunta);
   });
 
-  socket.on('finalitzar-votacions-respostes', async (resultats) => {
+  socket.on('finalitzar-votacions-respostes', async (resultats, respostesCorrectes) => {
     // Handle the 'votacions-bases-final' event here
     pinia.setVotacioPreguntaEnCurs(false);
+    pinia.setRespostaCorrecta(respostesCorrectes);
     pinia.setResultatsActuals(resultats);
     router.push("/resultats");
     console.log('Received finalitzar-votacions-respostes:', resultats);
@@ -98,22 +103,13 @@ socket.on("connect", () => {
 
   socket.on('vot-resposta', (totalVots) => {
     pinia.setTotalVots(totalVots);
+    router.push("/totalVotacions");
     console.log('Received vot-resposta:', totalVots);
   });
 
-  socket.on('sumar-punt', (sala) => {
-    /*let puntuacioEquip1 = sala.equips[0].punts;
-    let puntuacioEquip2 = sala.equips[1].punts;
-    let puntuacio = {equip1: puntuacioEquip1, equip2: puntuacioEquip2}
-    pinia.setPuntuacio(puntuacio);*/
+  socket.on('jugador-eliminat', (sala) => {
     pinia.setSalaInfo(null, sala);
-    console.log('Received sumar-punt:', sala);
-  });
-
-  socket.on('jugador-eliminat', (sala, jugador) => {
-    pinia.setSalaInfo(null, sala);
-    pinia.setJugadorEnCamp(jugador);
-    console.log('Received jugador-eliminat:', sala, jugador);
+    console.log('Received jugador-eliminat:', sala);
   });
 
   socket.on('canvi-equip', (equipAtacant) => {
@@ -127,15 +123,19 @@ socket.on("connect", () => {
     console.log('Received tornar-taulell:');
   });
 
-  socket.on('moure-jugador', (sala, jugador) => {
+  socket.on('moure-jugador', (sala) => {
     pinia.setSalaInfo(null, sala);
-    pinia.setJugadorEnCamp(jugador);
-    console.log('Received moure-jugador:', sala, jugador);
+    console.log('Received moure-jugador:', sala);
   });
 
   socket.on('finalitzar-partida', () => {
     router.push("/resultatsFinals");
     console.log('Received finalitzar-partida:');
+  });
+
+  socket.on('resetejar-torn', (sala) => {
+    pinia.setSalaInfo(null, sala);
+    console.log('Received resetejar-torn:');
   });
 
 });

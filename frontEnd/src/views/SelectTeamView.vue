@@ -1,11 +1,11 @@
 <template>
     <div>
         <h1 class="tit">ESCULL EQUIP</h1>
-        <button></button>
-        <button class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
+        <button v-if="store.getProfe()" class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="cont">
             <div>
-                <button class="button e1" @click="escollirEquip(1)">Equip 1</button>
+                <button v-if="store.getProfe()" class="button e1">Equip 1</button>
+                <button v-else class="button e1" @click="escollirEquip(1)">Equip 1</button>
                 <div v-if="!equip1.length">
                 </div>
                 <ul v-else class="llistaUl el1">
@@ -15,7 +15,8 @@
                 </ul>
             </div>
             <div>
-                <button class="button e2" @click="escollirEquip(2)">Equip 2</button>
+                <button v-if="store.getProfe()" class="button e2">Equip 2</button>
+                <button v-else class="button e2" @click="escollirEquip(2)">Equip 2</button>
                 <div v-if="!equip2.length">
                 </div>
                 <ul v-else class="llistaUl el2">
@@ -42,11 +43,11 @@ export default {
     },
     methods: {
         escollirEquip(idEquip) {
-            console.log("Has ecollit equip " + idEquip);
             if (this.isEquipEscollit == false && (idEquip == 1 || idEquip == 2)) {
+                console.log("Has ecollit equip " + idEquip);
                 this.isEquipEscollit = true;
                 this.store.setTeam(idEquip);
-                socket.emit('equip-seleccionat', this.indexSala, idEquip, this.store.user);
+                socket.emit('equip-seleccionat', this.indexSala, idEquip, this.store.getUserName());
             }
         },
         començarPartida() {
@@ -57,6 +58,8 @@ export default {
     computed: {
 
         llistaJugadors() {
+            console.log("salaInfo" + this.store.getSalaInfo());
+            console.log("llista Jugadors" + this.store.getLlistaJugadors());
             return this.store.getLlistaJugadors();
         },
         equip1() {

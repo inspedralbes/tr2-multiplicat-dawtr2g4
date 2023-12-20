@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <h2>Equip 1</h2>
+            <h2>ESPERANT A ALTRES JUGADORS QUE FALTEN PER RESPONDRE...</h2>
             <div class="grafic">
                 <PieChart :chart-data="{
                     labels: ['Han votat', 'Falten per votar'],
@@ -25,12 +25,14 @@ import PieChart from '../components/PieChart.vue';
 export default {
 
     components: { PieChart },
-
     computed: {
         totalVotacions() {
             const store = useAppStore();
             let totalV = store.getTotalVotacions();
+            console.log(store.getTotalVotacions());
             let totalJ = store.getTotalJugadors();
+            console.log(store.getTotalJugadors());
+            console.log(totalV, totalJ - totalV);
 
             return [totalV, totalJ - totalV];
         }
