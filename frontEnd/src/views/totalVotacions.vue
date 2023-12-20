@@ -29,11 +29,7 @@ export default {
         totalVotacions() {
             const store = useAppStore();
             let totalV = store.getTotalVotacions();
-            console.log(store.getTotalVotacions());
             let totalJ = store.getTotalJugadors();
-            console.log(store.getTotalJugadors());
-            console.log(totalV, totalJ - totalV);
-
             return [totalV, totalJ - totalV];
         }
     },

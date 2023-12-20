@@ -32,7 +32,6 @@ export default {
     },
     methods: {
         enviarPartida() {
-            console.log(this.sala);
             socket.emit('crear-sala', this.sala);
             this.$router.push('/');
         },
@@ -63,16 +62,6 @@ export default {
     font-size: 2em;
     color: #333;
 }
-
-/* .contenidor {
-    position: absolute;
-    width: fit-content;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-left: auto;
-    margin-right: auto;
-} */
 
 .contingut {
     width: 400px;

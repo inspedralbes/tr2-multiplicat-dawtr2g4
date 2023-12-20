@@ -27,51 +27,10 @@
                     <h2 class="contenidor-punts">{{ comptadorEquip1 }}</h2>
                     <h2 class="contenidor-punts">{{ comptadorEquip2 }}</h2>
                 </div>
-                <!--<table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th v-for=" (actual, index) in res">
-                            {{ index }}
-                        </th>
-                        <th>TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Equip 1</td>
-                        <th v-for=" actual in res">
-                            <p v-if="actual.equipAtacant == 1">
-                                {{ actual.punts }}
-                            </p>
-                            <p v-else>
-                                0
-                            </p>
-                        </th>
-                        <th>
-                            <p>{{ comptadorEquip1 }}</p>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>Equip 2</td>
-                        <th v-for=" actual in res">
-                            <p v-if="actual.equipAtacant == 2">
-                                {{ actual.punts }}
-                            </p>
-                            <p v-else>
-                                0
-                            </p>
-                        </th>
-                        <th>
-                            <p>{{ comptadorEquip2 }}</p>
-                        </th>
-                    </tr>
-                </tbody>
-            </table>-->
             </div>
         </div>
         <div class="flex justify-content-center mt-5">
-            <button class="tornar_landing_button" @click="initVotacio">TORNAR A LA PANTALLA PRINCIPAL</button>
+            <button class="tornar_landing_button" @click="tornarInici">TORNAR A LA PANTALLA PRINCIPAL</button>
         </div>
     </div>
 </template>
@@ -103,6 +62,9 @@ export default {
                 }
             }
             return comptadorEquip;
+        },
+        tornarInici() {
+            this.$router.push('/');
         }
     },
     mounted() {

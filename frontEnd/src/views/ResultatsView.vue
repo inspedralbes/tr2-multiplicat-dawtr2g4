@@ -16,9 +16,6 @@
                 </div>
                 <div :key="index"
                     :class="['grafics-respostes', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-grafics' : 'equip2-grafics', isGraficDesplegat[index] ? 'desplegat' : 'noDesplegat']">
-                    <!-- <h1 class="informacio_encert text-center">L'EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}
-                    S'EMPORTA
-                    AQUESTA PREGUNTA</h1> -->
 
                     <div class="col-12 p-0 respostes_contenidor">
                         <button class="resposta text-base font-medium text-white border-round-lg border-none h-3rem"
@@ -60,7 +57,6 @@
                                 <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
                             </svg>
                             <PieChart :chart-data="{
-                                //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
                                 datasets: [{
                                     data: res1[index],
                                     label: 'Respostes',
@@ -86,7 +82,6 @@
                             </svg>
                             <PieChart :chart-data="{
                                 datasets: [{
-                                    //labels: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
                                     data: res2[index],
                                     label: 'Respostes',
                                     backgroundColor: ['#f87979', '#36a2eb', 'green', 'purple'],
