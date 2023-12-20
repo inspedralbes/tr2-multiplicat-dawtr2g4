@@ -20,4 +20,12 @@ MathBall és un petit joc inspirat en el baseball pensat per a l'aprenentatge di
 * [URL Producció](http://mathball.daw.inspedralbes.cat) 
 * [URL de Preproducció](http://tr2g4.daw.inspedralbes.cat)
 
-
+### Passos per a probar la demo
+1. Iniciar sessió amb compte de admin a un navegador:
+     - email: ``admin@gmail.com``
+     - contrasenya: ``adminadminadmin``
+2. Registrar un compte des d'un altre navegador
+3. Obrir dos pestanyes al navegador del compte no-admin:
+     - A cada pestanya, entrar a la mateixa sala i un equip diferent
+4. Desde el compte de admin, inicia partida.
+5. DISFRUTA! 
