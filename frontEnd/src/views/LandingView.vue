@@ -13,6 +13,7 @@
                 </RouterLink>
             </div>
         </div>
+        <button @click="iniciarTutorial()">INICIAR TUTORIAL</button>
     </div>
 </template>
 
@@ -22,6 +23,11 @@ import { useAppStore } from '../stores/app';
 
 export default {
     components: { RouterLink },
+    methods: {
+        iniciarTutorial(){
+            this.$router.push('/tutorial')
+        }
+    },
     setup() {
         const pinia = useAppStore();
 
