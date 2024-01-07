@@ -35,8 +35,10 @@ export default {
         canviImatgeActualTutorial() {
             if (this.pantallaActualTutorial == 1) {
                 this.imatgeActualTutorial = 1;
-            } else if (this.pantallaActualTutorial >= 2 && this.pantallaActualTutorial <=3) {
+            } else if (this.pantallaActualTutorial >= 2 && this.pantallaActualTutorial <=5) {
                 this.imatgeActualTutorial = 2;
+            } else if (this.pantallaActualTutorial >= 6 && this.pantallaActualTutorial <=8) {
+                this.imatgeActualTutorial = 3;
             }
         }
     },

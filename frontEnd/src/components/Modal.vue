@@ -9,7 +9,7 @@ export default {
       this.$emit('close');
     },
     canviarPantallaActual(newPantallaActual) {
-      if (newPantallaActual >= 0 && newPantallaActual < 6) {
+      if (newPantallaActual >= 0 && newPantallaActual < 7) {
         this.$emit('button-clicked', newPantallaActual);
       }
     },
@@ -53,6 +53,11 @@ export default {
           <p>Al principi del torn, cada membre de l’equip que bateja decideix de manera individual quantes bases volen que tots els jugadors que es troben al terreny de joc avancin: una, dues o tres bases.</p>
           <p>L'opció més votada serà l'escollida.</p>
           <p>L'equip defensor ha d'esperar a la decisió de l'equip batejador.</p>
+        </div>
+        <div v-if="pantallaActual == 6">
+          <p>Tot seguit apareixerà una pregunta amb quatre possibles respostes.</p>
+          <p>Tant els membres de l'equip batejador com de l'equip defensor l'han de respondre de manera individual.</p>
+          <p>La dificultat de la pregunta depèn del número de bases que l'equip batejador vol que els seus jugadors es moguin: 1 base (FÀCIL), 2 bases (NORMAL), 3 bases (DIFÍCIL). </p>
         </div>
       </section>
 
@@ -123,6 +128,13 @@ export default {
   height: 56%;
   top: 260px;
   left: 1005px;
+}
+
+.modal-6 {
+  width: 19.5%;
+  height: 60%;
+  top: 230px;
+  left: 1380px;
 }
 
 .modal-header,
@@ -221,5 +233,12 @@ export default {
   height: 56%;
   top: 260px;
   left: 1397px;
+}
+
+.area-6 {
+  width: 46%;
+  height: 60%;
+  top: 230px;
+  left: 500px;
 }
 </style>
