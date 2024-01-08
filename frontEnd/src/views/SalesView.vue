@@ -17,8 +17,8 @@
                             </p>
                             <p class="m-0">
                                 Categories: 
-                                <span v-for="(a, index) in actual.categories">
-                                    {{ a }},
+                                <span v-for="(a) in actual.categories">
+                                    {{ a }}&nbsp;
                                 </span>
                             </p>
                         </template>

@@ -1,5 +1,5 @@
 <template>
-    <div class="contenidor">
+    <div class="body">
         <div class="contingut">
             <h1>Creació de sala</h1>
 
@@ -25,7 +25,6 @@
 
             <button @click="enviarPartida()">Crear sala</button>
         </div>
-
     </div>
 </template>
 
@@ -96,7 +95,27 @@ export default {
 </script>
 
 <style scoped>
-.contenidor h1 {
+
+.body {
+    position: relative;
+}
+
+.body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    z-index: -1;
+}
+
+h1 {
     text-align: center;
     font-size: 2em;
     color: #333;
