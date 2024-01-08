@@ -42,7 +42,7 @@ let efectesCalculats = false;
       rondes: [],
       totalVots: 0,
       equipAtacant: 0,
-      categories: [1,2],
+      categories: [1],
       preguntaActual: [],
       resultatsActuals: null,
       nomSala: "Sala " + (i + 1),
