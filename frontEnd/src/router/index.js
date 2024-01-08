@@ -95,7 +95,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.path !== '/' && to.path !== '/login' && to.path !== '/register' && !isAuthenticated) {
     // Si l'usuari no està autenticat i intenta accedir a una ruta que no sigui la home
-    next('/'); // Redirigim a la home
+    next('/login'); // Redirigim a la home
   } else {
     next(); // Continuem
   }
