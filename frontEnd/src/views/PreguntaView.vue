@@ -220,4 +220,9 @@ export default {
 .selected {
     filter: brightness(0.7) !important;
 }
+
+.contenidor-jugador-pregunta > img {
+    margin: auto;
+    display: block;
+}
 </style>

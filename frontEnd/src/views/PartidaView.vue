@@ -596,8 +596,8 @@ export default {
 
 #banqueta {
     grid-area: banqueta;
-    background-image: url("/img/banqueta.PNG");
-    background-size: 70% 70%;
+    background-image: url("/img/banqueta.png");
+    background-size: 80% 80%;
     background-repeat: no-repeat;
     background-position: center;
     justify-self: right;

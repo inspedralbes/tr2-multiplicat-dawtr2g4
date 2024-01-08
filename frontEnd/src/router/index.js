@@ -13,6 +13,7 @@ import RegisterView from '../views/RegisterView.vue'
 import PolitiquesPrivacitatView from '../views/PolitiquesPrivView.vue'
 import NormesView from '../views/NormesView.vue'
 import PerfilView from '../views/PerfilView.vue'
+import TutorialView from '../views/TutorialView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -86,6 +87,11 @@ const router = createRouter({
       path: '/normes',
       name: 'normes',
       component: NormesView
+    },
+    {
+      path: '/tutorial',
+      name: 'tutorial',
+      component: TutorialView
     },
   ]
 })

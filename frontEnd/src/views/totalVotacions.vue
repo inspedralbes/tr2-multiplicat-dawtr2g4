@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <h2>ESPERANT A ALTRES JUGADORS QUE FALTEN PER RESPONDRE...</h2>
+            <h2 class="text-center">ESPERANT A ALTRES JUGADORS QUE FALTEN PER RESPONDRE...</h2>
             <div class="grafic">
                 <PieChart :chart-data="{
                     labels: ['Han votat', 'Falten per votar'],
@@ -46,7 +46,6 @@ h2{
 .grafic {
     width: 600px;
     height: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 50px auto;
 }
 </style>
