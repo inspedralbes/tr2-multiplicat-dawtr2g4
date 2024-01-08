@@ -9,7 +9,7 @@ export default {
       this.$emit('close');
     },
     canviarPantallaActual(newPantallaActual) {
-      if (newPantallaActual >= 0 && newPantallaActual < 7) {
+      if (newPantallaActual >= 1 && newPantallaActual < 11) {
         this.$emit('button-clicked', newPantallaActual);
       }
     },
@@ -46,24 +46,57 @@ export default {
         </div>
         <div v-if="pantallaActual == 4">
           <p>El camp de joc està format per quatre bases disposades en forma de diamant.</p>
-          <p>Quan el teu equip estigui batejant heu d'aconseguir que el màxim nombre de jugadors possible trepitgi totes les bases en sentit antihorari fins arribar a la quarta base.</p>
+          <p>Quan el teu equip estigui batejant heu d'aconseguir que el màxim nombre de jugadors possible trepitgi totes
+            les bases en sentit antihorari fins arribar a la quarta base.</p>
           <p>Quan un jugador arriba a la quarta base el vostre equip guanya un punt.</p>
         </div>
         <div v-if="pantallaActual == 5">
-          <p>Al principi del torn, cada membre de l’equip que bateja decideix de manera individual quantes bases volen que tots els jugadors que es troben al terreny de joc avancin: una, dues o tres bases.</p>
+          <p>Al principi del torn, cada membre de l’equip que bateja decideix de manera individual quantes bases volen que
+            tots els jugadors que es troben al terreny de joc avancin: una, dues o tres bases.</p>
           <p>L'opció més votada serà l'escollida.</p>
           <p>L'equip defensor ha d'esperar a la decisió de l'equip batejador.</p>
         </div>
         <div v-if="pantallaActual == 6">
           <p>Tot seguit apareixerà una pregunta amb quatre possibles respostes.</p>
           <p>Tant els membres de l'equip batejador com de l'equip defensor l'han de respondre de manera individual.</p>
-          <p>La dificultat de la pregunta depèn del número de bases que l'equip batejador vol que els seus jugadors es moguin: 1 base (FÀCIL), 2 bases (NORMAL), 3 bases (DIFÍCIL). </p>
+          <p>La dificultat de la pregunta depèn del número de bases que l'equip batejador vol que els seus jugadors es
+            moguin: 1 base (FÀCIL), 2 bases (NORMAL), 3 bases (DIFÍCIL). </p>
+        </div>
+        <div v-if="pantallaActual == 7">
+          <p>Si la resposta correcta rep més vots de l'equip batejant o rep els mateix número de vots del dos equips el
+            seu jugador es mourà tantes bases com havien escollit i un dels jugadors que es troba a la banqueta salta al
+            terreny de joc.</p>
+        </div>
+        <div v-if="pantallaActual == 8">
+          <p>Per contra, si la resposta correcta rep més vots de l'equip defensor el jugador és eliminat, es suma un out
+            al marcador i un dels jugadors que es troba a la banqueta salta al terreny de joc.</p>
+        </div>
+        <div v-if="pantallaActual == 9">
+          <p>Els equips canvien de rol al terreny de joc quan es produeixen tres outs o no queda cap jugador a la banqueta
+            que pugui batre.</p>
+        </div>
+        <div v-if="pantallaActual == 10">
+          <p>Per últim, tingueu en compte que arribarà un moment en el que hi haurà més d'un jugador al terreny de joc.
+          </p>
+          <p>Quan això passi haureu de respondre una pregunta per cada jugador que es troba sobre el camp però el temps
+            per respondre sempre serà el mateix.</p>
+          <p>Si decidiu avançar les bases d'una en una la dificultat de les preguntes serà fàcil però haureu de respondre
+            moltes preguntes alhora.</p>
+          <p>En canvi, si decidiu avançar les bases de dos en dos o de tres en tres la dificultat de les preguntes serà
+            major però haureu de respondre menys preguntes.</p>
         </div>
       </section>
 
       <footer class="modal-footer">
-        <button @click="canviarPantallaActual(pantallaActual - 1)">ANTERIOR</button>
-        <button @click="canviarPantallaActual(pantallaActual + 1)">SEGÜENT</button>
+        <!--<div>
+          <button v-for="n in 11" class="tutorial_screen_button"></button>
+        </div>-->
+        <div class="buttons_container">
+          <Button @click="canviarPantallaActual(pantallaActual - 1)" severity="primary" raised size="medium"
+            label="ANTERIOR" />
+          <Button @click="canviarPantallaActual(pantallaActual + 1)" severity="primary" raised size="medium"
+            label="SEGÜENT" />
+        </div>
       </footer>
     </div>
   </div>
@@ -83,8 +116,7 @@ export default {
 
 .modal {
   position: absolute;
-
-  padding: 20px 0px 20px;
+  height: fit-content;
 
   border-radius: 8px;
 
@@ -98,48 +130,60 @@ export default {
 
 .modal-1 {
   width: 20%;
-  height: 51.5%;
   top: 220px;
-  left: 820px;
+  left: 840px;
 }
 
 .modal-2 {
   width: 20%;
-  height: 56%;
   top: 260px;
 }
 
 .modal-3 {
   width: 78%;
-  height: 35%;
   top: 250px;
   left: 200px;
 }
 
 .modal-4 {
   width: 20%;
-  height: 56%;
-  top: 260px;
-  left: 80px;
+  top: 268px;
+  left: 85px;
 }
 
 .modal-5 {
   width: 20%;
-  height: 56%;
-  top: 260px;
-  left: 1005px;
+  top: 265px;
+  left: 1040px;
 }
 
 .modal-6 {
   width: 19.5%;
-  height: 60%;
   top: 230px;
-  left: 1380px;
+  left: 1415px;
+}
+
+.modal-7 {
+  width: 19.5%;
+  top: 260px;
+  left: 1440px;
+}
+
+.modal-8 {
+  width: 50%;
+  top: 260px;
+  left: 485px;
+}
+
+.modal-9 {
+  width: 50%;
+  top: 600px;
+  left: 485px;
 }
 
 .modal-header,
 .modal-footer {
-  padding: 15px;
+  padding: 10px 0px;
   display: flex;
 }
 
@@ -152,18 +196,23 @@ export default {
 
 .modal-header>p {
   font-size: 2em;
-  margin: 0 25px;
+  margin: 0 20px;
 }
 
 .modal-footer {
   border-top: 1px solid #eeeeee;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.modal-footer Button {
+  width: 150px;
+  margin: 5px;
 }
 
 .modal-body {
   position: relative;
-  padding: 20px 40px;
+  padding: 0px 40px;
 }
 
 .btn-close {
@@ -189,6 +238,18 @@ export default {
   font-size: 1.2em;
 }
 
+.modal-footer .tutorial_screen_button {
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50%;
+  background-color: #4AAE9B;
+}
+
+p {
+  line-height: 1.75;
+}
+
 .modal-body>.nota {
   margin: 40px 0px;
 
@@ -204,10 +265,10 @@ export default {
 }
 
 .area-1 {
-  width: 28.25%;
+  width: 26%;
   height: 51.5%;
   top: 220px;
-  left: 280px;
+  left: 320px;
   /*overflow-x: auto;
   display: flex;
   flex-direction: column;*/
@@ -222,23 +283,48 @@ export default {
 }
 
 .area-4 {
-  width: 48.5%;
-  height: 56%;
-  top: 260px;
-  left: 475px;
+  width: 48.75%;
+  height: 59%;
+  top: 268px;
+  left: 490px;
 }
 
 .area-5 {
   width: 19.5%;
-  height: 56%;
-  top: 260px;
-  left: 1397px;
+  height: 59%;
+  top: 265px;
+  left: 1450px;
 }
 
 .area-6 {
   width: 46%;
-  height: 60%;
+  height: 65%;
   top: 230px;
-  left: 500px;
+  left: 510px;
 }
-</style>
+
+.area-7 {
+  width: 48.75%;
+  height: 57%;
+  top: 260px;
+  left: 490px;
+}
+
+.area-8 {
+  width: 20%;
+  height: 28.5%;
+  top: 260px;
+  left: 89px;
+}
+
+.area-9 {
+  width: 19.5%;
+  height: 21.5%;
+  top: 600px;
+  left: 92px;
+}
+
+.area-10 {
+  width: 45%;
+  height: 100%;
+}</style>

@@ -37,8 +37,12 @@ export default {
                 this.imatgeActualTutorial = 1;
             } else if (this.pantallaActualTutorial >= 2 && this.pantallaActualTutorial <=5) {
                 this.imatgeActualTutorial = 2;
-            } else if (this.pantallaActualTutorial >= 6 && this.pantallaActualTutorial <=8) {
+            } else if (this.pantallaActualTutorial == 6) {
                 this.imatgeActualTutorial = 3;
+            } else if (this.pantallaActualTutorial >= 7 && this.pantallaActualTutorial <=9) {
+                this.imatgeActualTutorial = 4;
+            } else if (this.pantallaActualTutorial >= 10 && this.pantallaActualTutorial <= 12) {
+                this.imatgeActualTutorial = 5;
             }
         }
     },
