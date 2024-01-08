@@ -1,13 +1,16 @@
 <template>
     <div class="contenidor">
-        <h1>Creació de sala</h1>
         <div class="contingut">
+            <h1>Creació de sala</h1>
+
             <label for="nom">Nom de la sala</label>
             <input type="text" id="nom" v-model="sala.nom" required>
 
+            <label for="tempsVotarResposta">Temps per votar la resposta</label>
+            <input type="number" id="tempsVotarResposta" v-model="sala.tempsVotarResposta" required>
             
             <label for="categoria">Categoria</label>
-            <select id="categoria" v-model="sala.categoria" @input="afegirTreureCategoriaM" required>
+            <select id="categoria" v-model="sala.categoria" @input="afegirTreureCategoriaM">
                 <option v-for="(actual, index) in categories" :value="actual.id">{{ actual.nom }}</option>
             </select>
             <div>
@@ -37,6 +40,7 @@ export default {
             sala: {
                 nom: '',
                 categories: [],
+                tempsVotarResposta: '',
             }
         }
     },
@@ -93,7 +97,6 @@ export default {
 
 <style scoped>
 .contenidor h1 {
-    margin-top: 200px;
     text-align: center;
     font-size: 2em;
     color: #333;

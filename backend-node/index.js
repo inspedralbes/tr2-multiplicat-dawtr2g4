@@ -50,7 +50,8 @@ let efectesCalculats = false;
       jugadorsCamp: [],
       outs: 0,
       preguntesAnteriors: [],
-      cronometre: 0
+      cronometre: 0,
+      tempsVotarResposta: TEMPS_VOTAR_RESPOSTA,
     }
     sales.push(sala)
   }
@@ -111,7 +112,8 @@ io.on('connection', (socket) => {
       jugadorsCamp: [],
       outs: 0,
       preguntesAnteriors: [],
-      cronometre: 0
+      cronometre: 0,
+      tempsVotarResposta: sala.tempsVotarResposta
     }
     sales.push(novaSala);
     io.emit('sala-creada', novaSala);
@@ -239,7 +241,7 @@ io.on('connection', (socket) => {
     io.to(sala.nomSala).emit('nova-pregunta', sala.preguntaActual);
 
     // Creem el temporitzador i actualitzem cada segon per a notificar els clients
-    sala.cronometre = TEMPS_VOTAR_RESPOSTA;
+    sala.cronometre = sala.tempsVotarResposta;
     intervalId = setInterval(async () => {
       sala.cronometre -= 1;
       io.to(sala.nomSala).emit('actualitzar-comptador', sala.cronometre);
