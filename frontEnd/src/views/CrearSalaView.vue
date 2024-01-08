@@ -5,10 +5,20 @@
             <label for="nom">Nom de la sala</label>
             <input type="text" id="nom" v-model="sala.nom" required>
 
+            
             <label for="categoria">Categoria</label>
-            <select id="categoria" v-model="sala.categoria" required>
+            <select id="categoria" v-model="sala.categoria" @input="afegirTreureCategoriaM" required>
                 <option v-for="(actual, index) in categories" :value="actual.id">{{ actual.nom }}</option>
             </select>
+            <div>
+                <label for="categoria">Categories</label>
+                <div v-for="(actual, index) in categories">
+                    <div v-if="actual.seleccionada === 1">
+                        <p>{{ actual.nom }}</p>
+                        <button @click="afegirTreureCategoria(index)">X</button>
+                    </div>
+                </div>
+            </div>
 
             <button @click="enviarPartida()">Crear sala</button>
         </div>
@@ -26,14 +36,37 @@ export default {
             categories: [],
             sala: {
                 nom: '',
-                categoria: '',
+                categories: [],
             }
         }
     },
     methods: {
         enviarPartida() {
+            this.categories.forEach(element => {
+                if(element.seleccionada === 1) {
+                    this.sala.categories.push(element.id);
+                }
+            });
+            if(this.sala.categories.length === 0) {
+                alert("Has de seleccionar almenys una categoria");
+                return;
+            }
             socket.emit('crear-sala', this.sala);
             this.$router.push('/');
+        },
+        afegirTreureCategoria(index) {
+            console.log(this.categories[index].nom);
+            if(this.categories[index].seleccionada === 0) {
+                this.categories[index].seleccionada = 1;
+                console.log("afegida");
+            } else {
+                this.categories[index].seleccionada = 0;
+                console.log("treta");
+            }
+        },
+        afegirTreureCategoriaM(event){
+            let index = event.target.value - 1;
+            this.afegirTreureCategoria(index)
         },
     },
     created() {
@@ -48,6 +81,9 @@ export default {
         fetch(url)
             .then(response => response.json())
             .then(data => {
+                data.forEach(element => {
+                    element.seleccionada = 0;
+                });
                 this.categories = data;
             });
     },

@@ -42,7 +42,7 @@ let efectesCalculats = false;
       rondes: [],
       totalVots: 0,
       equipAtacant: 0,
-      categoria: 1,
+      categories: [1,2],
       preguntaActual: [],
       resultatsActuals: null,
       nomSala: "Sala " + (i + 1),
@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
       rondes: [],
       totalVots: 0,
       equipAtacant: 0,
-      categoria: sala.categoria,
+      categories: sala.categories,
       preguntaActual: null,
       resultatsActuals: null,
       nomSala: sala.nom,
@@ -213,7 +213,8 @@ io.on('connection', (socket) => {
     let dificultatVotada = calcularResultatsDificultat(sala)
     io.to(sala.nomSala).emit('finalitzar-votacio-dificultat', dificultatVotada, sala.jugadorsCamp.length);
     resetejarVotacions(sala)
-    await novaPregunta(sala, dificultatVotada, sala.categoria, sala.preguntesAnteriors)
+    let indiceAleatorio = Math.floor(Math.random() * sala.categories.length);
+    await novaPregunta(sala, dificultatVotada, sala.categories[indiceAleatorio], sala.preguntesAnteriors)
   }
 
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
