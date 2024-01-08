@@ -44,12 +44,12 @@ const sales = [
   {
     jugadors: [
                 {
+                  nom: nom,
                   id: socket.id, // El id del socket del jugador
                   equip: 1, // o 2
                   baseActual: 0, // Quan els jugadors avancin de base, s'actualitzarà
                   votacioBase: null, // La votacio sobre la dificultat (1, 2 o 3)
-                  votacioResposta: null, // La votació sobre la resposta correcta (0, 1, 2 o 3)
-                  eliminat: false
+                  votacioResposta: null // La votació sobre la resposta correcta (0, 1, 2 o 3)
                 },
                 {...} // Més jugadors
               ],
@@ -62,12 +62,16 @@ const sales = [
               {equipAtacant: 2, punts: 1},
               {...} // Més rondes
             ],
-    totalVotacions: 0,
+    totalVots: 0,
     equipAtacant: 0, // 1 o 2
     categoria: 1, // 1-6
     preguntaActual: null,
     resultatsActuals: null,
-    nomSala: "Sala 1"
+    nomSala: "Sala 1",
+    jugadorsBanqueta: [],
+    jugadorsCamp: [],
+    outs: 0,
+    preguntesAnteriors: []
   },
   {...} // Més sales
 ]
