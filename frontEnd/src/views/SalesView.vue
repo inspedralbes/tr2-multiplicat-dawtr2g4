@@ -16,7 +16,10 @@
                                 Jugadors: {{ actual.jugadors.length }}
                             </p>
                             <p class="m-0">
-                                Categoria: {{ actual.categoria }}
+                                Categories: 
+                                <span v-for="(a, index) in actual.categories">
+                                    {{ a }},
+                                </span>
                             </p>
                         </template>
                         <template #footer>
