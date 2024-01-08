@@ -11,9 +11,11 @@
                 <RouterLink to="/sales">
                     <Button id="buttonSales" severity="primary" raised rounded size="large" label="JUGAR" />
                 </RouterLink>
+                <RouterLink to="/tutorial">
+                    <Button id="buttonTutorial" severity="primary" raised rounded size="large" label="INICIAR TUTORIAL" />
+                </RouterLink>
             </div>
         </div>
-        <button @click="iniciarTutorial()">INICIAR TUTORIAL</button>
     </div>
 </template>
 

@@ -13,9 +13,6 @@ export default {
         this.$emit('button-clicked', newPantallaActual);
       }
     },
-    returnArea(pantallaActual) {
-      return 'area-' + pantallaActual;
-    },
     returnModal(pantallaActual) {
       return 'modal-' + pantallaActual;
     }
@@ -25,7 +22,7 @@ export default {
 
 <template>
   <div class="modal-backdrop">
-    <div :class="['area', returnArea(pantallaActual)]"></div>
+    <!--<div :class="['area', returnArea(pantallaActual)]"></div>-->
     <div :class="['modal', returnModal(pantallaActual)]">
       <header class="modal-header">
         <button type="button" class="btn-close" @click="close">x</button>
@@ -88,9 +85,9 @@ export default {
       </section>
 
       <footer class="modal-footer">
-        <!--<div>
-          <button v-for="n in 11" class="tutorial_screen_button"></button>
-        </div>-->
+        <div>
+          <button v-for="n in 10" :class="['tutorial_screen_button', n == pantallaActual ? 'tutorial_screen_button--selected' : '']" @click="canviarPantallaActual(n)"></button>
+        </div>
         <div class="buttons_container">
           <Button @click="canviarPantallaActual(pantallaActual - 1)" severity="primary" raised size="medium"
             label="ANTERIOR" />
@@ -201,8 +198,11 @@ export default {
 
 .modal-footer {
   border-top: 1px solid #eeeeee;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.modal-footer > div {
+  margin: 5px auto;
 }
 
 .modal-footer Button {
@@ -244,6 +244,11 @@ export default {
   border: none;
   border-radius: 50%;
   background-color: #4AAE9B;
+}
+
+.modal-footer .tutorial_screen_button--selected {
+  width: 30px;
+  border-radius: 8px;
 }
 
 p {
