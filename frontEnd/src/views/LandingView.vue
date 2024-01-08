@@ -19,11 +19,13 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { useAppStore } from '../stores/app';
+import { socket } from '@/socket';
 
 export default {
     components: { RouterLink },
     setup() {
-        const pinia = useAppStore();
+        const pinia = useAppStore()
+        socket.emit('abandonar-sala');
 
         return {
             pinia,

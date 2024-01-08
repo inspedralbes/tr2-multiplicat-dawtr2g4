@@ -1,5 +1,5 @@
 <template>
-    <div class="surface-ground py-3 border-top-1 surface-border flex1">
+    <div class="surface-ground py-3 px-5 border-top-1 surface-border flex1">
 
         <div class="col-12 md-6 text-center">
             <RouterLink to="/normes">
@@ -85,7 +85,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 

@@ -59,32 +59,38 @@ app.get('/api/salas', (req, res) => {
   res.json({ sales: sales })
 })
 
+function desconnectarJugador (socket) {
+  // Quan el jugador es desconnecta, el treiem de la room i la sala
+  let room = socketRooms[socket.id];
+  if (room) {
+    socket.leave(room);
+    delete socketRooms[socket.id];
+    let indexSala = sales.findIndex(s => s.nomSala === room);
+    let sala = sales[indexSala]
+    let indexJugador = sala.jugadors.findIndex(j => j.id === socket.id)
+    let jugador = sala.jugadors[indexJugador];
+    if (jugador) {
+      sala.jugadors.splice(indexJugador, 1)
+      sala.equips[jugador.equip - 1].nJugadors--;
+      if (sala.jugadors.length === 0) {
+        natejarSala(sala)
+      }
+    }
+    io.emit('equips-actualitzats', indexSala, sala);
+  }
+}
+
 io.on('connection', (socket) => {
   console.log('Un usuari s\'ha connectat');
 
   socket.on('disconnect', () => {
     console.log('Un usuari s\'ha desconnectat');
-    clearInterval(intervalId);
-
-    // Quan el jugador es desconnecta, el treiem de la room i la sala
-    let room = socketRooms[socket.id];
-    if (room) {
-      socket.leave(room);
-      delete socketRooms[socket.id];
-      let indexSala = sales.findIndex(s => s.nomSala === room);
-      let sala = sales[indexSala]
-      let indexJugador = sala.jugadors.findIndex(j => j.id === socket.id)
-      let jugador = sala.jugadors[indexJugador];
-      if (jugador) {
-        sala.jugadors.splice(indexJugador, 1)
-        sala.equips[jugador.equip - 1].nJugadors--;
-        if (sala.jugadors.length === 0) {
-          natejarSala(sala)
-        }
-      }
-      io.emit('equips-actualitzats', indexSala, sala);
-    }
+    desconnectarJugador(socket);
   });
+
+  socket.on('abandonar-sala', () => {
+    desconnectarJugador(socket);
+  })
 
   socket.on('crear-sala', (sala) => {
     // Comprovar si ja existeix una sala amb el mateix nom
@@ -494,6 +500,7 @@ function totsHanVotat(sala, sonVotsRespostes) {
 }
 
 function natejarSala(sala) {
+  clearInterval(intervalId);
   sala.jugadors = []
   sala.equips = [
     { nJugadors: 0, punts: 0 },
