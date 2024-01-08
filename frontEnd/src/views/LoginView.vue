@@ -112,6 +112,22 @@ export default {
 
 .body {
     height: fit-content;
+    position: relative;
+}
+
+.body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    z-index: -1;
 }
 
 .loading-message {
