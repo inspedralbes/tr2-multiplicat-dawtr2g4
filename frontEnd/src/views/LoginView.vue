@@ -1,7 +1,7 @@
 <template>
     <div class="body">
         <div v-if="loading" class="loading-message">
-            <h1>Loading</h1>
+            <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca.gif" alt="loading_gif">
         </div>
         <div v-else class="surface-card p-4 shadow-2 border-round w-full lg:w-6 form">
             <div class="text-center mb-5">
@@ -135,7 +135,6 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.8);
     padding: 10px;
     border-radius: 5px;
 }
