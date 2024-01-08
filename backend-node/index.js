@@ -238,8 +238,7 @@ io.on('connection', (socket) => {
     io.to(sala.nomSala).emit('nova-pregunta', sala.preguntaActual);
 
     // Creem el temporitzador i actualitzem cada segon per a notificar els clients
-    sales[indexSala].cronometre = TEMPS_VOTAR_RESPOSTA;
-    let sala = sales[indexSala];
+    sala.cronometre = TEMPS_VOTAR_RESPOSTA;
     intervalId = setInterval(async () => {
       sala.cronometre -= 1;
       io.to(sala.nomSala).emit('actualitzar-comptador', sala.cronometre);
