@@ -25,7 +25,7 @@ const CARRERES_GUANYAR = 5;
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 50;
 const socketRooms = {};
-let cronometre;
+//let cronometre;
 let intervalId;
 let calcularEfectes = true;
 let efectesCalculats = false;
@@ -49,7 +49,8 @@ let efectesCalculats = false;
       jugadorsBanqueta: [],
       jugadorsCamp: [],
       outs: 0,
-      preguntesAnteriors: []
+      preguntesAnteriors: [],
+      cronometre: 0
     }
     sales.push(sala)
   }
@@ -109,7 +110,8 @@ io.on('connection', (socket) => {
       jugadorsBanqueta: [],
       jugadorsCamp: [],
       outs: 0,
-      preguntesAnteriors: []
+      preguntesAnteriors: [],
+      cronometre: 0
     }
     sales.push(novaSala);
     io.emit('sala-creada', novaSala);
@@ -174,17 +176,17 @@ io.on('connection', (socket) => {
 
   //Iniciar procés de votació
   socket.on('començar-votacio-dificultat', (indexSala) => {
-    cronometre = TEMPS_ESCOLLIR_BASE;
+    sales[indexSala].cronometre = TEMPS_ESCOLLIR_BASE;
     let sala = sales[indexSala];
-    io.to(sala.nomSala).emit('començar-votacio-dificultat', cronometre);
+    io.to(sala.nomSala).emit('començar-votacio-dificultat', sala.cronometre);
 
     // Decrementem el cronòmetre cada segon i actualitzem a tots els clients
     intervalId = setInterval(async () => {
-      cronometre -= 1;
-      io.to(sala.nomSala).emit('actualitzar-comptador', cronometre);
+      sala.cronometre -= 1;
+      io.to(sala.nomSala).emit('actualitzar-comptador', sala.cronometre);
 
       // Quan el cronòmetre arriba a zero, el detenim i el resetegem i finalitzem el procés de votació
-      if (cronometre === 0) {
+      if (sala.cronometre === 0) {
         await finalitzarVotacionsDificultat(sala)
       }
     }, 1000);
@@ -237,12 +239,12 @@ io.on('connection', (socket) => {
     io.to(sala.nomSala).emit('nova-pregunta', sala.preguntaActual);
 
     // Creem el temporitzador i actualitzem cada segon per a notificar els clients
-    cronometre = TEMPS_VOTAR_RESPOSTA;
+    sala.cronometre = TEMPS_VOTAR_RESPOSTA;
     intervalId = setInterval(async () => {
-      cronometre -= 1;
-      io.to(sala.nomSala).emit('actualitzar-comptador', cronometre);
+      sala.cronometre -= 1;
+      io.to(sala.nomSala).emit('actualitzar-comptador', sala.cronometre);
 
-      if (cronometre === 0) {
+      if (sala.cronometre === 0) {
         finalitzarVotacionsRespostes(sala)
       }
     }, 1000);
