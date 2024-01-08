@@ -80,6 +80,24 @@ export default {
         logout() {
             router.push('/');
             this.store.logout();
+            let hostname = this.store.getUrl();
+            let url;
+            if (hostname === 'tr2g4.daw.inspedralbes.cat' || hostname === 'mathball.daw.inspedralbes.cat') {
+                url = 'http://' + hostname + '/backend-laravel/public/api/logout';
+            } else {
+                url = 'http://' + hostname + ':8000/api/logout';
+            }
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(res => res.json())
+                .catch(err => {
+                    console.log(err)
+                });
+
         },
         goPreg() {
             window.location.href = this.url + 'preguntes';

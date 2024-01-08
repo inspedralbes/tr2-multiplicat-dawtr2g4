@@ -238,7 +238,7 @@ export const useAppStore = defineStore('app', {
     setUser(user) {
       this.user = user
     },
-    setUserName(name){
+    setUserName(name) {
       this.user.name = name
     },
     //Vista usuari si resposta correcta o incorrecta
