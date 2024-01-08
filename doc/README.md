@@ -79,4 +79,4 @@ const sales = [
 
 
 **Diagrama Connexió NODE:**
-![DiagramaMathStrikeQuest drawio](https://github.com/inspedralbes/tr2-multiplicat-dawtr2g4/assets/90318659/906852ae-9de5-4110-8fb8-10eb3225fe3a)
+![MathBall drawio](https://github.com/inspedralbes/tr2-multiplicat-dawtr2g4/assets/90318659/92659794-ab21-4488-8b5a-7e3f5c9d54a1)
