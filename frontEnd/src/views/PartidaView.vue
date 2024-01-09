@@ -62,7 +62,10 @@
                 </div>
             </div>
             <div id="moviment-bases">
-                <div v-if="votacioBaseEnCurs == false && profe" @click="initVotacio" class="flex justify-content-center h-auto">
+                <div v-if="loading" class="flex justify-content-center h-auto">
+                    <button class="loading_button">Loading...</button>
+                </div>
+                <div v-if="votacioBaseEnCurs == false && profe && !loading" @click="initVotacio" class="flex justify-content-center h-auto">
                     <button class="votar_button">COMENÇAR VOTACIÓ DIFICULTAT</button>
                 </div>
                 <div v-if="votacioBaseEnCurs == true" class="temporitzador-container w-max mt-4"><img
@@ -140,15 +143,13 @@
 </template>
 
 <script>
-//import io from 'socket.io-client';
-
 import { useAppStore } from '../stores/app'
 import { socket } from '@/socket';
-import { watch } from 'vue'
+
 export default {
     data() {
         return {
-
+            loading: false,
         }
     },
     methods: {
@@ -167,8 +168,14 @@ export default {
             }
         },
         initVotacio() {
+            this.loading = true;
             socket.emit('començar-votacio-dificultat', this.indexSala);
         }
+    },
+    watch: {
+        votacioBaseEnCurs(valor) {
+            if (valor) this.loading = false;
+        },
     },
     setup() {
         const pinia = useAppStore();
@@ -215,8 +222,6 @@ export default {
             }
             return defensor;
         }
-    },
-    mounted() {
     }
 }
 
@@ -465,7 +470,8 @@ export default {
     border-radius: 15px;
 }
 
-.votar_button {
+.votar_button, .loading_button {
+    width: 90%;
     border: 1px solid black;
     background-color: white;
     font-size: 1rem;
