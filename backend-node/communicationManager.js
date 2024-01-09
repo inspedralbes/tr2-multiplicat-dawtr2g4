@@ -1,12 +1,18 @@
 const fetch = require('node-fetch');
+require('dotenv').config();
 
-// let url = "http://mathball.daw.inspedralbes.cat/backend-laravel/public/api/getPregunta";
-// let url = "http://tr2g4.daw.inspedralbes.cat/backend-laravel/public/api/getPregunta";
-let url = "http://127.0.0.1:8000/api/getPregunta"; // A l'Alvaro només li funciona aquesta url en l'entorn de desenvolupament
-//let url = "http://localhost:8000/api/getPregunta"; // Alternativament, en desenvolupament també podem utilitzar aquesta url
+let apiURL;
+
+if(process.env.NODE_ENV === 'production') {
+    apiURL = process.env.PRODUCTION_API_URL;
+} else if (process.env.NODE_ENV === 'preproduction') {
+    apiURL = process.env.PREPRODUCTION_API_URL;
+} else {
+    apiURL = process.env.DEVELOPMENT_API_URL;
+}
 
 async function getPregunta(dificultat, categoria, preguntesAnteriors) {
-    const response = await fetch(url, {
+    const response = await fetch(apiURL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
