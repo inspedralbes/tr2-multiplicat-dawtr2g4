@@ -76,7 +76,36 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
 ("Quina propietat utilitzem quan transposam termes d'una banda a l'altra en una equació?", 2, 2),
 ("Resol l'equació 2(x/3 + 4) = x - 2", 3, 2),
 ("Si 5x + 2 = 3x - 6, quina és la solució per a x?", 3, 2),
-("Determina el valor de x en l'equació (x - 2)/(x + 3) = 3/(x + 3)", 3, 2);
+("Determina el valor de x en l'equació (x - 2)/(x + 3) = 3/(x + 3)", 3, 2),
+
+-- Categoria 5: Geometria
+    -- Dificultat 1:
+("Quina és l'àrea d'un quadrat amb costats de 6 cm?", 1, 5),
+("Quina és l'àrea d'un quadrat amb costats de 9 cm?", 1, 5),
+("Quina és el perímetre d'un quadrat amb costats de 5 cm?", 1, 5),
+("Quina és el perímetre d'un quadrat amb costats de 7 cm?", 1, 5),
+("Un angle de 30º és un angle...", 1, 5),
+("Un angle de 110º és un angle...", 1, 5),
+("La suma dels angles interiors d'un triangle és...", 1, 5),
+("La suma dels angles interiors d'un quadrilater és...", 1, 5),
+    -- Dificultat 2:
+("Si dues rectes són perpendiculars i es tallen, quin és l'angle que formen entre elles?", 2, 5),
+("Si dues rectes són coincidents, quin és l'angle que formen entre elles?", 2, 5),
+("Quina és l'àrea d'un rectangle de 3 cm de llarg i 10 cm d'ample", 2, 5),
+("Quina és l'àrea d'un rectangle de 5 cm de llarg i 2 cm d'ample", 2, 5),
+("Si el radi d'un cercle és de 5 cm, quin és el seu perímetre?", 2, 5),
+("Si el diametre d'un cercle és de 10 cm, quin és el seu perímetre?", 2, 5),
+("Quin és el perímetre d'un rectangle de 8 cm de llarg i 5 cm d'ample?", 1, 5),
+("Quin és el perímetre d'un rectangle de 4 cm de llarg i 3 cm d'ample?", 1, 5),
+    -- Dificultat 3:
+("Els dos catets d'un triangle rectangle són de 3 cm i 4 cm. Quina és la longitud de la hipotenusa?", 3, 5),
+("Els dos catets d'un triangle rectangle són de 9 cm i 12 cm. Quina és la longitud de la hipotenusa?", 3, 5),
+("Si un prisma rectangular té una base de 4 cm de llarg i 3 cm d'ample i una altura de 10 cm, quin és el seu volum?", 3, 5),
+("Si un prisma rectangular té una base de 5 cm de llarg i 5 cm d'ample i una altura de 4 cm, quin és el seu volum?", 3, 5),
+("Si el radi d'un cercle és de 5 cm, quina és la seva àrea?", 3, 5),
+("Si el radi d'un cercle és de 7 cm, quina és la seva àrea?", 3, 5),
+("Donat un rombe amb diagonals de 6 cm i 8 cm, quina és la seva àrea?", 3, 5),
+("Donat un rombe amb diagonals de 3 cm i 4 cm, quina és la seva àrea?", 3, 5);
 
 INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 -- Categoria 1: Nombres i Operacions
