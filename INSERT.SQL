@@ -76,7 +76,36 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
 ("Quina propietat utilitzem quan transposam termes d'una banda a l'altra en una equació?", 2, 2),
 ("Resol l'equació 2(x/3 + 4) = x - 2", 3, 2),
 ("Si 5x + 2 = 3x - 6, quina és la solució per a x?", 3, 2),
-("Determina el valor de x en l'equació (x - 2)/(x + 3) = 3/(x + 3)", 3, 2);
+("Determina el valor de x en l'equació (x - 2)/(x + 3) = 3/(x + 3)", 3, 2),
+
+-- Categoria 5: Geometria
+    -- Dificultat 1:
+("Quina és l'àrea d'un quadrat amb costats de 6 cm?", 1, 5),
+("Quina és l'àrea d'un quadrat amb costats de 9 cm?", 1, 5),
+("Quina és el perímetre d'un quadrat amb costats de 5 cm?", 1, 5),
+("Quina és el perímetre d'un quadrat amb costats de 7 cm?", 1, 5),
+("Un angle de 30º és un angle...", 1, 5),
+("Un angle de 110º és un angle...", 1, 5),
+("La suma dels angles interiors d'un triangle és...", 1, 5),
+("La suma dels angles interiors d'un quadrilater és...", 1, 5),
+    -- Dificultat 2:
+("Si dues rectes són perpendiculars i es tallen, quin és l'angle que formen entre elles?", 2, 5),
+("Si dues rectes són coincidents, quin és l'angle que formen entre elles?", 2, 5),
+("Quina és l'àrea d'un rectangle de 3 cm de llarg i 10 cm d'ample", 2, 5),
+("Quina és l'àrea d'un rectangle de 5 cm de llarg i 2 cm d'ample", 2, 5),
+("Si el radi d'un cercle és de 5 cm, quin és el seu perímetre?", 2, 5),
+("Si el diametre d'un cercle és de 10 cm, quin és el seu perímetre?", 2, 5),
+("Quin és el perímetre d'un rectangle de 8 cm de llarg i 5 cm d'ample?", 1, 5),
+("Quin és el perímetre d'un rectangle de 4 cm de llarg i 3 cm d'ample?", 1, 5),
+    -- Dificultat 3:
+("Els dos catets d'un triangle rectangle són de 3 cm i 4 cm. Quina és la longitud de la hipotenusa?", 3, 5),
+("Els dos catets d'un triangle rectangle són de 9 cm i 12 cm. Quina és la longitud de la hipotenusa?", 3, 5),
+("Si un prisma rectangular té una base de 4 cm de llarg i 3 cm d'ample i una altura de 10 cm, quin és el seu volum?", 3, 5),
+("Si un prisma rectangular té una base de 5 cm de llarg i 5 cm d'ample i una altura de 4 cm, quin és el seu volum?", 3, 5),
+("Si el radi d'un cercle és de 5 cm, quina és la seva àrea?", 3, 5),
+("Si el radi d'un cercle és de 7 cm, quina és la seva àrea?", 3, 5),
+("Donat un rombe amb diagonals de 6 cm i 8 cm, quina és la seva àrea?", 3, 5),
+("Donat un rombe amb diagonals de 3 cm i 4 cm, quina és la seva àrea?", 3, 5);
 
 INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 -- Categoria 1: Nombres i Operacions
@@ -120,5 +149,35 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 ("Propietat de simetria", false, 42), ("Propietat distributiva", false, 42), ("Propietat commutativa", false, 42), ("Propietat de transposició", true, 42),
 ("x = -10", true, 43), ("x = 10", false, 43), ("x = 2", false, 43), ("x = -2", false, 43),
 ("x = 4", false, 44), ("x = 1", false, 44), ("x = -1", false, 44), ("x = -4", true, 44),
-("x = -5", false, 45), ("x = 2", false, 45), ("x = 5", true, 45), ("x = -2", false, 45);
+("x = -5", false, 45), ("x = 2", false, 45), ("x = 5", true, 45), ("x = -2", false, 45),
+
+-- Categoria 5: Geometria
+--S'HA DE CANAVIAR EL ID DE LES PREGUNTES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    -- Dificultat 1:
+("12 cm²", false, 1), ("18 cm²", false, 1), ("24 cm²", false, 1), ("36 cm²", true, 1),
+("36 cm²", false, 2), ("63 cm²", false, 2), ("72 cm²", false, 2), ("81 cm²", true, 2),
+("10 cm", false, 3), ("15 cm", false, 3), ("20 cm", true, 3), ("25 cm", false, 3),
+("21 cm", false, 4), ("28 cm", true, 4), ("35 cm", false, 4), ("49 cm", false, 4),
+("Agut", true, 5), ("Recte", false, 5), ("Obtús", false, 5), ("Pla", false, 5),
+("Agut", false, 5), ("Recte", false, 5), ("Obtús", true, 5), ("Pla", false, 5),
+("180º", true, 7), ("200º", false, 7), ("360º", false, 7), ("380º", false, 7),
+("360º", true, 8), ("380º", false, 8), ("400º", false, 8), ("480º", false, 8),
+    -- Dificultat 2:
+("0º", false, 1), ("30º", false, 1), ("45º", false, 1), ("90º", true, 1),
+("0º", true, 2), ("30º", false, 2), ("45º", false, 2), ("90º", false, 2),
+("30 cm²", true, 3), ("26 cm²", false, 3), ("28 cm²", false, 3), ("32 26 cm²", false, 3),
+("14 cm²", false, 4), ("10 cm²", true, 4), ("12 cm²", false, 4), ("8 cm²", false, 4),
+("10π cm", true, 5), ("25π cm", false, 5), ("15π cm", false, 5), ("14π cm", false, 5),
+("10π cm", true, 5), ("20π cm", false, 5), ("100π cm", true, 5), ("120π cm", false, 5),
+("26 cm", true, 7), ("40 cm", false, 7), ("25 cm", false, 7), ("64 cm", false, 7),
+("14 cm", true, 8), ("25 cm", false, 8), ("12 cm", false, 8), ("16 cm", false, 8),
+    -- Dificultat 3:
+("4 cm", false, 1), ("5 cm", true, 1), ("6 cm", false, 1), ("7 cm", false, 1),
+("24 cm", true, 2), ("21 cm", false, 2), ("18 cm", false, 2), ("15 cm", true, 2),
+("120 cm³", true, 3), ("1200 cm³", false, 3), ("7000 cm³", false, 3), ("700 cm³", false, 3),
+("100 cm³", true, 4), ("1000 cm³", false, 4), ("40 cm³", false, 4), ("400 cm³", false, 4),
+("25π cm", true, 5), ("10π cm", false, 5), ("15π cm", false, 5), ("20π cm", false, 5),
+("49π cm", true, 5), ("39π cm", false, 5), ("29π cm", false, 5), ("59π cm", false, 5),
+("24 cm²", true, 7), ("48 cm²", false, 7), ("25 cm²", false, 7), ("46 cm²", false, 7),
+("6 cm²", true, 8), ("8 cm²", false, 8), ("12 cm²", false, 8), ("10 cm²", false, 8);
 
