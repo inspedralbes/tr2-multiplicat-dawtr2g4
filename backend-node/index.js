@@ -372,7 +372,7 @@ io.on('connection', (socket) => {
       io.to(sala.nomSala).emit('moure-jugador', sala)
 
       //Si un equip fa n carreres guanya el joc
-      if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
+      if (sala.equips[indexAtacant].punts >= CARRERES_GUANYAR) {
         io.to(sala.nomSala).emit('finalitzar-partida');
       }
 
