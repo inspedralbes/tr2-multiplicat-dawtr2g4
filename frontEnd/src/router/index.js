@@ -11,8 +11,8 @@ import ResultatsView from '../views/ResultatsView.vue'
 import ResultatsFinalsView from '../views/ResultatsFinalsView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import PolitiquesPrivacitatView from '../views/PolitiquesPrivView.vue'
-import NormesView from '../views/NormesView.vue'
 import PerfilView from '../views/PerfilView.vue'
+import TutorialView from '../views/TutorialView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,9 +83,9 @@ const router = createRouter({
       component: PolitiquesPrivacitatView
     },
     {
-      path: '/normes',
-      name: 'normes',
-      component: NormesView
+      path: '/tutorial',
+      name: 'tutorial',
+      component: TutorialView
     },
   ]
 })
@@ -95,7 +95,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.path !== '/' && to.path !== '/login' && to.path !== '/register' && !isAuthenticated) {
     // Si l'usuari no està autenticat i intenta accedir a una ruta que no sigui la home
-    next('/'); // Redirigim a la home
+    next('/login'); // Redirigim al login
   } else {
     next(); // Continuem
   }

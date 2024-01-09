@@ -223,8 +223,9 @@ h1 {
     gap: 10px;
 }
 
-.resC {
+.respostes_contenidor > .resC {
     order: 4;
+    width: 99%;
 }
 
 .respostes_contenidor button {

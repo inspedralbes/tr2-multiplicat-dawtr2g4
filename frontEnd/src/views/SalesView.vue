@@ -8,7 +8,7 @@
         </div>
         <div v-else>
             <div class="grid m-5">
-                <div v-for="(actual, index) in sales" class="col-6 md:col-4 lg:col-2">
+                <div v-for="(actual, index) in sales" class="col-6 md:col-4 lg:col-3 xl:col-2">
                     <Card class="p-4">
                         <template #title> {{ actual.nomSala }} </template>
                         <template #content>
@@ -16,7 +16,10 @@
                                 Jugadors: {{ actual.jugadors.length }}
                             </p>
                             <p class="m-0">
-                                Categoria: {{ actual.categoria }}
+                                Categories: 
+                                <span v-for="(a) in actual.categories">
+                                    {{ a }}&nbsp;
+                                </span>
                             </p>
                         </template>
                         <template #footer>

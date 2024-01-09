@@ -25,7 +25,7 @@ const CARRERES_GUANYAR = 5;
 const TEMPS_ESCOLLIR_BASE = 10;
 const TEMPS_VOTAR_RESPOSTA = 50;
 const socketRooms = {};
-let cronometre;
+//let cronometre;
 let intervalId;
 let calcularEfectes = true;
 let efectesCalculats = false;
@@ -42,14 +42,16 @@ let efectesCalculats = false;
       rondes: [],
       totalVots: 0,
       equipAtacant: 0,
-      categoria: 1,
+      categories: [1],
       preguntaActual: [],
       resultatsActuals: null,
       nomSala: "Sala " + (i + 1),
       jugadorsBanqueta: [],
       jugadorsCamp: [],
       outs: 0,
-      preguntesAnteriors: []
+      preguntesAnteriors: [],
+      cronometre: 0,
+      tempsVotarResposta: TEMPS_VOTAR_RESPOSTA,
     }
     sales.push(sala)
   }
@@ -59,32 +61,38 @@ app.get('/api/salas', (req, res) => {
   res.json({ sales: sales })
 })
 
+function desconnectarJugador (socket) {
+  // Quan el jugador es desconnecta, el treiem de la room i la sala
+  let room = socketRooms[socket.id];
+  if (room) {
+    socket.leave(room);
+    delete socketRooms[socket.id];
+    let indexSala = sales.findIndex(s => s.nomSala === room);
+    let sala = sales[indexSala]
+    let indexJugador = sala.jugadors.findIndex(j => j.id === socket.id)
+    let jugador = sala.jugadors[indexJugador];
+    if (jugador) {
+      sala.jugadors.splice(indexJugador, 1)
+      sala.equips[jugador.equip - 1].nJugadors--;
+      if (sala.jugadors.length === 0) {
+        natejarSala(sala)
+      }
+    }
+    io.emit('equips-actualitzats', indexSala, sala);
+  }
+}
+
 io.on('connection', (socket) => {
   console.log('Un usuari s\'ha connectat');
 
   socket.on('disconnect', () => {
     console.log('Un usuari s\'ha desconnectat');
-    clearInterval(intervalId);
-
-    // Quan el jugador es desconnecta, el treiem de la room i la sala
-    let room = socketRooms[socket.id];
-    if (room) {
-      socket.leave(room);
-      delete socketRooms[socket.id];
-      let indexSala = sales.findIndex(s => s.nomSala === room);
-      let sala = sales[indexSala]
-      let indexJugador = sala.jugadors.findIndex(j => j.id === socket.id)
-      let jugador = sala.jugadors[indexJugador];
-      if (jugador) {
-        sala.jugadors.splice(indexJugador, 1)
-        sala.equips[jugador.equip - 1].nJugadors--;
-        if (sala.jugadors.length === 0) {
-          natejarSala(sala)
-        }
-      }
-      io.emit('equips-actualitzats', indexSala, sala);
-    }
+    desconnectarJugador(socket);
   });
+
+  socket.on('abandonar-sala', () => {
+    desconnectarJugador(socket);
+  })
 
   socket.on('crear-sala', (sala) => {
     // Comprovar si ja existeix una sala amb el mateix nom
@@ -102,14 +110,16 @@ io.on('connection', (socket) => {
       rondes: [],
       totalVots: 0,
       equipAtacant: 0,
-      categoria: sala.categoria,
+      categories: sala.categories,
       preguntaActual: null,
       resultatsActuals: null,
       nomSala: sala.nom,
       jugadorsBanqueta: [],
       jugadorsCamp: [],
       outs: 0,
-      preguntesAnteriors: []
+      preguntesAnteriors: [],
+      cronometre: 0,
+      tempsVotarResposta: sala.tempsVotarResposta
     }
     sales.push(novaSala);
     io.emit('sala-creada', novaSala);
@@ -174,17 +184,17 @@ io.on('connection', (socket) => {
 
   //Iniciar procés de votació
   socket.on('començar-votacio-dificultat', (indexSala) => {
-    cronometre = TEMPS_ESCOLLIR_BASE;
+    sales[indexSala].cronometre = TEMPS_ESCOLLIR_BASE;
     let sala = sales[indexSala];
-    io.to(sala.nomSala).emit('començar-votacio-dificultat', cronometre);
+    io.to(sala.nomSala).emit('començar-votacio-dificultat', sala.cronometre);
 
     // Decrementem el cronòmetre cada segon i actualitzem a tots els clients
     intervalId = setInterval(async () => {
-      cronometre -= 1;
-      io.to(sala.nomSala).emit('actualitzar-comptador', cronometre);
+      sala.cronometre -= 1;
+      io.to(sala.nomSala).emit('actualitzar-comptador', sala.cronometre);
 
       // Quan el cronòmetre arriba a zero, el detenim i el resetegem i finalitzem el procés de votació
-      if (cronometre === 0) {
+      if (sala.cronometre === 0) {
         await finalitzarVotacionsDificultat(sala)
       }
     }, 1000);
@@ -213,7 +223,8 @@ io.on('connection', (socket) => {
     let dificultatVotada = calcularResultatsDificultat(sala)
     io.to(sala.nomSala).emit('finalitzar-votacio-dificultat', dificultatVotada, sala.jugadorsCamp.length);
     resetejarVotacions(sala)
-    await novaPregunta(sala, dificultatVotada, sala.categoria, sala.preguntesAnteriors)
+    let indiceAleatorio = Math.floor(Math.random() * sala.categories.length);
+    await novaPregunta(sala, dificultatVotada, sala.categories[indiceAleatorio], sala.preguntesAnteriors)
   }
 
   async function novaPregunta(sala, dificultat, categoria, preguntesAnteriors) {
@@ -236,12 +247,12 @@ io.on('connection', (socket) => {
     io.to(sala.nomSala).emit('nova-pregunta', sala.preguntaActual);
 
     // Creem el temporitzador i actualitzem cada segon per a notificar els clients
-    cronometre = TEMPS_VOTAR_RESPOSTA;
+    sala.cronometre = sala.tempsVotarResposta;
     intervalId = setInterval(async () => {
-      cronometre -= 1;
-      io.to(sala.nomSala).emit('actualitzar-comptador', cronometre);
+      sala.cronometre -= 1;
+      io.to(sala.nomSala).emit('actualitzar-comptador', sala.cronometre);
 
-      if (cronometre === 0) {
+      if (sala.cronometre === 0) {
         finalitzarVotacionsRespostes(sala)
       }
     }, 1000);
@@ -494,6 +505,7 @@ function totsHanVotat(sala, sonVotsRespostes) {
 }
 
 function natejarSala(sala) {
+  clearInterval(intervalId);
   sala.jugadors = []
   sala.equips = [
     { nJugadors: 0, punts: 0 },

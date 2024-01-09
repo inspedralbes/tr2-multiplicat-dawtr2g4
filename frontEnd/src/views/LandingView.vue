@@ -11,6 +11,9 @@
                 <RouterLink to="/sales">
                     <Button id="buttonSales" severity="primary" raised rounded size="large" label="JUGAR" />
                 </RouterLink>
+                <RouterLink to="/tutorial">
+                    <Button id="buttonTutorial" severity="primary" raised rounded size="large" label="INICIAR TUTORIAL" />
+                </RouterLink>
             </div>
         </div>
     </div>
@@ -19,11 +22,18 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { useAppStore } from '../stores/app';
+import { socket } from '@/socket';
 
 export default {
     components: { RouterLink },
+    methods: {
+        iniciarTutorial(){
+            this.$router.push('/tutorial')
+        }
+    },
     setup() {
-        const pinia = useAppStore();
+        const pinia = useAppStore()
+        socket.emit('abandonar-sala');
 
         return {
             pinia,
