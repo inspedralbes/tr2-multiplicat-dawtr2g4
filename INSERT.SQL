@@ -65,15 +65,47 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
     ("Quin és el resultat de sumar 13 vegades el nombre 25?", 3, 1),
     ("Si multipliques 17 per 11 i després divides el resultat per 3, quin és el resultat final?", 3, 1),
 -- Categoria 2: Equacions
-("Què és una equació de primer grau?", 1, 2),
-("Quina és la solució de l'equació x + 3 = 7?", 1, 2),
-("Com podem transformar una equació a una equació equivalent?", 1, 2),
-("Si 3x - 1 = 11, quin és el valor de x?", 2, 2),
-("Quin és el primer pas per resoldre l'equació 2(x - 5) = 14?", 2, 2),
-("Quina propietat utilitzem quan transposam termes d'una banda a l'altra en una equació?", 2, 2),
-("Resol l'equació 2(x/3 + 4) = x - 2", 3, 2),
-("Si 5x + 2 = 3x - 6, quina és la solució per a x?", 3, 2),
-("Determina el valor de x en l'equació (x - 2)/(x + 3) = 3/(x + 3)", 3, 2),
+    -- Dificultat 1:
+    ("Resol: 3x + 5 = 14", 1, 2),
+    ("Quina és la solució de l'equació 2y - 8 = 10?", 1, 2),
+    ("En l'equació 4a + 7 = 19, quin és el terme constant?", 1, 2),
+    ("Quin és el terme amb coeficient a l'equació 3x - 2 =10?", 1 ,2),
+    ("Resol l'expressió: 2(3x - 4) = 10.", 1 ,2),
+    ("Quin és el resultat de 5x + 8 - 2x?", 1, 2),
+    ("Resol 2x + 3 = 11.", 1, 2),
+    ("Troba el valor de y en 4y -8 = 20.", 1, 2),
+    ("En l'equacio 5p + 6 = 21, quin és el terme constant?", 1, 2),
+    ("Quin és el terme amb coeficient a l'equació 2q - 4 = 10)", 1, 2),
+    ("Resol l'expressió: 3(2x - 1) = 15.", 1, 2),
+    ("Simplifica 7x + 4 - 3x?", 1, 2),
+    
+
+    -- Dificultat 2:
+    ("Si el doble d'un número més 3 és igual a 17, quin és el número?", 2, 2),
+    ("Si un número més 5 és igual a tres vegades el número, quin és el número?", 2, 2),
+    ("Resol l'equacio 2/3x + 4 = 10", 2, 2),
+    ("Troba el valor de x en 5(2x - 3) = 25.", 2, 2),
+    ("Un pare té el triple de l'edat del seu fill. La suma de les seves edats és 48. Quina és l'edat del fill?", 2, 2),
+    ("Si la meitat d'un nombre menys 8 és igual a 12, quin és el nombre?", 2, 2),
+    ("Si el quadruple d'un nombre més 3 és igual a 27, quin és el nombre?", 2 ,2),
+    ("Resol l'equació: 2(x/3) + 5 = 9.", 2, 2),
+    ("Troba el valor de x en 3(4x - 2) = 30.", 2, 2),
+    ("La suma de dos nombres és 36. Si un nombre és el doble de l'altre, quins són els nombres?", 2, 2),
+
+
+    -- Dificultat 3:
+    ("Resol l'equació 3/4x - 5/2 = 7", 3, 2),
+    ("Troba el valor de x en 2x/3 + x/6 = 5", 3, 2),
+    ("Si el doble de l'edat de Joan menys 5 és igual a la seva edat actual, quina és la seva edat?", 3, 2),
+    ("Si un número disminuït en 4 és igual a cinc vegades el número, quin és el número?", 3, 2),
+    ("Resol l'equació 3(x - 2) + 2x = 5x - 4", 3, 2),
+    ("Troba el valor de x en 2/3(x^2 -1) = 6", 3, 2),
+    ("Resol l'equació 5/2x - 3/4 = 9", 3, 3),
+    ("Troba el valor de x en 4x/5 + x/3 = 12", 3, 3),
+    ("El doble de l'edat d'en Pere menys 5 és igual a la seva edat actual. Quina és la seva edat?", 3, 3),
+    ("Si un número més 7 és igual a sis vegades el número, quin és el número?", 3, 3),
+    ("Resol l'equació 4(x - 3) +2x 0 3x + 10", 3, 3),
+    ("Troba el valor de x en 1/2(x^2 - 4) = 6)", 3, 3),
 
 -- Categoria 5: Geometria
     -- Dificultat 1:
@@ -160,15 +192,25 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 
 
 -- Categoria 2: Equacions
-("Una igualtat amb variables", true, 37), ("Una pregunta matemàtica", false, 37), ("Un tipus de funció", false, 37), ("Un joc de números", false, 37),
-("x = 10", false, 38), ("x = -4", false, 38), ("x = 4", true, 38), ("x = 3", false, 38),
-("Canviant els nombres", false, 39), ("Fent operacions matemàtiques", true, 39), ("Adivinant", false, 39), ("Utilitzant una calculadora", false, 39),
-("x = 3", false, 40), ("x = 5", false, 40), ("x = 12", false, 40), ("x = 4", true, 40),
-("Distribuir el 2", true, 41), ("Sumar 5", false, 41), ("Restar 14", false, 41), ("Dividir per 2", false, 41),
-("Propietat de simetria", false, 42), ("Propietat distributiva", false, 42), ("Propietat commutativa", false, 42), ("Propietat de transposició", true, 42),
-("x = -10", true, 43), ("x = 10", false, 43), ("x = 2", false, 43), ("x = -2", false, 43),
-("x = 4", false, 44), ("x = 1", false, 44), ("x = -1", false, 44), ("x = -4", true, 44),
-("x = -5", false, 45), ("x = 2", false, 45), ("x = 5", true, 45), ("x = -2", false, 45),
+    -- Dificultat 1:
+    ("x = 3", true, 48), ("x = 4", false, 48), ("x = 5", false, 48), ("x = 6", false, 48),
+    ("y = 10", false, 49), ("y = 9", true, 49), ("y = 11", false, 49), ("y = 12", false, 49),
+    ("14", false, 50), ("11", false, 50), ("12", true, 50), ("19", false, 50),
+    ("2", false, 51), ("3", true, 51), ("5", false, 51), ("4", false, 51),
+    ("x = 3", true, 52), ("6x - 8 = 12", false, 52), ("6x - 8 = 14", false, 52), ("6x - 8 = 16", false, 52),
+    ("3x", false, 53), ("3x + 8", true, 53), ("3x - 8", false, 53), ("3x + 2", false, 53),
+    ("x = 4", true, 54), ("x = 5", false, 54), ("x = 6", false, 54), ("x = 7", false, 54),
+    ("y = 8", false, 55), ("y = 7", true, 55), ("y = 9", false, 55), ("y = 10", false, 55),
+    ("8", false, 56), ("7", false, 56), ("6", true, 56), ("9", false, 56),
+    ("3", false, 57), ("2", true, 57), ("4", false, 57), ("5", false, 57),
+    ("x = 3", true, 58), ("x = 4", false, 58), ("x = 5", false, 58), ("x = 6", false, 58),
+    ("3x", false, 59), ("4x + 4", true, 59), ("3x - 8", false, 59), ("3x + 2", false, 59),
+    
+    -- Dificultat 2:
+
+
+    -- Dificultat 3:
+
 
 -- Categoria 5: Geometria
 --S'HA DE CANAVIAR EL ID DE LES PREGUNTES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
