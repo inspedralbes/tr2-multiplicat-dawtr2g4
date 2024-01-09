@@ -25,9 +25,6 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
     ("Si divideixes 180 entre 9, quin és el resultat?", 1, 1),
     ("Quina és la diferència entre 200 i 113?", 1, 1),
     ("Quin és el resultat de restar 84 a 150?", 1, 1),
-    --
-    --
-    --
     ("Si multipliques 7 per 6 i després afegeixes 9, quin és el resultat?", 1, 1),
     ("Quina és la suma dels nombres 45, 67 i 89?", 1, 1),
     ("Si divides 144 entre 12, quin és el resultat?", 1, 1),
@@ -36,10 +33,11 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
     ("Quin és el nombre següent en aquesta sèrie: 3, 8, 13, 18, ...?", 1, 1),
     ("Si sumes 55 i 36 i després restes 40, quin és el resultat final?", 1, 1),
     ("Quina és la diferència entre 84 i 37?", 1, 1),
-    ("Si divides 100 entre 10, quin és el resultat?", 1, 1),
+    ("Si divideixes 100 entre 10, quin és el resultat?", 1, 1),
     -- Dificultat 2:
     ("Si multipliques 8 per 5 i després afegeixes 4, quin és el resultat?", 2, 1),
     ("Quin és el nombre següent en aquesta sèrie: 3, 6, 9, 12, ...?", 2, 1),
+
     ("Si multipliques 14 per 6 i després divides el resultat per 3, quin és el resultat final?", 2, 1),
     ("Quin és el resultat de multiplicar 14 per 9?", 2, 1),
     ("Si sumes 35 a 67 i després restes 42, quin és el resultat final?", 2, 1),
@@ -91,22 +89,30 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
     ("20",true,8), ("18",false,8), ("16",false,8), ("15",false, 8),
     ("87",true,9), ("89",false,9), ("91",false,9), ("93",false, 9),
     ("66",true,10), ("64",false,10), ("62",false,10), ("61",false, 10),
-    --
-    --
-    --
-    ("51",false,11), ("52",false,11), ("53",false,11), ("54",true, 11),
-    ("201",false,12), ("201",false,12), ("201",false,12), ("201",true, 12),
-    ("12",true,13), ("13",false,13), ("14",false,13), ("15",false, 13),
-    ("7",true,14), ("8",false,14), ("9",false,14), ("10",false, 14),
-    ("8 euros",false,15), ("9 euros",false,15), ("10 euros",false,15), ("11 euros",true, 15),
-    ("23",false,16), ("24",false,16), ("25",false,16), ("26",true, 16),
-    ("51",true,17), ("52",false,17), ("53",false,17), ("54",false, 17),
-    ("47",false,18), ("48",false,18), ("49",false,18), ("50",true, 18),
-    ("10",true,19), ("11",false,19), ("12",false,19), ("13",false, 19),
-    ("10",true,20), ("11",false,20), ("12",false,20), ("13",false, 20),
-
-
+    ("45",false,11), ("48",false,11), ("51",true,11), ("54",false, 11),
+    ("185",false,12), ("201",true,12), ("214",false,12), ("228",false, 12),
+    ("12",true,13), ("10",false,13), ("14",false,13), ("16",false, 13),
+    ("42",false,14), ("44",false,14), ("48",true,14), ("52",false, 14),
+    ("6 euros",false,15), ("8 euros",true,15), ("10 euros",false,15), ("12 euros",false, 15),
+    ("20",false,16), ("21",false,16), ("22",false,16), ("23",true, 16),
+    ("51",true,17), ("56",false,17), ("46",false,17), ("61",false, 17),
+    ("45",false,18), ("47",true,18), ("49",false,18), ("51",false, 18),
+    ("10",true,19), ("8",false,19), ("12",false,19), ("6",false, 19),
     -- Dificultat 2:
+    ("36",false,20), ("44",true,20), ("40",false,20), ("52",false, 20),
+    ("14",true,21), ("15",false,21), ("16",false,21), ("18",true, 21),
+
+    ("28",true,22), ("30",false,22), ("32",false,22), ("34",false, 22),
+    ("126",true,23), ("128",false,23), ("130",false,23), ("132",false, 23),
+    ("60",true,24), ("62",false,24), ("64",false,24), ("66",false, 24),
+    ("14",true,25), ("16",false,25), ("18",false,25), ("20",false, 25),
+    ("112",true,26), ("114",false,26), ("116",false,26), ("118",false, 26),
+    ("54",true,27), ("56",false,27), ("58",false,27), ("60",false, 27),
+    ("21",true,28), ("24",false,28), ("27",false,28), ("30",false, 28),
+    ("137",true,29), ("139",false,29), ("141",false,29), ("143",false, 29),
+    ("15",true,30), ("16",false,30), ("17",false,30), ("18",false, 30),
+    ("9",true,31), ("10",false,31), ("11",false,31), ("12",false, 31),
+    ("6",true,32), ("7",false,32), ("8",false,32), ("9",false, 32),
 
     -- Dificultat 3:
 
