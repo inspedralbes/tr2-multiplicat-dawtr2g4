@@ -37,7 +37,6 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
     -- Dificultat 2:
     ("Si multipliques 8 per 5 i després afegeixes 4, quin és el resultat?", 2, 1),
     ("Quin és el nombre següent en aquesta sèrie: 3, 6, 9, 12, ...?", 2, 1),
-
     ("Si multipliques 14 per 6 i després divides el resultat per 3, quin és el resultat final?", 2, 1),
     ("Quin és el resultat de multiplicar 14 per 9?", 2, 1),
     ("Si sumes 35 a 67 i després restes 42, quin és el resultat final?", 2, 1),
@@ -48,7 +47,7 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
     ("Quina és la suma dels nombres 63, 29 i 45?", 2, 1),
     ("Si divides 180 entre 12, quin és el resultat?", 2, 1),
     ("Quin és el resultat de sumar 7 vegades el nombre 11?", 2, 1),
-    ("Si multipliques 11 per 8 i després divides el resultat per 2, quin és el resultat final?", 2, 1),
+    ("Si multipliques 11 per 8 i després divideixes el resultat per 2, quin és el resultat final?", 2, 1),
     -- Dificultat 3:
     ("Quina és la suma dels nombres 56, 89 i 27?", 3, 1),
     ("Quin és el resultat de sumar 36, 48 i 72?", 3, 1),
@@ -130,20 +129,34 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
     -- Dificultat 2:
     ("36",false,20), ("44",true,20), ("40",false,20), ("52",false, 20),
     ("14",true,21), ("15",false,21), ("16",false,21), ("18",true, 21),
-
-    ("28",true,22), ("30",false,22), ("32",false,22), ("34",false, 22),
-    ("126",true,23), ("128",false,23), ("130",false,23), ("132",false, 23),
-    ("60",true,24), ("62",false,24), ("64",false,24), ("66",false, 24),
-    ("14",true,25), ("16",false,25), ("18",false,25), ("20",false, 25),
-    ("112",true,26), ("114",false,26), ("116",false,26), ("118",false, 26),
-    ("54",true,27), ("56",false,27), ("58",false,27), ("60",false, 27),
-    ("21",true,28), ("24",false,28), ("27",false,28), ("30",false, 28),
-    ("137",true,29), ("139",false,29), ("141",false,29), ("143",false, 29),
-    ("15",true,30), ("16",false,30), ("17",false,30), ("18",false, 30),
-    ("9",true,31), ("10",false,31), ("11",false,31), ("12",false, 31),
-    ("6",true,32), ("7",false,32), ("8",false,32), ("9",false, 32),
-
+    ("28",true,22), ("24",false,22), ("32",false,22), ("22",false, 22),
+    ("115",false,23), ("120",false,23), ("126",true,23), ("132",false, 23),
+    ("60",true,24), ("65",false,24), ("70",false,24), ("55",false, 24),
+    ("16",false,25), ("14",true,25), ("12",false,25), ("18",false, 25),
+    ("102",false,26), ("108",false,26), ("98",false,26), ("112",true, 26),
+    ("50",false,27), ("54",true,27), ("62",false,27), ("48",false, 27),
+    ("15",false,28), ("16",false,28), ("15.5",true,28), ("14.5",false, 28),
+    ("137",true,29), ("142",false,29), ("132",false,29), ("145",false, 29),
+    ("12",false,30), ("15",true,30), ("18",false,30), ("14",false, 30),
+    ("64",false,31), ("71",false,31), ("84",false,31), ("77",true, 31),
+    ("38",false,32), ("44",true,32), ("48",false,32), ("40",false, 32),
     -- Dificultat 3:
+    ("170",false,33), ("180",false,33), ("172",true,33), ("160",false, 33),
+    ("152",false,34), ("154",false,34), ("156",true,34), ("158",false, 34),
+    ("127",true,35), ("126",false,35), ("128",false,35), ("125",false, 35),
+    ("98",false,36), ("99",true,36), ("100",false,36), ("101",false, 36),
+    ("16",false,37), ("18",true,37), ("20",false,37), ("14",false, 37),
+    ("265",false,38), ("320",false,38), ("296",true,38), ("360",false, 38),
+    ("300",false,39), ("188",false,39), ("256",true,39), ("172",false, 39),
+    ("18",false,40), ("12",false,40), ("15.67",true,40), ("16",false, 40),
+    ("496",false,41), ("522",false,41), ("538",false,41), ("582",true, 41),
+    ("560",false,42), ("540",false,42), ("620",false,42), ("600",true, 42),
+    ("139.67",true,43), ("138",false,43), ("144",false,43), ("147",false, 43),
+    ("1412",false,44), ("1368",true,44), ("1290",false,44), ("1435",false, 44),
+    ("30",true,45), ("25",false,45), ("35",false,45), ("28",false, 45),
+    ("312",false,46), ("299",false,46), ("325",true,46), ("336",false, 46),
+    ("55",false,47), ("62.33",true,47), ("58",false,47), ("65",false, 47),
+    
 
 
 -- Categoria 2: Equacions
