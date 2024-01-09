@@ -149,5 +149,35 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 ("Propietat de simetria", false, 42), ("Propietat distributiva", false, 42), ("Propietat commutativa", false, 42), ("Propietat de transposició", true, 42),
 ("x = -10", true, 43), ("x = 10", false, 43), ("x = 2", false, 43), ("x = -2", false, 43),
 ("x = 4", false, 44), ("x = 1", false, 44), ("x = -1", false, 44), ("x = -4", true, 44),
-("x = -5", false, 45), ("x = 2", false, 45), ("x = 5", true, 45), ("x = -2", false, 45);
+("x = -5", false, 45), ("x = 2", false, 45), ("x = 5", true, 45), ("x = -2", false, 45),
+
+-- Categoria 5: Geometria
+--S'HA DE CANAVIAR EL ID DE LES PREGUNTES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    -- Dificultat 1:
+("12 cm²", false, 1), ("18 cm²", false, 1), ("24 cm²", false, 1), ("36 cm²", true, 1),
+("36 cm²", false, 2), ("63 cm²", false, 2), ("72 cm²", false, 2), ("81 cm²", true, 2),
+("10 cm", false, 3), ("15 cm", false, 3), ("20 cm", true, 3), ("25 cm", false, 3),
+("21 cm", false, 4), ("28 cm", true, 4), ("35 cm", false, 4), ("49 cm", false, 4),
+("Agut", true, 5), ("Recte", false, 5), ("Obtús", false, 5), ("Pla", false, 5),
+("Agut", false, 5), ("Recte", false, 5), ("Obtús", true, 5), ("Pla", false, 5),
+("180º", true, 7), ("200º", false, 7), ("360º", false, 7), ("380º", false, 7),
+("360º", true, 8), ("380º", false, 8), ("400º", false, 8), ("480º", false, 8),
+    -- Dificultat 2:
+("0º", false, 1), ("30º", false, 1), ("45º", false, 1), ("90º", true, 1),
+("0º", true, 2), ("30º", false, 2), ("45º", false, 2), ("90º", false, 2),
+("30 cm²", true, 3), ("26 cm²", false, 3), ("28 cm²", false, 3), ("32 26 cm²", false, 3),
+("14 cm²", false, 4), ("10 cm²", true, 4), ("12 cm²", false, 4), ("8 cm²", false, 4),
+("10π cm", true, 5), ("25π cm", false, 5), ("15π cm", false, 5), ("14π cm", false, 5),
+("10π cm", true, 5), ("20π cm", false, 5), ("100π cm", true, 5), ("120π cm", false, 5),
+("26 cm", true, 7), ("40 cm", false, 7), ("25 cm", false, 7), ("64 cm", false, 7),
+("14 cm", true, 8), ("25 cm", false, 8), ("12 cm", false, 8), ("16 cm", false, 8),
+    -- Dificultat 3:
+("4 cm", false, 1), ("5 cm", true, 1), ("6 cm", false, 1), ("7 cm", false, 1),
+("24 cm", true, 2), ("21 cm", false, 2), ("18 cm", false, 2), ("15 cm", true, 2),
+("120 cm³", true, 3), ("1200 cm³", false, 3), ("7000 cm³", false, 3), ("700 cm³", false, 3),
+("100 cm³", true, 4), ("1000 cm³", false, 4), ("40 cm³", false, 4), ("400 cm³", false, 4),
+("25π cm", true, 5), ("10π cm", false, 5), ("15π cm", false, 5), ("20π cm", false, 5),
+("49π cm", true, 5), ("39π cm", false, 5), ("29π cm", false, 5), ("59π cm", false, 5),
+("24 cm²", true, 7), ("48 cm²", false, 7), ("25 cm²", false, 7), ("46 cm²", false, 7),
+("6 cm²", true, 8), ("8 cm²", false, 8), ("12 cm²", false, 8), ("10 cm²", false, 8);
 
