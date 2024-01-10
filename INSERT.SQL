@@ -135,7 +135,105 @@ INSERT INTO preguntas(id,text_pregunta, dificultat, categoria_id) VALUES
     (102,"Si el radi d'un cercle és de 5 cm, quina és la seva àrea?", 3, 5),
     (103,"Si el radi d'un cercle és de 7 cm, quina és la seva àrea?", 3, 5),
     (104,"Donat un rombe amb diagonals de 6 cm i 8 cm, quina és la seva àrea?", 3, 5),
-    (105,"Donat un rombe amb diagonals de 3 cm i 4 cm, quina és la seva àrea?", 3, 5);
+    (105,"Donat un rombe amb diagonals de 3 cm i 4 cm, quina és la seva àrea?", 3, 5),
+
+-- Categoria 3: Funcions
+    -- Dificultat 1:
+    (300, "Quin és el nombre del número √9?", 1, 3),
+    (301, "Quin és el resultat de 2^3?", 1, 3),
+    (302, "Què significa 'la meitat de cinc'?", 1, 3),
+    (303, "Resol aquesta expressió: 2 * 4 + 3.", 1, 3),
+    (304, "Què és 3^2?", 1, 3),
+    (322, "Quina és la tercera part de 27?", 1, 3),
+    (315, "Quina és la suma de 7 + 9?", 1, 3),
+    (317, "Quin és el doble d'un quart de 20?", 1, 3),
+    (321, "Si un quadrat té una longitud de costat de 9 unitats, quina és l'àrea?", 1, 3),
+    -- Dificultat 2:
+    (305, "Calcula 4 / 0.5.", 2, 3),
+    (307, "Quina és l'àrea d'un triangle amb base de 6 unitats i altura de 4 unitats?", 2, 3),
+    (308, "Quant costats té un dodecàgon?", 2, 3),
+    (309, "Quin és el nom d'una figura amb cinc costats?", 2, 3),
+    (324, "Quin és el perímetre d'un triangle amb costats de longitud 4, 5 i 6 unitats?", 2, 3),
+    (325, "Quina és la suma de 15 + 18?", 2, 3),
+    (326, "Resol l'expressió: 2 * (5 + 3).", 2, 3),
+    -- Dificultat 3:
+    (310, "Quants mil·límetres hi ha en un metre?", 3, 3),
+    (312, "Si un número és igual a dos terços de 15, quin és aquest número?", 3, 3),
+    (314, "En un grup de 25 persones, 15 són noies. Quina és la fracció de nois en el grup?", 3, 3),
+    (319, "Si un rectangle té una base de 8 unitats i una altura de 5 unitats, quina és l'àrea?", 3, 3),
+    (316, "Resol l'expressió: 3 * (4 + 2).", 3, 3),
+    (318, "Què és 5^3?", 3, 3),
+    (320, "Quin és el valor de X? 2x - 7 = 5", 3, 3),
+
+-- Categoria 4: Mesures
+    -- Dificultat 1:
+    (400, "Quina és la unitat de longitud bàsica del sistema internacional?", 1, 4),
+    (401, "Quina és la unitat de massa del sistema internacional?", 1, 4),
+    (402, "Quina és la unitat de capacitat bàsica del sistema internacional?", 1, 4),
+    (403, "Quina és la unitat de superfície en el sistema internacional?", 1, 4),
+    (404, "Quina és la unitat de volum en el sistema internacional?", 1, 4),
+    (405, "Quina és la unitat de temps en el sistema internacional?", 1, 4),
+    (406, "Quina moneda s'utilitza en el sistema monetari europeu?", 1, 4),
+    (407, "Quant és equivalent a 1 quilòmetre en metres?", 1, 4),
+    (408, "Quina és l'equivalència entre 1 litre i 1.000 mil·litres?", 1, 4),
+    (409, "Quina és l'equivalència entre 1 quilogram i 1.000 grams?", 1, 4),
+    (410, "Quina és l'equivalència entre 1 hora i 60 minuts?", 1, 4),
+
+    -- Dificultat 2:
+    (411, "Converteix 3 quilòmetres a metres.", 2, 4),
+    (412, "Converteix 500 grams a quilograms.", 2, 4),
+    (413, "Converteix 2 litres a mil·litres.", 2, 4),
+    (414, "Converteix 4 hores a minuts.", 2, 4),
+    (416, "Quina és l'equivalència entre 1 litre d'aigua i 1.000 mil·litres de capacitat?", 2, 4),
+    (427, "Quina és la longitud total del perímetre d'un rectangle amb costats de 8m i 5m?", 2, 4),
+    (428, "Quina és la massa total de 3 paquets, cada un amb una massa de 200 grams?", 2, 4),
+    (429, "Si una piscina té una capacitat de 500 litres i ja té 250 litres d'aigua, quant més es pot afegir?", 2, 4),
+    (430, "Quina és l'àrea d'un triangle amb una base de 10m i una altura de 8m?", 2, 4),
+    (431, "Quin és el perímetre d'un hexàgon regular amb costats de 4cm cada un?", 2, 4),
+    (432, "Converteix 1.5 litres a mil·litres.", 2, 4),
+    (433, "Quina és la diferència de temps entre les 9:45 i les 11:30?", 2, 4),
+    (434, "Quant pesa un llibre que té una massa de 0.5 quilograms?", 2, 4),
+    (435, "Si una caja té un volum de 1.000 cm³ i la multipliquem per 2 en cada dimensió, quin serà el nou volum?", 2, 4),
+    (436, "Converteix 3.5 quilòmetres a mil·límetres.", 2, 4),
+    -- Dificultat 3:
+    (415, "Quina és l'equivalència entre 1 litre d'aigua i 1 quilogram de pes?", 3, 4),
+    (437, "Quantes hectàrees hi ha en un quilòmetre quadrat?", 3, 4),
+    (438, "Si un objecte pesa 0.75 quilograms, quant és això en grams?", 3, 4),
+    (439, "Quina és la capacitat total d'una llauna que conté 3 litres i mitja?", 3, 4),
+    (440, "Quina és l'àrea d'un cercle amb un radi de 5m?", 3, 4),
+    (441, "Quin és el volum d'una caixa amb una longitud de 8m, una amplada de 4m i una altura de 3m?", 3, 4),
+    (442, "Converteix 45 minuts a hores.", 3, 4),
+    (443, "Quina és la diferència de pes entre 2 quilograms i 1500 grams?", 3, 4),
+    (444, "Si una piscina té una capacitat de 100.000 litres i ja té 75.000 litres d'aigua, quant més es pot afegir?", 3, 4),
+    (445, "Quina és la superfície total d'una esfera amb un radi de 6m?", 3, 4),
+    (446, "Converteix 0,8 litres a centilitres.", 3, 4),
+
+-- Categoria 6: Estadística
+    -- Dificultat 1:
+    (600, "Què representa la mitjana aritmètica d'un conjunt de números?", 1, 6),
+    (601, "Quina és la mediana en un conjunt ordenat de dades?", 1, 6),
+    (602, "Què mesura la moda en un conjunt de dades?", 1, 6),
+    (603, "Què és la variança d'un conjunt de dades?", 1, 6),
+    (604, "Si afegeixes un número més petit al conjunt, com afectarà la mitjana?", 1, 6),
+    (605, "Què és més sensible als valors extrems: la mitjana o la mediana?", 1, 6),
+    (606, "Què representa la moda en un conjunt de dades?", 1, 6),
+    -- Dificultat 2:
+    (607, "Si en una classe de 30 estudiants la mitjana de les notes és 7, i una nova estudiant arriba amb una nota de 9, com afectarà això la mitjana global?", 1, 6),
+    (608, "Què mesura la desviació estàndard en un conjunt de dades?", 2, 6),
+    (609, "Si duplicam totes les dades en un conjunt, com canviarà la mitjana?", 2, 6),
+    (610, "Què indica la mediana en un conjunt de dades?", 2, 6),
+    (611, "Com es calcula la mitjana ponderada d'un conjunt de dades?", 2, 6),
+    (612, "Què passa amb la mitjana si hi ha valors extrems en el conjunt de dades?", 2, 6),
+    (613, "Què mesura la moda en un conjunt de dades?", 2, 6),
+    -- Dificultat 3:
+    (614, "Què significa una desviació estàndard elevada en un conjunt de dades?", 2, 6),
+    (615, "Com es relacionen la variança i la desviació estàndard en un conjunt de dades?", 2, 6),
+    (616, "Què representa el coeficient de correlació en una anàlisi de regressió lineal?", 2, 6),
+    (617, "Què és l'error tipus II en el context de proves d'hipòtesis estadístiques?", 2, 6),
+    (618, "Quan és més apropiat utilitzar una regressió logística en l'anàlisi de dades?", 2, 6),
+    (619, "Què mesura el p-valor en el context de proves d'hipòtesis estadístiques?", 2, 6),
+    (620, "Què és la multicolinealitat en el context de l'anàlisi de regressió?", 2, 6);
+
 
 INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 -- Categoria 1: Nombres i Operacions
@@ -262,5 +360,104 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
     ("25π cm", true, 102), ("10π cm", false, 102), ("15π cm", false, 102), ("20π cm", false, 102),
     ("49π cm", true, 103), ("39π cm", false, 103), ("29π cm", false, 103), ("59π cm", false, 103),
     ("24 cm²", true, 104), ("48 cm²", false, 104), ("25 cm²", false, 104), ("46 cm²", false, 104),
-    ("6 cm²", true, 105), ("8 cm²", false, 105), ("12 cm²", false, 105), ("10 cm²", false, 105);
+    ("6 cm²", true, 105), ("8 cm²", false, 105), ("12 cm²", false, 105), ("10 cm²", false, 105),
 
+-- Categoria 3: Funcions
+    -- Dificultat 1:
+    ("3", True, 300),("Quadrat", False, 300),("Nou", False, 300),("Nórdic", False, 300),
+    ("8", True, 301),("6", False, 301),("10", False, 301),("4", False, 301),
+    ("2.5", True, 302),("1", False, 302),("3", False, 302),("5", False, 302),
+    ("11", True, 303),("12", False, 303),("13", False, 303),("14", False, 303),
+    ("9", True, 304),("6", False, 304),("12", False, 304),("18", False, 304),
+    ("6", False, 322),("8", False, 322),("9", True, 322),("12", False, 322),
+    ("16", False, 315),("18", True, 315),("20", False, 315),("22", False, 315),
+    ("5", False, 317),("10", True, 317),("15", False, 317),("20", False, 317),
+    ("27", False, 321),("81", True, 321),("90", False, 321),("100", False, 321),
+
+    -- Dificultat 2:
+    ("8", True, 305),("2", False, 305),("5", False, 305),("10", False, 305),
+    ("12", True, 307),("8", False, 307),("24", False, 307),("18", False, 307),
+    ("12", True, 308),("8", False, 308),("10", False, 308),("14", False, 308),
+    ("Pentàgon", True, 309),("Hexàgon", False, 309),("Quadrat", False, 309),("Triangle", False, 309),
+    ("12", False, 324),("15", True, 324),("18", False, 324),("20", False, 324),
+    ("33", True, 325),("30", False, 325),("28", False, 325),("25", False, 325),
+    ("16", True, 326),("18", False, 326),("20", False, 326),("22", False, 326),
+
+    -- Dificultat 3:
+    ("1000", True, 310),("500", False, 310),("40", False, 310),("1500", False, 310),
+    ("10", True, 312),("5", False, 312),("8", False, 312),("15", False, 312),
+    ("3/5", True, 314),("1/2", False, 314),("1/3", False, 314),("2/3", False, 314),
+    ("40", False, 319),("45", False, 319),("48", True, 319),("50", False, 319),
+    ("18", True, 316),("24", False, 316),("30", False, 316),("36", False, 316),
+    ("125", True, 318),("150", False, 318),("175", False, 318),("200", False, 318),
+    ("-1", False, 320),("1", False, 320),("3", False, 320),("6", True, 320),
+
+-- Categoria 4: Mesures
+    -- Dificultat 1:
+    ("Metre", True, 400),("Centímetre", False, 400),("Mil·límetre", False, 400),("Quilòmetre", False, 400),
+    ("Gram", True, 401),("Mil·ligram", False, 401),("Quilogram", False, 401),("Tonelada", False, 401),
+    ("Litre", True, 402),("Centilitre", False, 402),("Mil·litre", False, 402),("Decilitre", False, 402),
+    ("Metre quadrat", True, 403),("Centímetre quadrat", False, 403),("Hectàrea", False, 403),("Quilòmetre quadrat", False, 403),
+    ("Metre cúbic", True, 404),("Centímetre cúbic", False, 404),("Litre", False, 404),("Mil·litre", False, 404),
+    ("Segon", True, 405),("Mil·lisegon", False, 405),("Minut", False, 405),("Hora", False, 405),
+    ("Euro", True, 406),("Dòlar", False, 406),("Lliura esterlina", False, 406),("Ien", False, 406),
+    ("1.000 metres", True, 407),("500 metres", False, 407),("100 metres", False, 407),("1.500 metres", False, 407),
+    ("Igual", True, 408),("Menys", False, 408),("Més", False, 408),("No hi ha relació", False, 408),
+    ("Igual", True, 409),("Menys", False, 409),("Més", False, 409),("No hi ha relació", False, 409),
+    ("60 minuts", True, 410),("30 minuts", False, 410),("15 minuts", False, 410),("120 minuts", False, 410),
+
+    -- Dificultat 2:
+    ("3.000 metres", True, 411),("30.000 metres", False, 411),("300 metres", False, 411),("30 metres", False, 411),
+    ("0.5 quilograms", True, 412),("50 quilograms", False, 412),("5 quilograms", False, 412),("5.000 quilograms", False, 412),
+    ("2.000 mil·litres", True, 413),("0,002 litres", False, 413),("20 litres", False, 413),("2 litres", False, 413),
+    ("240 minuts", True, 414),("24 minuts", False, 414),("2,4 minuts", False, 414),("2400 minuts", False, 414),
+    ("Igual", True, 415),("Menys", False, 415),("Més", False, 415),("No hi ha relació", False, 415),
+    ("26m", True, 427),("16m", False, 427),("32m", False, 427),("20m", False, 427),
+    ("600 grams", True, 428),("800 grams", False, 428),("150 grams", False, 428),("100 grams", False, 428),
+    ("250 litres", True, 429),("300 litres", False, 429),("200 litres", False, 429),("400 litres", False, 429),
+    ("40 m²", True, 430),("80 m²", False, 430),("20 m²", False, 430),("60 m²", False, 430),
+    ("24 cm", True, 431),("18 cm", False, 431),("30 cm", False, 431),("36 cm", False, 431),
+    ("1.500 mil·litres", True, 432),("15 mil·litres", False, 432),("150 mil·litres", False, 432),("15.000 mil·litres", False, 432),
+    ("1 hora i 45 minuts", True, 433),("2 hores", False, 433),("1 hora", False, 433),("45 minuts", False, 433),
+    ("500 grams", True, 434),("0,5 grams", False, 434),("5 grams", False, 434),("50 grams", False, 434),
+    ("8.000 cm³", True, 435),("4.000 cm³", False, 435),("16.000 cm³", False, 435),("2.000 cm³", False, 435),
+    ("3.500.000 mil·límetres", True, 436),("35.000 mil·límetres", False, 436),("3.500 mil·límetres", False, 436),("350 mil·límetres", False, 436),
+
+    -- Dificultat 3:
+    ("Igual", True, 416),("Menys", False, 416),("Més", False, 416),("No hi ha relació", False, 416),
+    ("100", True, 437),("1.000", False, 437),("10", False, 437),("10.000", False, 437),
+    ("750 grams", True, 438),("7.500 grams", False, 438),("7,5 grams", False, 438),("7,5 quilograms", False, 438),
+    ("3.500 mil·lilitres", True, 439),("3.750 mil·lilitres", False, 439),("3,5 litres", False, 439),("350 litres", False, 439),
+    ("78,54 m²", True, 440),("31,42 m²", False, 440),("113,04 m²", False, 440),("156,75 m²", False, 440),
+    ("96 m³", True, 441),("192 m³", False, 441),("48 m³", False, 441),("384 m³", False, 441),
+    ("0,75 hores", True, 442),("0,0125 hores", False, 442),("1,25 hores", False, 442),("7,5 hores", False, 442),
+    ("500 grams", True, 443),("1.500 grams", False, 443),("1.000 grams", False, 443),("2.000 grams", False, 443),
+    ("25.000 litres", True, 444),("2.500 litres", False, 444),("15.000 litres", False, 444),("1.500 litres", False, 444),
+    ("452,16 m²", True, 445),("45.216 m²", False, 445),("904,32 m²", False, 445),("226,08 m²", False, 445),
+    ("80 centilitres", True, 446),("800 centilitres", False, 446),("8 litres", False, 446),("8 mil·litres", False, 446),
+
+-- Categoria 6: Estadística
+    -- Dificultat 1:
+    ("La suma de tots els números dividida pel nombre de números", True, 600),("El número més petit del conjunt", False, 600),("La resta entre el número més gran i el més petit", False, 600),("La multiplicació de tots els números del conjunt", False, 600),
+    ("La suma de tots els números dividida pel nombre de números", False, 601),("El nombre que es troba al mig de les dades quan estan ordenades", True, 601),("La diferència entre el número més gran i el més petit", False, 601),("La multiplicació de tots els números del conjunt", False, 601),
+    ("La tendència central del conjunt", False, 602),("La variabilitat del conjunt", False, 602),("La freqüència dels diferents valors del conjunt", True, 602),("La relació entre la mitjana i la mediana", False, 602),
+    ("La mitjana de les diferències absolutes entre cada punt de dades i la mitjana", True, 603),("La suma de tots els números dividida pel nombre de números", False, 603),("La distància entre el valor més petit i més gran en el conjunt de dades", False, 603),("La proporció de punts de dades que es troben a més d'una desviació estàndard de la mitjana", False, 603),
+    ("Augmentarà", True, 604),("Disminuirà", False, 604),("No canviarà", False, 604),("No es pot determinar amb la informació proporcionada", False, 604),
+    ("Mitjana", True, 605),("Mediana", False, 605),("Ambdues són igualment sensibles", False, 605),("Depèn de la naturalesa dels valors extrems", False, 605),
+    ("La mitjana del conjunt", False, 606),("La freqüència màxima d'un valor en el conjunt", True, 606),("La mediana del conjunt", False, 606),("La desviació estàndard del conjunt", False, 606),
+    -- Dificultat 2:
+    ("Augmentarà", True, 607),("Disminuirà", False, 607),("No canviarà", False, 607),("No es pot determinar amb la informació proporcionada", False, 607),
+    ("La mitjana de les diferències absolutes entre cada punt de dades i la mitjana", False, 608),("La mitjana ponderada de les dades", False, 608),("La distància entre el valor més petit i més gran en el conjunt de dades", False, 608),("La dispersió mitjana dels punts de dades respecte a la mitjana", True, 608),
+    ("Augmentarà", True, 609),("No canviarà", False, 609),("Disminuirà", False, 609),("No es pot determinar amb la informació proporcionada", False, 609),
+    ("La mitjana de les dades", False, 610),("La posició central del conjunt quan està ordenat", True, 610),("La freqüència dels diferents valors del conjunt", False, 610),("La dispersió dels punts de dades respecte a la mitjana", False, 610),
+    ("Sumant tots els números i dividint pel nombre de números", False, 611),("Multiplicant cada valor per la seva ponderació i sumant-los, i després dividint per la suma de les ponderacions", True, 611),("Trobant el nombre que es troba al mig quan les dades estan ordenades", False, 611),("Calculant la suma de les diferències absolutes entre cada punt de dades i la mitjana", False, 611),
+    ("Pot ser força afectada pels valors extrems", True, 612),("No és afectada pels valors extrems", False, 612),("Només és afectada si els valors extrems són negatius", False, 612),("Només és afectada si els valors extrems són positius", False, 612),
+    ("La freqüència màxima d'un valor en el conjunt", True, 613),("La mitjana del conjunt", False, 613),("La mediana del conjunt", False, 613),("La dispersió mitjana dels punts de dades respecte a la mitjana", False, 613),
+    -- Dificultat 3:
+    ("Las dades estan disperses i allunyades de la mitjana", False, 614),(" Les dades són molt properes entre si", False, 614),(" Les dades tenen una mitjana baixa", False, 614),("La mitjana és zero", True, 614),
+    ("La desviació estàndard és la arrel quadrada de la variança", True, 615),("La variança és la arrel quadrada de la desviació estàndard", False, 615),("Són dues maneres diferents de calcular la mitjana de les dades", False, 615),("No hi ha cap relació entre elles", False, 615),
+    ("La força i la direcció de la relació lineal entre dues variables", False, 616),("La mitjana ponderada de les dades", False, 616),("La variabilitat del conjunt de dades", False, 616),("La freqüència dels diferents valors del conjunt", True, 616),
+    ("Acceptar falsament una hipòtesi nul·la que és falsa", True, 617),("Rebutjar falsament una hipòtesi nul·la que és certa", False, 617),("Acceptar correctament una hipòtesi nul·la certa", False, 617),("Rebutjar correctament una hipòtesi nul·la que és falsa", False, 617),
+    ("Quan les dades estan distribuïdes normalment", False, 618),("Quan les dades tenen una relació lineal", False, 618),("Quan la variable dependent és binària o categòrica", True, 618),("Quan les dades estan correlacionades negativament", False, 618),
+    ("La probabilitat de veure els resultats observats o més extremes si la hipòtesi nul·la és certa", True, 619),("La mitjana de les diferències absolutes entre cada punt de dades i la mitjana", False, 619),("La distància entre el valor més petit i més gran en el conjunt de dades", False, 619),("La proporció de punts de dades que es troben a més d'una desviació estàndard de la mitjana", False, 619),
+    ("La presència de variables independents correlacionades", True, 620),("La alta correlació entre dues o més variables independents en un model de regressió", False, 620),("L'absència de correlació en un model de regressió", False, 620),("La correlació perfecta entre la variable dependent i les variables independents", False, 620);
