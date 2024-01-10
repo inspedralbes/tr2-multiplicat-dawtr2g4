@@ -1,5 +1,5 @@
 # Abans d'executar per terminal la comanda per crear la imatge s'ha de modificar el fitxer .env
-# Ens connectem a la base de dades del labs de manera remota
+# Com que Laravel es connectarà a la base de dades del labs de manera remota canviem la variable
 # DB_HOST=daw.inspedralbes.cat
 
 # Per crear la imatge: docker build -t server_apache .
