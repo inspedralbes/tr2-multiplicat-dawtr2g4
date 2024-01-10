@@ -82,7 +82,7 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
 
     -- Dificultat 2:
     ("Si el doble d'un número més 3 és igual a 17, quin és el número?", 2, 2),
-    ("Si un número més 5 és igual a tres vegades el número, quin és el número?", 2, 2),
+    ("Si un número més en 4 és igual al doble del número, quin és el número?", 2, 2),
     ("Resol l'equacio 2/3x + 4 = 10", 2, 2),
     ("Troba el valor de x en 5(2x - 3) = 25.", 2, 2),
     ("Un pare té el triple de l'edat del seu fill. La suma de les seves edats és 48. Quina és l'edat del fill?", 2, 2),
@@ -94,17 +94,17 @@ INSERT INTO preguntas(text_pregunta, dificultat, categoria_id) VALUES
 
 
     -- Dificultat 3:
-    ("Resol l'equació 3/4x - 5/2 = 7", 3, 2),
+    ("Resol l'equació 1/2x - 3 = 9", 3, 2),
     ("Troba el valor de x en 2x/3 + x/6 = 5", 3, 2),
     ("Si el doble de l'edat de Joan menys 5 és igual a la seva edat actual, quina és la seva edat?", 3, 2),
-    ("Si un número disminuït en 4 és igual a cinc vegades el número, quin és el número?", 3, 2),
-    ("Resol l'equació 3(x - 2) + 2x = 5x - 4", 3, 2),
-    ("Troba el valor de x en 2/3(x^2 -1) = 6", 3, 2),
-    ("Resol l'equació 5/2x - 3/4 = 9", 3, 3),
-    ("Troba el valor de x en 4x/5 + x/3 = 12", 3, 3),
+    ("Si un nombre augmentat en 8 és igual a tres vegades el mateix nombre, quin és el nombre?", 3, 2),
+    ("Resol l'equació 2(x + 3) = 4x - 6", 3, 2),
+    ("Troba el valor de x en 3(x - 2) = 9", 3, 2),
+    ("Resol l'equació 2x - 7 = 9", 3, 3),
+    ("Troba el valor de x en 3x - 5 = 16", 3, 3),
     ("El doble de l'edat d'en Pere menys 5 és igual a la seva edat actual. Quina és la seva edat?", 3, 3),
-    ("Si un número més 7 és igual a sis vegades el número, quin és el número?", 3, 3),
-    ("Resol l'equació 4(x - 3) +2x 0 3x + 10", 3, 3),
+    ("Un nombre menys 4 és igual a tres vegades el mateix nombre, quin es el nombre?", 3, 3),
+    ("Resol l'equació 3(x - 4) + 5x = 2x + 14", 3, 3),
     ("Troba el valor de x en 1/2(x^2 - 4) = 6)", 3, 3),
 
 -- Categoria 5: Geometria
@@ -192,6 +192,7 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 
 
 -- Categoria 2: Equacions
+
     -- Dificultat 1:
     ("x = 3", true, 48), ("x = 4", false, 48), ("x = 5", false, 48), ("x = 6", false, 48),
     ("y = 10", false, 49), ("y = 9", true, 49), ("y = 11", false, 49), ("y = 12", false, 49),
@@ -207,9 +208,30 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
     ("3x", false, 59), ("4x + 4", true, 59), ("3x - 8", false, 59), ("3x + 2", false, 59),
     
     -- Dificultat 2:
-
-
+    ("x = 7", true, 60), ("x = 8", false, 60), ("x = 9", false, 60), ("x = 10", false, 60),
+    ("x = 5", false, 61), ("x = 6", false, 61), ("x = 4", true, 61), ("x = 8", false, 61),
+    ("x = 9", false, 62), ("x = 7", false, 62), ("x = 8", false, 62), ("x = 6", true, 62),
+    ("x = 3", false, 63), ("x = 5", false, 63), ("x = 4", true, 63), ("x = 6", false, 63),
+    ("x = 14", false, 64), ("x = 13", false, 64), ("x = 12", true, 64), ("x = 15", false, 64),
+    ("x = 32", false, 65), ("x = 40", true, 65), ("x = 39", false, 65), ("x = 42", false, 65),
+    ("x = 3", false, 66), ("x = 4", false, 66), ("x = 5", false, 66), ("x = 6", true, 66),
+    ("x = 4", false, 67), ("x = 5", false, 67), ("x = 6", true, 67), ("x = 7", false, 67),
+    ("x = 3", true, 68), ("x = 6", false, 68), ("x = 4", false, 68), ("x = 2", false, 68),
+    ("18 i 18", false, 69), ("20 i 16", false, 69), ("24 i 12", true, 69), ("30 i 6", false, 69),
+    
     -- Dificultat 3:
+    ("x = 24", true, 70), ("x = 26", false, 70), ("x = 20", false, 70), ("x = 22", false, 70),
+    ("x = 8", false, 71), ("x = 7", false, 71), ("x = 6", true, 71), ("x = 9", false, 71),
+    ("x = 3", false, 72), ("x = 4", false, 72), ("x = 5", true, 72), ("x = 6", false, 72),
+    ("x = 4", true, 73), ("x = 5", false, 73), ("x = 6", false, 73), ("x = 7", false, 73),    ("x = 7", false, 74), ("x = 4", false, 74), ("x = 5", false, 74), ("x = 6", true, 74),
+    ("x = 4", false, 75), ("x = 5", false, 75), ("x = 6", true, 75), ("x = 7", false, 75),
+    ("x = 3", false, 76), ("x = 7", false, 76), ("x = 5", true, 76), ("x = 6", false, 76),
+    ("x = 10", false, 77), ("x = 8", true, 77), ("x = 6", false, 77), ("x = 7", false, 77),
+    ("x = 9", false, 78), ("x = 6", false, 78), ("x = 8", false, 78), ("x = 7", true, 78),
+    ("x = 4", false, 79), ("x = 5", true, 79), ("x = 6", false, 79), ("x = 7", false, 79),
+    ("x = 7", false, 80), ("x = 8", false, 80), ("x = -6", false, 80), ("x = -7", true, 80),
+    ("x = 3", false, 81), ("x = 4", true, 81), ("x = 2", false, 81), ("x = 5", false, 81),
+    ("x = 4", true, 82), ("x = 2", false, 82), ("x = 3", false, 82), ("x = 6", false, 82),
 
 
 -- Categoria 5: Geometria
