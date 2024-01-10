@@ -92,7 +92,6 @@ export default {
             major però haureu de respondre menys preguntes a la vegada.</p>
         </div>
       </section>
-
       <footer class="modal-footer">
         <div>
           <button v-for="n in 10"
@@ -111,13 +110,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+
 @font-face {
   font-family: Avenir;
   src: url('/fonts/Avenir_Regular.ttf');
 }
 
-.modal-body div {
-  font-family: Avenir;
+p {
+  line-height: 1.75;
 }
 
 .modal-backdrop {
@@ -143,6 +143,70 @@ export default {
   flex-direction: column;
   background-color: aliceblue;
   z-index: 99;
+}
+
+.modal-header,
+.modal-footer {
+  padding: 10px 0px;
+  display: flex;
+}
+
+.modal-header {
+  position: relative;
+  border-bottom: 1px solid #eeeeee;
+  color: #4AAE9B;
+  justify-content: space-between;
+}
+
+.btn-close {
+  align-self: flex-start;
+  border: none;
+  font-size: 20px;
+  margin: 0px 30px 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #4AAE9B;
+  background: transparent;
+}
+
+.modal-body {
+  position: relative;
+  padding: 0px 40px;
+}
+.modal-body div {
+  font-family: Avenir;
+}
+
+.modal-body>p {
+  margin: 25px 0px;
+  font-size: 1.2em;
+}
+
+.modal-footer {
+  border-top: 1px solid #eeeeee;
+  flex-direction: column;
+}
+
+.modal-footer>div {
+  margin: 5px auto;
+}
+
+.modal-footer Button {
+  width: 150px;
+  margin: 5px;
+}
+
+.modal-footer .tutorial_screen_button {
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50%;
+  background-color: #4AAE9B;
+}
+
+.modal-footer .tutorial_screen_button--selected {
+  width: 30px;
+  border-radius: 8px;
 }
 
 .modal-1 {
@@ -201,87 +265,4 @@ export default {
 .modal-10 {
   width: 65%;
 }
-
-.modal-header,
-.modal-footer {
-  padding: 10px 0px;
-  display: flex;
-}
-
-.modal-header {
-  position: relative;
-  border-bottom: 1px solid #eeeeee;
-  color: #4AAE9B;
-  justify-content: space-between;
-}
-
-.modal-header>p {
-  font-size: 2em;
-  margin: 0 20px;
-}
-
-.modal-footer {
-  border-top: 1px solid #eeeeee;
-  flex-direction: column;
-}
-
-.modal-footer>div {
-  margin: 5px auto;
-}
-
-.modal-footer Button {
-  width: 150px;
-  margin: 5px;
-}
-
-.modal-body {
-  position: relative;
-  padding: 0px 40px;
-}
-
-.btn-close {
-  align-self: flex-start;
-  border: none;
-  font-size: 20px;
-  margin: 0px 30px 0;
-  cursor: pointer;
-  font-weight: bold;
-  color: #4AAE9B;
-  background: transparent;
-}
-
-.btn-green {
-  color: white;
-  background: #4AAE9B;
-  border: 1px solid #4AAE9B;
-  border-radius: 2px;
-}
-
-.modal-body>p {
-  margin: 25px 0px;
-  font-size: 1.2em;
-}
-
-.modal-footer .tutorial_screen_button {
-  width: 15px;
-  height: 15px;
-  border: none;
-  border-radius: 50%;
-  background-color: #4AAE9B;
-}
-
-.modal-footer .tutorial_screen_button--selected {
-  width: 30px;
-  border-radius: 8px;
-}
-
-p {
-  line-height: 1.75;
-}
-
-.modal-body>.nota {
-  margin: 40px 0px;
-
-  text-align: center;
-  font-size: 2.5em;
-}</style>
+</style>
