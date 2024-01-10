@@ -22,7 +22,6 @@ export default {
 
 <template>
   <div class="modal-backdrop">
-    <!--<div :class="['area', returnArea(pantallaActual)]"></div>-->
     <div :class="['modal', returnModal(pantallaActual)]">
       <header class="modal-header">
         <button type="button" class="btn-close" @click="close">x</button>
@@ -30,63 +29,75 @@ export default {
       <section class="modal-body">
         <div v-if="pantallaActual == 1">
           <p>MathBall és un joc cooperatiu per aprendre matemàtiques que s'inspira en les regles del beisbol.</p>
-          <p>El primer que hauras de fer un cop hagis entrat a una sala és unir-te a un dels dos equips.</p>
+          <p>El primer que hauràs de fer un cop hagis entrat a una sala és <strong>unir-te a un dels dos equips</strong>.
+          </p>
         </div>
         <div v-if="pantallaActual == 2">
           <p>Aquesta és la pantalla principal del joc.</p>
-          <p>El teu objectiu és que el teu equip guanyi 10 punts abans que l'equip contrari.</p>
+          <p>El teu objectiu és que <strong>el teu equip guanyi 5 punts</strong> abans que l'equip contrari.</p>
         </div>
         <div v-if="pantallaActual == 3">
-          <p>El teu equip pot estar batejant o defensant.</p>
-          <p>Aquests rols aniràn canviant al llarg de tota la partida.</p>
+          <p>El teu equip pot estar <strong>batent</strong> o <strong>defensant</strong>.</p>
+          <p>Aquests rols canviaran al llarg de tota la partida.</p>
           <p>Aquí pots veure quins rols tenen els equips en cada moment.</p>
         </div>
         <div v-if="pantallaActual == 4">
           <p>El camp de joc està format per quatre bases disposades en forma de diamant.</p>
-          <p>Quan el teu equip estigui batejant heu d'aconseguir que el màxim nombre de jugadors possible trepitgi totes
+          <p>Quan el teu equip estigui batent heu d'aconseguir que el màxim nombre de jugadors possible trepitgi totes
             les bases en sentit antihorari fins arribar a la quarta base.</p>
-          <p>Quan un jugador arriba a la quarta base el vostre equip guanya un punt.</p>
+          <p>Quan un jugador arriba a <strong>la quarta base</strong> el vostre equip guanya un punt.</p>
         </div>
         <div v-if="pantallaActual == 5">
-          <p>Al principi del torn, cada membre de l’equip que bateja decideix de manera individual quantes bases volen que
-            tots els jugadors que es troben al terreny de joc avancin: una, dues o tres bases.</p>
+          <p>Al principi del torn, cada membre de l’equip que bateja decideix de manera individual <strong>les bases que
+              tots els jugadors que es troben al terreny de joc avançaran</strong>: una, dues o tres bases.</p>
           <p>L'opció més votada serà l'escollida.</p>
-          <p>L'equip defensor ha d'esperar a la decisió de l'equip batejador.</p>
+          <p>L'equip defensor ha d'esperar la decisió de l'equip batedor.</p>
         </div>
         <div v-if="pantallaActual == 6">
-          <p>Tot seguit apareixerà una pregunta amb quatre possibles respostes.</p>
-          <p>Tant els membres de l'equip batejador com de l'equip defensor l'han de respondre de manera individual.</p>
-          <p>La dificultat de la pregunta depèn del número de bases que l'equip batejador vol que els seus jugadors es
+          <p>Tot seguit apareixerà una <strong>pregunta amb quatre possibles respostes</strong>.</p>
+          <p>Tant els membres de l'equip batedor com de l'equip defensor l'han de respondre de manera individual.</p>
+          <p>La <strong>dificultat de la pregunta</strong> depèn del <strong>número de bases</strong> que l'equip batedor
+            vol que els seus jugadors es
             moguin: 1 base (FÀCIL), 2 bases (NORMAL), 3 bases (DIFÍCIL). </p>
         </div>
         <div v-if="pantallaActual == 7">
-          <p>Si la resposta correcta rep més vots de l'equip batejant o rep els mateix número de vots del dos equips el
-            seu jugador es mourà tantes bases com havien escollit i un dels jugadors que es troba a la banqueta salta al
+          <p>Si la resposta correcta rep <strong>més vots de l'equip batedor</strong> o rep <strong>el mateix número de
+              vots</strong> dels dos equips el
+            jugador es mourà tantes bases com havien escollit i un dels jugadors que es troba a la banqueta salta al
             terreny de joc.</p>
         </div>
         <div v-if="pantallaActual == 8">
-          <p>Per contra, si la resposta correcta rep més vots de l'equip defensor el jugador és eliminat, es suma un out
+          <p>Per contra, si la resposta correcta rep <strong>més vots de l'equip defensor</strong> el jugador és eliminat,
+            es suma un out
             al marcador i un dels jugadors que es troba a la banqueta salta al terreny de joc.</p>
         </div>
         <div v-if="pantallaActual == 9">
-          <p>Els equips canvien de rol al terreny de joc quan es produeixen tres outs o no queda cap jugador a la banqueta
+          <p>Els equips <strong>canvien de rol al terreny de joc</strong> quan es produeixen tres outs o no queda cap
+            jugador a la banqueta
             que pugui batre.</p>
         </div>
         <div v-if="pantallaActual == 10">
-          <p>Per últim, tingueu en compte que arribarà un moment en el que hi haurà més d'un jugador al terreny de joc.
+          <p>Per últim, tingueu en compte que arribarà un moment en el que <strong>hi haurà més d'un jugador</strong> al
+            terreny de joc.
           </p>
-          <p>Quan això passi haureu de respondre una pregunta per cada jugador que es troba sobre el camp però el temps
+          <p>Quan això passi haureu de respondre <strong>una pregunta per cada jugador</strong> que es troba sobre el camp
+            però el temps
             per respondre sempre serà el mateix.</p>
+          <p><strong>Cada pregunta està associada a un jugador</strong>. Si l'equip batedor encerta la pregunta per
+            majoria aquell jugador avançarà a les següents bases. En canvi, si l'equip defensor encerta la pregunta per
+            majoria aquell jugador serà eliminat i es sumarà un out.</p>
           <p>Si decidiu avançar les bases d'una en una la dificultat de les preguntes serà fàcil però haureu de respondre
             moltes preguntes alhora.</p>
           <p>En canvi, si decidiu avançar les bases de dos en dos o de tres en tres la dificultat de les preguntes serà
-            major però haureu de respondre menys preguntes.</p>
+            major però haureu de respondre menys preguntes a la vegada.</p>
         </div>
       </section>
 
       <footer class="modal-footer">
         <div>
-          <button v-for="n in 10" :class="['tutorial_screen_button', n == pantallaActual ? 'tutorial_screen_button--selected' : '']" @click="canviarPantallaActual(n)"></button>
+          <button v-for="n in 10"
+            :class="['tutorial_screen_button', n == pantallaActual ? 'tutorial_screen_button--selected' : '']"
+            @click="canviarPantallaActual(n)"></button>
         </div>
         <div class="buttons_container">
           <Button @click="canviarPantallaActual(pantallaActual - 1)" severity="primary" raised size="medium"
@@ -99,7 +110,16 @@ export default {
   </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
+@font-face {
+  font-family: Avenir;
+  src: url('/fonts/Avenir_Regular.ttf');
+}
+
+.modal-body div {
+  font-family: Avenir;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -178,6 +198,10 @@ export default {
   left: 485px;
 }
 
+.modal-10 {
+  width: 65%;
+}
+
 .modal-header,
 .modal-footer {
   padding: 10px 0px;
@@ -201,7 +225,7 @@ export default {
   flex-direction: column;
 }
 
-.modal-footer > div {
+.modal-footer>div {
   margin: 5px auto;
 }
 
@@ -260,76 +284,4 @@ p {
 
   text-align: center;
   font-size: 2.5em;
-}
-
-.area {
-  box-shadow: rgba(204, 204, 204, 1) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
-  position: absolute;
-  border-radius: 8px;
-
-}
-
-.area-1 {
-  width: 26%;
-  height: 51.5%;
-  top: 220px;
-  left: 320px;
-  /*overflow-x: auto;
-  display: flex;
-  flex-direction: column;*/
-  /*box-shadow: rgba(204, 204, 204, 1) 0px 0px 1px 2px, rgba(33, 33, 33, 0.5) 0px 0px 0px 5000px;*/
-}
-
-.area-3 {
-  width: 78%;
-  height: 15%;
-  top: 90px;
-  left: 200px;
-}
-
-.area-4 {
-  width: 48.75%;
-  height: 59%;
-  top: 268px;
-  left: 490px;
-}
-
-.area-5 {
-  width: 19.5%;
-  height: 59%;
-  top: 265px;
-  left: 1450px;
-}
-
-.area-6 {
-  width: 46%;
-  height: 65%;
-  top: 230px;
-  left: 510px;
-}
-
-.area-7 {
-  width: 48.75%;
-  height: 57%;
-  top: 260px;
-  left: 490px;
-}
-
-.area-8 {
-  width: 20%;
-  height: 28.5%;
-  top: 260px;
-  left: 89px;
-}
-
-.area-9 {
-  width: 19.5%;
-  height: 21.5%;
-  top: 600px;
-  left: 92px;
-}
-
-.area-10 {
-  width: 45%;
-  height: 100%;
 }</style>
