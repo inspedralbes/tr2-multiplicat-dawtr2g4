@@ -12,7 +12,18 @@
                         :src="'/img/jugador-' + salaInfo.preguntaActual[index].jugadorId + '-eq-' + salaInfo.equipAtacant + '.png'"
                         alt="jugador">
                     <p>{{ salaInfo.preguntaActual[index].text_pregunta }}</p>
-                    <p>EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}</p>
+                    <div class="team_info_display_button_conatiner">
+                        <p>EQUIP {{ salaInfo.resultatsActuals.equipAcertat[index] }}</p>
+                        <svg :class="[isGraficDesplegat[index] ? 'icon_desplegat' : '']" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-arrow-right"
+                            width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" />
+                            <path d="M16 12l-4 -4" />
+                            <path d="M16 12h-8" />
+                            <path d="M12 16l4 -4" />
+                        </svg>
+                    </div>
                 </div>
                 <div :key="index"
                     :class="['grafics-respostes', salaInfo.resultatsActuals.equipAcertat[index] == 1 ? 'equip1-grafics' : 'equip2-grafics', isGraficDesplegat[index] ? 'desplegat' : 'noDesplegat']">
@@ -408,5 +419,15 @@ h1 {
     transform: scaleY(1);
     transform-origin: top;
     max-height: 1000px;
+}
+
+.team_info_display_button_conatiner {
+    display: flex;
+    direction: row;
+    gap: 1rem;
+}
+
+.icon_desplegat {
+    transform: rotate(90deg)
 }
 </style>

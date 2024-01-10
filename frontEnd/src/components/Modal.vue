@@ -37,31 +37,31 @@ export default {
           <p>El teu objectiu és que <strong>el teu equip guanyi 5 punts</strong> abans que l'equip contrari.</p>
         </div>
         <div v-if="pantallaActual == 3">
-          <p>El teu equip pot estar <strong>batent</strong> o <strong>defensant</strong>.</p>
+          <p>El teu equip pot estar <strong>atacant</strong> o <strong>defensant</strong>.</p>
           <p>Aquests rols canviaran al llarg de tota la partida.</p>
           <p>Aquí pots veure quins rols tenen els equips en cada moment.</p>
         </div>
         <div v-if="pantallaActual == 4">
           <p>El camp de joc està format per quatre bases disposades en forma de diamant.</p>
-          <p>Quan el teu equip estigui batent heu d'aconseguir que el màxim nombre de jugadors possible trepitgi totes
+          <p>Quan el teu equip estigui atacant heu d'aconseguir que el màxim nombre de jugadors possible trepitgi totes
             les bases en sentit antihorari fins arribar a la quarta base.</p>
           <p>Quan un jugador arriba a <strong>la quarta base</strong> el vostre equip guanya un punt.</p>
         </div>
         <div v-if="pantallaActual == 5">
-          <p>Al principi del torn, cada membre de l’equip que bateja decideix de manera individual <strong>les bases que
+          <p>Al principi del torn, cada membre de l’equip que ataca decideix de manera individual <strong>les bases que
               tots els jugadors que es troben al terreny de joc avançaran</strong>: una, dues o tres bases.</p>
           <p>L'opció més votada serà l'escollida.</p>
-          <p>L'equip defensor ha d'esperar la decisió de l'equip batedor.</p>
+          <p>L'equip defensor ha d'esperar la decisió de l'equip atacant.</p>
         </div>
         <div v-if="pantallaActual == 6">
           <p>Tot seguit apareixerà una <strong>pregunta amb quatre possibles respostes</strong>.</p>
-          <p>Tant els membres de l'equip batedor com de l'equip defensor l'han de respondre de manera individual.</p>
-          <p>La <strong>dificultat de la pregunta</strong> depèn del <strong>número de bases</strong> que l'equip batedor
+          <p>Tant els membres de l'equip atacant com de l'equip defensor l'han de respondre de manera individual.</p>
+          <p>La <strong>dificultat de la pregunta</strong> depèn del <strong>número de bases</strong> que l'equip atacant
             vol que els seus jugadors es
             moguin: 1 base (FÀCIL), 2 bases (NORMAL), 3 bases (DIFÍCIL). </p>
         </div>
         <div v-if="pantallaActual == 7">
-          <p>Si la resposta correcta rep <strong>més vots de l'equip batedor</strong> o rep <strong>el mateix número de
+          <p>Si la resposta correcta rep <strong>més vots de l'equip atacant</strong> o rep <strong>el mateix número de
               vots</strong> dels dos equips el
             jugador es mourà tantes bases com havien escollit i un dels jugadors que es troba a la banqueta salta al
             terreny de joc.</p>
@@ -83,7 +83,7 @@ export default {
           <p>Quan això passi haureu de respondre <strong>una pregunta per cada jugador</strong> que es troba sobre el camp
             però el temps
             per respondre sempre serà el mateix.</p>
-          <p><strong>Cada pregunta està associada a un jugador</strong>. Si l'equip batedor encerta la pregunta per
+          <p><strong>Cada pregunta està associada a un jugador</strong>. Si l'equip atacant encerta la pregunta per
             majoria aquell jugador avançarà a les següents bases. En canvi, si l'equip defensor encerta la pregunta per
             majoria aquell jugador serà eliminat i es sumarà un out.</p>
           <p>Si decidiu avançar les bases d'una en una la dificultat de les preguntes serà fàcil però haureu de respondre
@@ -101,7 +101,9 @@ export default {
         <div class="buttons_container">
           <Button @click="canviarPantallaActual(pantallaActual - 1)" severity="primary" raised size="medium"
             label="ANTERIOR" />
-          <Button @click="canviarPantallaActual(pantallaActual + 1)" severity="primary" raised size="medium"
+
+          <Button v-if="pantallaActual == 10" @click="close" severity="primary" raised size="medium" label="FINALITZAR" />
+          <Button v-else @click="canviarPantallaActual(pantallaActual + 1)" severity="primary" raised size="medium"
             label="SEGÜENT" />
         </div>
       </footer>

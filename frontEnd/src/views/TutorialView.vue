@@ -1,9 +1,11 @@
 <template>
-    <div id="wrapper"></div>
-    <div class="contenidor">
-        <img :src="'/img/tut-' + pantallaActualTutorial + '.PNG'" alt="">
+    <div>
+        <div id="wrapper"></div>
+        <div class="contenidor">
+            <img :src="'/img/tut-' + pantallaActualTutorial + '.PNG'" alt="">
+        </div>
+        <Modal v-show="esModalVisible" @close="closeModal" @button-clicked="handleButtonClick" v-bind:pantallaActual="pantallaActualTutorial" />
     </div>
-    <Modal v-show="esModalVisible" @close="closeModal" @button-clicked="handleButtonClick" v-bind:pantallaActual="pantallaActualTutorial" />
 </template>
 
 <script>
