@@ -1,5 +1,9 @@
-#docker build -t demo/laravel:0.1 .
-#docker run -p 8080:80 demo/laravel:0.1
+# Abans d'executar per terminal la comanda per crear la imatge s'ha de modificar el fitxer .env
+# Ens connectem a la base de dades del labs de manera remota
+# DB_HOST=daw.inspedralbes.cat
+
+# Per crear la imatge: docker build -t server_apache .
+# Per executar el contenidor: docker run -p 8080:80 server_apache
 
 FROM php:8.2-apache
 
