@@ -1,7 +1,5 @@
 # Projectes finals curs 2023 2024
 
-**Tota** la informació del vostre projecte ha de ser accessible a partir d'aquí
-
 ### Títol
 MathBall
 
