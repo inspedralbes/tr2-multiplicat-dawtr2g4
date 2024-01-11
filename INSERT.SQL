@@ -239,8 +239,8 @@ INSERT INTO respostas(text_resposta, correcta, pregunta_id) VALUES
 -- Categoria 1: Nombres i Operacions
     -- Dificultat 1:
     ("37", true, 1), ("33",false,1), ("27",false,1), ("23",false, 1),
-    ("71",false,2), ("81",false,2), ("79",true,2), ("82",true, 2),
-    ("6",true,3), ("8",false,3), ("7",false,3), ("9",false, 3),
+    ("71",false,2), ("81",true,2), ("79",false,2), ("82",true, 2),
+    ("6",false,3), ("8",true,3), ("7",false,3), ("9",false, 3),
     ("45",true,4), ("54",false,4), ("59",false,4), ("49",false, 4),
     ("4 euros",false,5), ("5 euros",false,5), ("6 euros",true,5), ("7 euros",false, 5),
     ("46",false,6), ("48",true,6), ("50",false,6), ("52",false, 6),
