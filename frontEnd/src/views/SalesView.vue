@@ -9,17 +9,19 @@
         <div v-else>
             <div class="grid m-5">
                 <div v-for="(actual, index) in sales" class="col-6 md:col-4 lg:col-3 xl:col-2">
-                    <Card class="p-4">
+                    <Card class="p-4 h-full">
                         <template #title> {{ actual.nomSala }} </template>
                         <template #content>
                             <p class="m-0">
                                 Jugadors: {{ actual.jugadors.length }}
                             </p>
                             <p class="m-0">
-                                Categories: 
-                                <span v-for="(a) in actual.categories">
-                                    {{ a }}&nbsp;
-                                </span>
+                                Categories:
+                                <ul>
+                                    <li v-for="(a) in actual.categories">
+                                        {{ categories[a] }}
+                                    </li>
+                                </ul>
                             </p>
                         </template>
                         <template #footer>
@@ -39,6 +41,19 @@ import { useAppStore } from '../stores/app';
 import { socket } from '@/socket';
 
 export default {
+    data() {
+        return {
+            categories : [
+                'null',
+                'Nombres i Operacions',
+                'Equacions',
+                'Funcions',
+                'Mesures',
+                'Geometria',
+                'Estadística'
+            ],
+        }
+    },
     setup() {
         const pinia = useAppStore();
         const loading = ref(true);
@@ -47,7 +62,7 @@ export default {
             loading.value = true;
 
             try {
-                const response = await fetch("http://"+pinia.getUrl() + ":3379/api/salas");
+                const response = await fetch("http://" + pinia.getUrl() + ":3379/api/salas");
                 const data = await response.json();
 
                 pinia.setSales(data.sales);
