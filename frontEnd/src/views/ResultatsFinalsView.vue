@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper overflow-x-hidden">
         <div class="scoreboard mt-6">
             <h2 class="text-center text-bluegray-200 text-6xl">RESULTATS FINALS</h2>
             <div :class="[determinarEquipGuanyador()]"><h3 class="text-white text-4xl informacio-guanyador">ENHORABONA, EQUIP <span v-if="comptadorEquip1 > comptadorEquip2">1</span><span v-else>2</span>! SOU ELS GUANYADORS</h3></div>
