@@ -8,7 +8,7 @@
         </div>
         <div v-else>
             <div class="grid m-5">
-                <div v-for="(actual, index) in sales" class="col-6 md:col-4 lg:col-3 xl:col-2">
+                <div v-for="(actual, index) in sales" class="col-6 md:col-4 lg:col-3 xl:col-2 carddd">
                     <Card class="p-4 h-full">
                         <template #title> {{ actual.nomSala }} </template>
                         <template #content>
@@ -24,10 +24,10 @@
                                 </ul>
                             </p>
                         </template>
-                        <template #footer>
-                            <Button label="Entrar" @click="setSala(index)" />
-                        </template>
                     </Card>
+                    <div class="buttonEntrar">
+                        <Button label="Entrar" @click="setSala(index)" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,6 +117,15 @@ export default {
 .title-container {
     height: 100px;
     background-color: rgba(50, 50, 50, 0.7);
+}
+.carddd{
+    position: relative;
+}
+.buttonEntrar{
+    position: absolute;
+    bottom: 0;
+    left:15%;
+    bottom: 7%;
 }
 </style>
 
