@@ -6,10 +6,11 @@
         </div>
         <!-- :class="{ 'pregunta-respostes': salaInfo.preguntaActual.length == 1, 'contenidor-dos-preguntes': salaInfo.preguntaActual.length == 2, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 3, 'contenidor-tres-preguntes': salaInfo.preguntaActual.length == 4 }" -->
         <div class="preguntes">
-            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4">
+            <div v-for="(pregunta, indexPregunta) in salaInfo.preguntaActual" class="pregunta-respostes grid mt-6 mb-4" :class="{dNone: preguntaResp[indexPregunta] === 1}">
                 <div class="contenidor-jugador-pregunta">
-                    <img class="jugador" :src="'/img/jugador-' + pregunta.jugadorId + '-eq-' + salaInfo.equipAtacant +'.png'" alt="jugador">
-                    <h1 class="p-2 text-3xl text-center border-1 border-round-lg">
+                    <img class="jugador"
+                        :src="'/img/jugador-' + pregunta.jugadorId + '-eq-' + salaInfo.equipAtacant + '.png'" alt="jugador">
+                    <h1 class=" p-2 text-3xl text-center border-1 border-round-lg">
                         {{ pregunta.text_pregunta }}
                     </h1>
                 </div>
@@ -41,6 +42,7 @@ export default {
     inheritAttrs: false,
     data() {
         return {
+            preguntaResp: {},
             selectedIndices: {},
         }
     },
@@ -48,6 +50,7 @@ export default {
         respostaSeleccionada(idPregunta, idResposta) {
             if (this.isPreguntaResposta[idPregunta] === -1) {
                 this.isPreguntaResposta[idPregunta] = idResposta;
+                this.preguntaResp[idPregunta] = 1;
                 this.selectedIndices[idPregunta] = idResposta;
                 socket.emit('vot-resposta', this.indexSala, this.isPreguntaResposta);
             }
@@ -84,10 +87,10 @@ export default {
 </script>
 
 <style scoped>
-
 .sel {
     cursor: pointer;
 }
+
 .contenidor-respostes {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -144,6 +147,7 @@ export default {
 }
 
 .pregunta-respostes {
+    transition: all 0.5s ease-in-out;
     margin: 0 5rem;
 }
 
@@ -221,8 +225,16 @@ export default {
     filter: brightness(0.7) !important;
 }
 
-.contenidor-jugador-pregunta > img {
+.contenidor-jugador-pregunta>img {
     margin: auto;
     display: block;
+}
+
+.contenidor-jugador-pregunta>h1 {
+    min-width: 761.219px;
+}
+
+.dNone {
+    display: none;
 }
 </style>

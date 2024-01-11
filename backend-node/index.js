@@ -20,10 +20,10 @@ const sales = [];
 
 const JUGADORS_PER_EQUIP = 5;
 const OUTS_ELIMINAR = 3;
-const CARRERES_GUANYAR = 5;
+const CARRERES_GUANYAR = 3;
 
-const TEMPS_ESCOLLIR_BASE = 10;
-const TEMPS_VOTAR_RESPOSTA = 50;
+const TEMPS_ESCOLLIR_BASE = 15;
+const TEMPS_VOTAR_RESPOSTA = 60;
 const socketRooms = {};
 //let cronometre;
 let intervalId;
@@ -372,7 +372,7 @@ io.on('connection', (socket) => {
       io.to(sala.nomSala).emit('moure-jugador', sala)
 
       //Si un equip fa n carreres guanya el joc
-      if (sala.equips[indexAtacant].punts === CARRERES_GUANYAR) {
+      if (sala.equips[indexAtacant].punts >= CARRERES_GUANYAR) {
         io.to(sala.nomSala).emit('finalitzar-partida');
       }
 

@@ -4,10 +4,15 @@
         <div class="title-container flex align-items-center justify-content-center border-round-lg m-5">
             <div class="block text-6xl font-bold mb-1 text-white">Escull Equip</div>
         </div>
-        <button v-if="store.getProfe()" class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
+        <div v-if="profe && (equip1.length == 0 || equip2.length == 0)">
+            <div class="esperantJugadors">
+                ESPERANT JUGADORS...
+            </div>
+        </div>
+        <button v-if="profe && equip1.length > 0 && equip2.length > 0" class="startB" @click="començarPartida()">COMENÇAR PARTIDA</button>
         <div class="flex justify-content-evenly">
             <div>
-                <button v-if="store.getProfe()" class="button e1">Equip 1</button>
+                <button v-if="profe" class="button e1">Equip 1</button>
                 <button v-else class="button e1" @click="escollirEquip(1)">Equip 1</button>
                 <div v-if="!equip1.length"></div>
                 <ul v-else class="llistaUl el1">
@@ -17,7 +22,7 @@
                 </ul>
             </div>
             <div>
-                <button v-if="store.getProfe()" class="button e2">Equip 2</button>
+                <button v-if="profe" class="button e2">Equip 2</button>
                 <button v-else class="button e2" @click="escollirEquip(2)">Equip 2</button>
                 <div v-if="!equip2.length"></div>
                 <ul v-else class="llistaUl el2">
@@ -59,7 +64,6 @@ export default {
         }
     },
     computed: {
-
         llistaJugadors() {
             return this.store.getLlistaJugadors();
         },
@@ -71,6 +75,9 @@ export default {
         },
         indexSala() {
             return this.store.getIndexSala();
+        },
+        profe() {
+            return this.store.getProfe();
         }
     }
 }
@@ -180,6 +187,19 @@ export default {
     background-color: rgba(50, 50, 50, 0.7);
 }
 
+.esperantJugadors {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #1d441d;
+    border: none;
+    border-radius: 5px;
+}
+
 .startB {
     position: absolute;
     bottom: 20%;
@@ -188,7 +208,7 @@ export default {
     padding: 10px 20px;
     font-size: 1.2em;
     color: #fff;
-    background-color: #32CD32;
+    background-color: #34b634;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -196,6 +216,6 @@ export default {
 }
 
 .startB:hover {
-    background-color: #228B22;
+    background-color: #1d6b1d;
 }
 </style>
