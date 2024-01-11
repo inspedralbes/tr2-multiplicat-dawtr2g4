@@ -1,8 +1,9 @@
 <template>
-    <div>
-        <div class="scoreboard">
-            <h2>Resultats Finals</h2>
-            <div class="contenidor-taula">
+    <div class="wrapper">
+        <div class="scoreboard mt-6">
+            <h2 class="text-center text-bluegray-200 text-6xl">RESULTATS FINALS</h2>
+            <div :class="[determinarEquipGuanyador()]"><h3 class="text-white text-4xl informacio-guanyador">ENHORABONA, EQUIP <span v-if="comptadorEquip1 > comptadorEquip2">1</span><span v-else>2</span>! SOU ELS GUANYADORS</h3></div>
+            <div class="contenidor-taula mt-6">
                 <div class="contenidor-equip">
                     <h2 class="green"> ### </h2>
                     <h2>EQUIP 1</h2>
@@ -63,6 +64,13 @@ export default {
             }
             return comptadorEquip;
         },
+        determinarEquipGuanyador() {
+            if (this.comptadorEquip1 > this.comptadorEquip2) {
+                return "e1"
+            } else {
+                return "e2"
+            }
+        },
         tornarInici() {
             this.$router.push('/');
         }
@@ -86,6 +94,48 @@ export default {
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+}
+
+.informacio-guanyador {
+    padding: 20px 0px;
+    width: fit-content;
+    transform: translateX(-100%);
+    animation: leftToRight linear 12s infinite;
+}
+
+@keyframes leftToRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(275%);
+  }
+}
+
+.e1 {
+    background-color: #ff4d4d;
+}
+
+.e2 {
+    background-color: #3273b4;
+}
+.wrapper {
+    position: relative;
+}
+
+.wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/landing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px);
+    z-index: -1;
 }
 .scoreboard {
     width: 100%;
